@@ -136,7 +136,7 @@
     CATEGORIES.forEach(function (cat) {
       var group = items.filter(function (m) { return m.category === cat; });
       if (!group.length) return;
-      html += '<div class="menu__group reveal"><h3 class="menu__group-title">' + esc(cat) +
+      html += '<div class="menu__group"><h3 class="menu__group-title">' + esc(cat) +
         "<small>" + group.length + " item" + (group.length > 1 ? "s" : "") + "</small></h3>";
       html += '<div class="menu__items">';
       group.forEach(function (m) {
@@ -155,7 +155,6 @@
       html += "</div></div>";
     });
     root.innerHTML = html;
-    observeReveals(root);
   }
 
   /* ============================================================
@@ -521,25 +520,6 @@
   }
 
   /* ============================================================
-     SCROLL REVEAL
-     ============================================================ */
-  var revealObserver = null;
-  function observeReveals(root) {
-    if (!("IntersectionObserver" in window)) {
-      $$(".reveal", root || document).forEach(function (el) { el.classList.add("is-in"); });
-      return;
-    }
-    if (!revealObserver) {
-      revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) { en.target.classList.add("is-in"); revealObserver.unobserve(en.target); }
-        });
-      }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    }
-    $$(".reveal:not(.is-in)", root || document).forEach(function (el) { revealObserver.observe(el); });
-  }
-
-  /* ============================================================
      INIT
      ============================================================ */
   function init() {
@@ -574,9 +554,10 @@
       }
     });
 
-    // reveal hero bits immediately, observe the rest
-    observeReveals(document);
-    requestAnimationFrame(function () { $$(".hero .reveal").forEach(function (el) { el.classList.add("is-in"); }); });
+    // trigger the single, orchestrated hero page-load reveal
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { document.body.classList.add("is-loaded"); });
+    });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

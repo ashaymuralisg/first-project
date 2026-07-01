@@ -38,16 +38,21 @@ Pages, GitHub Pages, S3. There is no server component to configure.
 
 ## Design
 
-- **Palette** — dark-rye ink (`#1C1611`) + butter cream, with a cured-salmon
-  coral accent and dill-green / mustard supporting tones. Generated through the
-  `ui-toolkit` skill (`npm run tokens:generate -- --palette overbrod --fonts
-  overbrod-editorial`) and consumed via `design/tokens.css`.
-- **Type** — Fraunces (editorial display) over Hanken Grotesk (body), from
-  Google Fonts (SIL OFL). If the fonts CDN is ever unreachable, the page falls
-  back to Georgia / system-ui and stays fully legible.
-- **Signature motion** — the wordmark reveals with a left-to-right "butter
-  spread" wipe on load; sections fade up on scroll. All motion is disabled
-  under `prefers-reduced-motion`. Keyboard focus is always visible.
+- **Direction** — refined and editorial: a restrained palette of aged paper
+  and warm charcoal with a single cured-meat **oxblood** accent (no secondary
+  colours competing for attention), and generous whitespace.
+- **Palette** — aged paper (`#E7E0D2`) + warm charcoal (`#262320`), one oxblood
+  accent (`#7A2E30`). Generated through the `ui-toolkit` skill (`npm run
+  tokens:generate -- --palette overbrod-refined --fonts overbrod-editorial`)
+  and consumed via `design/tokens.css`.
+- **Type** — Fraunces (characterful editorial serif) over Hanken Grotesk (clean
+  grotesque), from Google Fonts (SIL OFL). If the fonts CDN is ever unreachable,
+  the page falls back to Georgia / system-ui and stays fully legible.
+- **Signature motion** — one considered moment: an orchestrated page-load reveal
+  where the wordmark rises into view behind a mask and the tagline, actions and
+  meta follow in sequence. There are no scroll-triggered animations. The whole
+  sequence is disabled under `prefers-reduced-motion`, uses only transform /
+  opacity so it stays smooth on mobile, and keyboard focus is always visible.
 
 ## Reservation form & staff portal
 

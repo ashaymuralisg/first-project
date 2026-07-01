@@ -6,30 +6,36 @@
    ============================================================ */
 
 :root {
-  /* Extend the generated tokens with two dark-rye "ink" values
-     the deli's dark surfaces (nav, hero, footer, portal) need. */
-  --ink: #1C1611;
-  --ink-soft: #2A211A;
-  --ink-line: rgba(244, 236, 222, 0.14);
+  /* Warm-charcoal "ink" for the inverted surfaces (nav, hero, footer,
+     portal), layered over the generated aged-paper + oxblood tokens. */
+  --ink: #262320;
+  --ink-soft: #322D28;
+  --ink-line: rgba(231, 224, 210, 0.16);
 
-  --cream: var(--color-background);
+  --paper: var(--color-background);
+  --cream: var(--color-background); /* alias kept so existing rules resolve */
   --surface: var(--color-surface);
+
+  /* Single accent: oxblood. The old coral/dill/mustard names are kept as
+     aliases so every downstream rule recolours to the restrained palette. */
+  --oxblood: var(--color-primary);
+  --oxblood-deep: #5E2224;
   --coral: var(--color-primary);
-  --coral-deep: #A8462A;
-  --dill: var(--color-secondary);
-  --mustard: var(--color-accent);
+  --coral-deep: #5E2224;
+  --dill: var(--color-neutral);   /* dietary tags → quiet taupe, not green */
+  --mustard: var(--color-primary); /* review stars → oxblood */
   --skygge: var(--color-neutral);
 
-  --ink-70: rgba(28, 22, 17, 0.72);
-  --ink-55: rgba(28, 22, 17, 0.56);
-  --ink-30: rgba(28, 22, 17, 0.16);
+  --ink-70: rgba(38, 35, 32, 0.72);
+  --ink-55: rgba(38, 35, 32, 0.55);
+  --ink-30: rgba(38, 35, 32, 0.15);
 
   --maxw: 1180px;
-  --gutter: clamp(1.25rem, 5vw, 4rem);
-  --section-y: clamp(4.5rem, 10vw, 9rem);
+  --gutter: clamp(1.25rem, 5vw, 4.5rem);
+  --section-y: clamp(5.5rem, 13vw, 11rem);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --radius: 0.375rem;
+  --radius: 0.25rem;
 }
 
 /* ---------- reset ---------- */
@@ -137,22 +143,30 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 480;
 /* faint spread of light behind the wordmark */
 .hero::before {
   content: ""; position: absolute; inset: 0;
-  background: radial-gradient(60% 60% at 50% 42%, rgba(199, 91, 57, 0.16), transparent 70%);
+  background: radial-gradient(58% 58% at 50% 44%, rgba(122, 46, 48, 0.18), transparent 72%);
   pointer-events: none;
 }
 .hero > * { position: relative; z-index: 1; }
-.hero__eyebrow { color: color-mix(in srgb, var(--cream) 66%, transparent); letter-spacing: 0.24em; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-bottom: clamp(1.25rem, 3vw, 2rem); }
-.hero__title { margin: 0; }
+.hero__eyebrow { color: color-mix(in srgb, var(--cream) 64%, transparent); letter-spacing: 0.28em; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem); }
+.hero__title { margin: 0; overflow: hidden; padding: 0.08em 0; }
 .hero__word {
   display: inline-block;
   font-size: clamp(3.4rem, 15vw, 12rem);
   font-weight: 500; letter-spacing: -0.02em; line-height: 0.9;
-  /* butter-spread reveal: a clip wipe left → right on load */
-  clip-path: inset(0 100% 0 0);
-  animation: spread 1.15s var(--ease) 0.15s forwards;
 }
-.hero__word .o-slash { color: var(--coral); }
-@keyframes spread { to { clip-path: inset(0 0 0 0); } }
+.hero__word .o-slash { color: var(--oxblood); }
+
+/* ---- signature moment: one orchestrated page-load reveal ---- */
+.hero__word { transform: translateY(115%); transition: transform 1.05s var(--ease) 0.15s; }
+.hero__eyebrow, .hero__tagline, .hero__actions, .hero__note {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+}
+body.is-loaded .hero__word { transform: none; }
+body.is-loaded .hero__eyebrow { opacity: 1; transform: none; transition-delay: 0.1s; }
+body.is-loaded .hero__tagline { opacity: 1; transform: none; transition-delay: 0.55s; }
+body.is-loaded .hero__actions { opacity: 1; transform: none; transition-delay: 0.7s; }
+body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85s; }
 
 .hero__tagline {
   max-width: 34ch; margin: clamp(1.5rem, 3vw, 2rem) auto 0;
@@ -289,8 +303,8 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 480;
 .hours dd { color: var(--ink-70); font-size: 0.92rem; }
 .visit__status { margin-top: 1rem; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem; }
 .visit__status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--skygge); }
-.visit__status.is-open::before { background: var(--color-success); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-success) 25%, transparent); }
-.visit__status.is-closed::before { background: var(--color-danger); }
+.visit__status.is-open::before { background: var(--oxblood); box-shadow: 0 0 0 3px color-mix(in srgb, var(--oxblood) 22%, transparent); }
+.visit__status.is-closed::before { background: transparent; border: 1.5px solid var(--skygge); }
 .visit__addr { font-style: normal; line-height: 1.5; margin-bottom: 1rem; }
 .visit__transit, .visit__contact { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.1rem; }
 .visit__k { display: inline-block; min-width: 4.5rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coral-deep); }
@@ -399,9 +413,8 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 480;
 .toggle input { width: 1.1rem; height: 1.1rem; accent-color: var(--coral); }
 fieldset.field { border: none; padding: 0; }
 
-/* ---------- scroll reveal ---------- */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-.reveal.is-in { opacity: 1; transform: none; }
+/* Motion is intentionally limited to the single hero page-load reveal
+   above; content sections are static (no scroll-triggered animation). */
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
@@ -428,6 +441,7 @@ fieldset.field { border: none; padding: 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
-  .hero__word { clip-path: none; }
-  .reveal { opacity: 1; transform: none; }
+  .hero__word, .hero__eyebrow, .hero__tagline, .hero__actions, .hero__note {
+    opacity: 1 !important; transform: none !important;
+  }
 }

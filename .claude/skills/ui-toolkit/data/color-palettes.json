@@ -144,6 +144,22 @@
         "warning": "#C98A2B",
         "danger": "#9E3B2E"
       }
+    },
+    {
+      "id": "overbrod-refined",
+      "name": "Aged Paper & Oxblood",
+      "mood": "Refined editorial deli — aged paper, warm charcoal, a single cured-meat oxblood accent",
+      "colors": {
+        "primary": "#7A2E30",
+        "secondary": "#97574A",
+        "accent": "#A64B4D",
+        "neutral": "#6E6357",
+        "background": "#E7E0D2",
+        "surface": "#F1EBDF",
+        "success": "#4A4239",
+        "warning": "#7A2E30",
+        "danger": "#8B2E2C"
+      }
     }
   ]
 }
