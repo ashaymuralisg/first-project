@@ -36,38 +36,37 @@ python3 -m http.server 8099
 Upload the `site/` folder to any static host — Netlify, Vercel, Cloudflare
 Pages, GitHub Pages, S3. There is no server component to configure.
 
-## Design — three switchable themes
+## Design
 
-The site ships with **three fully-realised visual identities**. Switch between
-them with the control in the bottom-left of the page (choice persists in
-`localStorage`). This is a preview control for choosing a direction — once one
-is picked, the switcher and the unused themes can be removed in minutes.
+Three directions were explored (dark luxury à la Carbone/Bavette's, Pacific
+Northwest regional-modern à la Canlis, and a vintage chophouse à la El Gaucho)
+before settling on a **hybrid**: the vintage chophouse palette and typography,
+restrained with the Pacific Northwest direction's lighter touch.
 
-| Theme | Vibe | Palette | Type |
-|-------|------|---------|------|
-| **Moody** | Dark luxury (Carbone / Bavette's) | near-black + oxblood + brass | Cormorant Garamond / Jost |
-| **Pacific NW** | Regional modern (Canlis) | warm stone + forest green + wood | Newsreader / Figtree |
-| **Chophouse** | Vintage steakhouse (El Gaucho) | cream + deep red + antique gold | Playfair Display / EB Garamond |
-
-**How the theming works.** `styles.css` holds all structure and components and
-references only *semantic* tokens (`--bg`, `--fg`, `--accent`, `--feature-bg`,
-`--line`, …). `themes.css` sets those tokens per identity under
-`[data-theme="…"]`, and `app.js` swaps the matching Google-Fonts `<link>` when
-you change theme. Adding a fourth identity is just another token block.
-
-- **Fonts** are all Google Fonts (SIL OFL). If the CDN is unreachable the page
-  falls back to Georgia / system-ui and stays fully legible.
-- **Signature motion** — one considered moment per theme: an orchestrated
-  page-load reveal where the wordmark rises into view behind a mask and the
-  tagline, actions and meta follow in sequence. No scroll-triggered animation.
+- **Palette** — cream body (`#F1E8D5`), deep red accent (`#8E2420`), antique
+  gold secondary (`#AD8A44`). Generated through the `ui-toolkit` skill
+  (`npm run tokens:generate -- --palette overbrod-chophouse --fonts
+  overbrod-chophouse-light`) into `design/tokens.css`; `styles.css` maps those
+  flat roles onto semantic names and adds one hand-authored extension: a warm
+  mid-toned walnut (`#3B2B20`) for the inverted "feature" sections (nav, hero,
+  reviews, footer) — deliberately *lighter* than a classic dark-steakhouse
+  near-black, so it reads as a sunlit dining room rather than a cave.
+- **Type** — Playfair Display (vintage chophouse serif) over EB Garamond, set
+  at a lighter weight (560 vs. a typical bold chophouse 700–800) for a more
+  regional-modern, less shouty read. Google Fonts (SIL OFL); falls back to
+  Georgia / system-ui if the CDN is unreachable.
+- **Vintage details, restrained** — a double-rule under each menu category
+  heading (classic chophouse), but thinner and in a muted gold-brown rather
+  than solid black; a quiet gold square bullet before section eyebrows
+  (borrowed from the Pacific NW direction) instead of a heavier rule.
+- **Signature motion** — one considered moment: an orchestrated page-load
+  reveal where the wordmark rises into view behind a mask and the tagline,
+  actions and meta follow in sequence. No scroll-triggered animation.
   Disabled under `prefers-reduced-motion`; transform/opacity only for mobile
   smoothness; keyboard focus always visible.
-- **Texture** — a subtle film-grain overlay (stronger in Moody/Chophouse,
-  barely-there in Pacific NW) plus a per-theme "candlelight" radial in the hero.
-
-> The earlier single-direction palette was generated via the `ui-toolkit` skill
-> (`design/tokens.css`); the multi-theme system supersedes it but that file is
-> left in place as a reference.
+- **Texture** — a light film-grain overlay (0.16 opacity — between the heavier
+  vintage-chophouse grain and Pacific NW's near-absence of one) plus a warm
+  gold radial "candlelight" behind the hero wordmark.
 
 ## Reservation form & staff portal
 

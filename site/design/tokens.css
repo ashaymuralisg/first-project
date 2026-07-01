@@ -1,14 +1,14 @@
 :root {
-  --color-primary: #7A2E30;
-  --color-secondary: #97574A;
-  --color-accent: #A64B4D;
-  --color-neutral: #6E6357;
-  --color-background: #E7E0D2;
-  --color-surface: #F1EBDF;
-  --color-success: #4A4239;
-  --color-warning: #7A2E30;
+  --color-primary: #8E2420;
+  --color-secondary: #AD8A44;
+  --color-accent: #8E2420;
+  --color-neutral: #8A7A5E;
+  --color-background: #F1E8D5;
+  --color-surface: #FAF3E4;
+  --color-success: #5C6B3F;
+  --color-warning: #AD8A44;
   --color-danger: #8B2E2C;
-  --font-display: "Fraunces";
-  --font-body: "Hanken Grotesk";
+  --font-display: "Playfair Display";
+  --font-body: "EB Garamond";
   --radius: 0.25rem;
 }

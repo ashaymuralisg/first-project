@@ -62,6 +62,13 @@
       "body": "Hanken Grotesk",
       "mood": "Crafted editorial serif + clean Scandinavian grotesque for a premium deli",
       "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "overbrod-chophouse-light",
+      "display": "Playfair Display",
+      "body": "EB Garamond",
+      "mood": "Vintage chophouse serif pairing, set lighter-weight for a less heavy, more regional-modern read",
+      "source": "Google Fonts (OFL)"
     }
   ]
 }

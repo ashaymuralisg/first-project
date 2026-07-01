@@ -160,6 +160,22 @@
         "warning": "#7A2E30",
         "danger": "#8B2E2C"
       }
+    },
+    {
+      "id": "overbrod-chophouse",
+      "name": "Cream Chophouse",
+      "mood": "Vintage steakhouse palette (cream, deep red, antique gold) lightened toward a regional-modern airiness — less cave, more sunlit dining room",
+      "colors": {
+        "primary": "#8E2420",
+        "secondary": "#AD8A44",
+        "accent": "#8E2420",
+        "neutral": "#8A7A5E",
+        "background": "#F1E8D5",
+        "surface": "#FAF3E4",
+        "success": "#5C6B3F",
+        "warning": "#AD8A44",
+        "danger": "#8B2E2C"
+      }
     }
   ]
 }
