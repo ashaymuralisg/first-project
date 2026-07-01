@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="moody">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,10 +15,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Font pairing is swapped per theme by app.js; default = Moody Luxury -->
+  <link id="theme-fonts" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="design/tokens.css" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="themes.css" />
 </head>
 <body>
   <a class="skip-link" href="#menu">Skip to menu</a>
@@ -229,6 +231,16 @@
       </div>
     </div>
   </footer>
+
+  <!-- ============ THEME SWITCHER (preview control) ============ -->
+  <div class="theme-switch" role="group" aria-label="Preview visual theme">
+    <span class="theme-switch__label">Theme</span>
+    <div class="theme-switch__opts">
+      <button type="button" data-theme-btn="moody" class="is-active">Moody</button>
+      <button type="button" data-theme-btn="pnw">Pacific NW</button>
+      <button type="button" data-theme-btn="chophouse">Chophouse</button>
+    </div>
+  </div>
 
   <!-- ============ TOASTS ============ -->
   <div class="toast-wrap" id="toast-wrap" aria-live="polite" aria-atomic="true"></div>

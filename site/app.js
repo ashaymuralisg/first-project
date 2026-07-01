@@ -17,6 +17,14 @@
   var STAFF_PASSWORD = "OVERBRODSG";
   var MENU_KEY = "overbrod.menu.v1";
   var BOOKINGS_KEY = "overbrod.bookings.v1";
+  var THEME_KEY = "overbrod.theme.v1";
+
+  var THEMES = ["moody", "pnw", "chophouse"];
+  var THEME_FONTS = {
+    moody: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap",
+    pnw: "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Figtree:wght@400;500;600;700&display=swap",
+    chophouse: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap",
+  };
 
   var CATEGORIES = [
     "Smørrebrød",
@@ -501,6 +509,28 @@
   }
 
   /* ============================================================
+     THEME SWITCHER (preview control)
+     ============================================================ */
+  function applyTheme(name) {
+    if (THEMES.indexOf(name) === -1) name = THEMES[0];
+    document.documentElement.setAttribute("data-theme", name);
+    var link = $("#theme-fonts");
+    if (link && THEME_FONTS[name]) link.href = THEME_FONTS[name];
+    $$("[data-theme-btn]").forEach(function (b) {
+      b.classList.toggle("is-active", b.getAttribute("data-theme-btn") === name);
+      b.setAttribute("aria-pressed", b.getAttribute("data-theme-btn") === name ? "true" : "false");
+    });
+    save(THEME_KEY, name);
+  }
+  function initThemeSwitcher() {
+    $$("[data-theme-btn]").forEach(function (b) {
+      b.addEventListener("click", function () { applyTheme(b.getAttribute("data-theme-btn")); });
+    });
+    var saved = load(THEME_KEY, null);
+    if (saved) applyTheme(saved);
+  }
+
+  /* ============================================================
      TABS
      ============================================================ */
   function initTabs() {
@@ -525,6 +555,7 @@
   function init() {
     $("#year").textContent = new Date().getFullYear();
 
+    initThemeSwitcher();
     renderMenuFilters();
     renderMenu();
     fillReservationOptions();

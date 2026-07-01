@@ -36,23 +36,38 @@ python3 -m http.server 8099
 Upload the `site/` folder to any static host — Netlify, Vercel, Cloudflare
 Pages, GitHub Pages, S3. There is no server component to configure.
 
-## Design
+## Design — three switchable themes
 
-- **Direction** — refined and editorial: a restrained palette of aged paper
-  and warm charcoal with a single cured-meat **oxblood** accent (no secondary
-  colours competing for attention), and generous whitespace.
-- **Palette** — aged paper (`#E7E0D2`) + warm charcoal (`#262320`), one oxblood
-  accent (`#7A2E30`). Generated through the `ui-toolkit` skill (`npm run
-  tokens:generate -- --palette overbrod-refined --fonts overbrod-editorial`)
-  and consumed via `design/tokens.css`.
-- **Type** — Fraunces (characterful editorial serif) over Hanken Grotesk (clean
-  grotesque), from Google Fonts (SIL OFL). If the fonts CDN is ever unreachable,
-  the page falls back to Georgia / system-ui and stays fully legible.
-- **Signature motion** — one considered moment: an orchestrated page-load reveal
-  where the wordmark rises into view behind a mask and the tagline, actions and
-  meta follow in sequence. There are no scroll-triggered animations. The whole
-  sequence is disabled under `prefers-reduced-motion`, uses only transform /
-  opacity so it stays smooth on mobile, and keyboard focus is always visible.
+The site ships with **three fully-realised visual identities**. Switch between
+them with the control in the bottom-left of the page (choice persists in
+`localStorage`). This is a preview control for choosing a direction — once one
+is picked, the switcher and the unused themes can be removed in minutes.
+
+| Theme | Vibe | Palette | Type |
+|-------|------|---------|------|
+| **Moody** | Dark luxury (Carbone / Bavette's) | near-black + oxblood + brass | Cormorant Garamond / Jost |
+| **Pacific NW** | Regional modern (Canlis) | warm stone + forest green + wood | Newsreader / Figtree |
+| **Chophouse** | Vintage steakhouse (El Gaucho) | cream + deep red + antique gold | Playfair Display / EB Garamond |
+
+**How the theming works.** `styles.css` holds all structure and components and
+references only *semantic* tokens (`--bg`, `--fg`, `--accent`, `--feature-bg`,
+`--line`, …). `themes.css` sets those tokens per identity under
+`[data-theme="…"]`, and `app.js` swaps the matching Google-Fonts `<link>` when
+you change theme. Adding a fourth identity is just another token block.
+
+- **Fonts** are all Google Fonts (SIL OFL). If the CDN is unreachable the page
+  falls back to Georgia / system-ui and stays fully legible.
+- **Signature motion** — one considered moment per theme: an orchestrated
+  page-load reveal where the wordmark rises into view behind a mask and the
+  tagline, actions and meta follow in sequence. No scroll-triggered animation.
+  Disabled under `prefers-reduced-motion`; transform/opacity only for mobile
+  smoothness; keyboard focus always visible.
+- **Texture** — a subtle film-grain overlay (stronger in Moody/Chophouse,
+  barely-there in Pacific NW) plus a per-theme "candlelight" radial in the hero.
+
+> The earlier single-direction palette was generated via the `ui-toolkit` skill
+> (`design/tokens.css`); the multi-theme system supersedes it but that file is
+> left in place as a reference.
 
 ## Reservation form & staff portal
 
