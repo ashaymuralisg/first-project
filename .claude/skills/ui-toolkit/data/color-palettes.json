@@ -128,6 +128,22 @@
         "warning": "#FACC15",
         "danger": "#F87171"
       }
+    },
+    {
+      "id": "overbrod",
+      "name": "Smørrebrød",
+      "mood": "Scandinavian deli — dark-rye ink, butter cream, cured-salmon coral",
+      "colors": {
+        "primary": "#C75B39",
+        "secondary": "#5E6B4A",
+        "accent": "#C98A2B",
+        "neutral": "#6B5D4F",
+        "background": "#F4ECDE",
+        "surface": "#FBF6EC",
+        "success": "#4F7A57",
+        "warning": "#C98A2B",
+        "danger": "#9E3B2E"
+      }
     }
   ]
 }

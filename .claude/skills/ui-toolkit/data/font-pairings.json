@@ -55,6 +55,13 @@
       "body": "Barlow",
       "mood": "Data-dense admin panels, tables, dashboards",
       "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "overbrod-editorial",
+      "display": "Fraunces",
+      "body": "Hanken Grotesk",
+      "mood": "Crafted editorial serif + clean Scandinavian grotesque for a premium deli",
+      "source": "Google Fonts (OFL)"
     }
   ]
 }
