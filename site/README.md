@@ -59,6 +59,14 @@ restrained with the Pacific Northwest direction's lighter touch.
   heading (classic chophouse), but thinner and in a muted gold-brown rather
   than solid black; a quiet gold square bullet before section eyebrows
   (borrowed from the Pacific NW direction) instead of a heavier rule.
+- **A Danish detail, not a steakhouse one** — every genuine Nordic letter (ø,
+  å, æ) anywhere on the site — "Sm**ø**rrebr**ø**d," "Overbr**ø**d," the menu
+  heading — carries the same accent-red tint as the logo's Ø (`.o-slash` in
+  `styles.css`; applied to dynamic text via the `nordicMark()` helper in
+  `app.js`). It's one graphic signature, extended as a coherent system across
+  the real Danish content in the brief, rather than a second competing motif —
+  the thing that keeps this feeling like a Danish deli rather than a chophouse
+  with a Scandinavian menu bolted on.
 - **Signature motion** — one considered moment: an orchestrated page-load
   reveal where the wordmark rises into view behind a mask and the tagline,
   actions and meta follow in sequence. No scroll-triggered animation.

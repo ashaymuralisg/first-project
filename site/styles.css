@@ -100,6 +100,10 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.24em;
   text-transform: uppercase; color: var(--accent-2);
 }
+/* Every genuine Danish/Nordic letter (ø, å, æ) on the site — not just the
+   logo's Ø — carries this same accent tint, so the one graphic signature
+   (the slashed Ø) reads as a sitewide system grounded in the real language
+   of the menu, rather than a one-off logo trick. */
 .o-slash { color: var(--accent); font-style: normal; }
 .skip-link {
   position: absolute; left: 50%; top: -60px; transform: translateX(-50%);
@@ -204,7 +208,7 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .menu-item:hover { background: color-mix(in srgb, var(--panel) 60%, transparent); }
 .menu-item__thumb { width: 64px; height: 64px; border-radius: var(--radius); overflow: hidden; background: var(--feature-bg); color: var(--feature-fg); display: grid; place-items: center; position: relative; flex-shrink: 0; }
 .menu-item__thumb img { width: 100%; height: 100%; object-fit: cover; }
-.menu-item__thumb--ph::after { content: "Ø"; color: var(--accent-2); font-family: var(--font-display), serif; font-size: 1.5rem; position: absolute; }
+.menu-item__thumb--ph::after { content: "Ø"; color: var(--accent); font-family: var(--font-display), serif; font-size: 1.5rem; position: absolute; }
 .menu-item__body { min-width: 0; }
 .menu-item__name { font-weight: 600; font-size: 1.02rem; display: flex; flex-wrap: wrap; gap: 0.4rem 0.55rem; align-items: baseline; }
 .menu-item__desc { color: var(--fg-mute); font-size: 0.9rem; margin-top: 0.25rem; line-height: 1.45; }

@@ -62,6 +62,9 @@
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
   function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  // Tint genuine Danish/Nordic letters (ø, å, æ) the same accent as the
+  // logo's Ø — call only on text already run through esc().
+  function nordicMark(escaped) { return escaped.replace(/([øÅåÆæØ])/g, '<span class="o-slash">$1</span>'); }
   function money(n) { return "$" + (Math.round(Number(n) * 100) / 100).toFixed(Number(n) % 1 === 0 ? 0 : 2); }
 
   function load(key, fallback) {
@@ -136,7 +139,7 @@
     CATEGORIES.forEach(function (cat) {
       var group = items.filter(function (m) { return m.category === cat; });
       if (!group.length) return;
-      html += '<div class="menu__group"><h3 class="menu__group-title">' + esc(cat) +
+      html += '<div class="menu__group"><h3 class="menu__group-title"><span>' + nordicMark(esc(cat)) + "</span>" +
         "<small>" + group.length + " item" + (group.length > 1 ? "s" : "") + "</small></h3>";
       html += '<div class="menu__items">';
       group.forEach(function (m) {
@@ -147,8 +150,8 @@
         var tags = (m.diet || []).map(function (d) { return '<span class="tag tag--diet">' + esc(d) + "</span>"; }).join("");
         html += '<article class="menu-item">' + thumb +
           '<div class="menu-item__body"><div class="menu-item__name">' +
-          (m.signature ? '<span class="sig-flag">Signature</span> ' : "") + esc(m.name) + "</div>" +
-          (m.description ? '<p class="menu-item__desc">' + esc(m.description) + "</p>" : "") +
+          (m.signature ? '<span class="sig-flag">Signature</span> ' : "") + "<span>" + nordicMark(esc(m.name)) + "</span></div>" +
+          (m.description ? '<p class="menu-item__desc">' + nordicMark(esc(m.description)) + "</p>" : "") +
           (tags ? '<div class="menu-item__tags">' + tags + "</div>" : "") +
           '</div><div class="menu-item__price">' + esc(priceLabel) + "</div></article>";
       });
@@ -404,12 +407,12 @@
     CATEGORIES.forEach(function (cat) {
       var group = menu.filter(function (m) { return m.category === cat; });
       if (!group.length) return;
-      html += '<div class="cms__cat">' + esc(cat) + "</div>";
+      html += '<div class="cms__cat">' + nordicMark(esc(cat)) + "</div>";
       group.forEach(function (m) {
         html += '<div class="cms-item' + (m.available ? "" : " is-off") + '">' +
           '<div><div class="cms-item__name">' +
           '<span class="dot' + (m.available ? "" : " dot--off") + '" style="background:' + (m.available ? "var(--color-success)" : "") + '"></span>' +
-          esc(m.name) +
+          nordicMark(esc(m.name)) +
           (m.signature ? ' <span class="sig-flag">Signature</span>' : "") +
           (m.available ? "" : ' <span class="badge-off">Hidden</span>') +
           "</div>" +
