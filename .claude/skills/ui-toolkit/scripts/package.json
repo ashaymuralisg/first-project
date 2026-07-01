@@ -1,0 +1,21 @@
+{
+  "name": "ui-toolkit-scripts",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "tokens:generate": "tsx src/generate-tokens.ts",
+    "tokens:validate": "tsx src/validate-tokens.ts",
+    "tailwind:generate": "tsx src/generate-tailwind-config.ts",
+    "shadcn:add": "tsx src/add-shadcn-component.ts"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.1"
+  }
+}

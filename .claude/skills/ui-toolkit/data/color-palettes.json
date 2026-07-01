@@ -1,0 +1,133 @@
+{
+  "$schema": "./schemas/color-palette.schema.json",
+  "palettes": [
+    {
+      "id": "slate-indigo",
+      "name": "Slate & Indigo",
+      "mood": "Professional SaaS, dashboards",
+      "colors": {
+        "primary": "#4F46E5",
+        "secondary": "#0EA5E9",
+        "accent": "#F59E0B",
+        "neutral": "#64748B",
+        "background": "#F8FAFC",
+        "surface": "#FFFFFF",
+        "success": "#16A34A",
+        "warning": "#D97706",
+        "danger": "#DC2626"
+      }
+    },
+    {
+      "id": "forest-clay",
+      "name": "Forest & Clay",
+      "mood": "Sustainability, outdoors, wellness",
+      "colors": {
+        "primary": "#166534",
+        "secondary": "#B45309",
+        "accent": "#CA8A04",
+        "neutral": "#57534E",
+        "background": "#FAF7F2",
+        "surface": "#FFFFFF",
+        "success": "#15803D",
+        "warning": "#B45309",
+        "danger": "#B91C1C"
+      }
+    },
+    {
+      "id": "midnight-violet",
+      "name": "Midnight & Violet",
+      "mood": "Dark-mode-first, entertainment, creative tools",
+      "colors": {
+        "primary": "#8B5CF6",
+        "secondary": "#EC4899",
+        "accent": "#22D3EE",
+        "neutral": "#94A3B8",
+        "background": "#0F0B1F",
+        "surface": "#1C1533",
+        "success": "#4ADE80",
+        "warning": "#FBBF24",
+        "danger": "#F87171"
+      }
+    },
+    {
+      "id": "paper-ink",
+      "name": "Paper & Ink",
+      "mood": "Editorial, long-form reading, documentation",
+      "colors": {
+        "primary": "#1C1917",
+        "secondary": "#78716C",
+        "accent": "#B91C1C",
+        "neutral": "#A8A29E",
+        "background": "#FFFDF9",
+        "surface": "#FFFFFF",
+        "success": "#166534",
+        "warning": "#A16207",
+        "danger": "#991B1B"
+      }
+    },
+    {
+      "id": "coral-teal",
+      "name": "Coral & Teal",
+      "mood": "Consumer social, playful marketing sites",
+      "colors": {
+        "primary": "#FB7185",
+        "secondary": "#14B8A6",
+        "accent": "#FACC15",
+        "neutral": "#78716C",
+        "background": "#FFF7F5",
+        "surface": "#FFFFFF",
+        "success": "#0D9488",
+        "warning": "#EAB308",
+        "danger": "#E11D48"
+      }
+    },
+    {
+      "id": "steel-amber",
+      "name": "Steel & Amber",
+      "mood": "Industrial, fintech, data-heavy admin panels",
+      "colors": {
+        "primary": "#1E293B",
+        "secondary": "#F59E0B",
+        "accent": "#0EA5E9",
+        "neutral": "#64748B",
+        "background": "#F1F5F9",
+        "surface": "#FFFFFF",
+        "success": "#059669",
+        "warning": "#D97706",
+        "danger": "#DC2626"
+      }
+    },
+    {
+      "id": "lavender-mint",
+      "name": "Lavender & Mint",
+      "mood": "Health, meditation, calm consumer apps",
+      "colors": {
+        "primary": "#A78BFA",
+        "secondary": "#6EE7B7",
+        "accent": "#FDA4AF",
+        "neutral": "#94A3B8",
+        "background": "#FAFAFF",
+        "surface": "#FFFFFF",
+        "success": "#10B981",
+        "warning": "#F59E0B",
+        "danger": "#FB7185"
+      }
+    },
+    {
+      "id": "obsidian-lime",
+      "name": "Obsidian & Lime",
+      "mood": "Developer tools, terminals, high-contrast dark UI",
+      "colors": {
+        "primary": "#A3E635",
+        "secondary": "#38BDF8",
+        "accent": "#F472B6",
+        "neutral": "#71717A",
+        "background": "#0A0A0A",
+        "surface": "#171717",
+        "success": "#84CC16",
+        "warning": "#FACC15",
+        "danger": "#F87171"
+      }
+    }
+  ]
+}

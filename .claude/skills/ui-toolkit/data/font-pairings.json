@@ -1,0 +1,60 @@
+{
+  "pairings": [
+    {
+      "id": "sans-editorial",
+      "display": "Fraunces",
+      "body": "Inter",
+      "mood": "Editorial warmth with a clean, legible body face",
+      "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "corporate-clean",
+      "display": "Manrope",
+      "body": "Manrope",
+      "mood": "Single-family system, corporate SaaS, dashboards",
+      "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "technical-mono",
+      "display": "Space Grotesk",
+      "body": "IBM Plex Sans",
+      "mood": "Developer tools, technical products",
+      "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "classic-serif",
+      "display": "Playfair Display",
+      "body": "Source Sans 3",
+      "mood": "Luxury, publishing, brand-forward marketing sites",
+      "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "friendly-rounded",
+      "display": "Baloo 2",
+      "body": "Nunito Sans",
+      "mood": "Consumer, education, playful products",
+      "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "geometric-modern",
+      "display": "Sora",
+      "body": "Work Sans",
+      "mood": "Modern startups, product landing pages",
+      "source": "Google Fonts (OFL)"
+    },
+    {
+      "id": "system-native",
+      "display": "system-ui",
+      "body": "system-ui",
+      "mood": "Zero web-font cost; matches OS look on every platform",
+      "source": "OS default stack (no license needed)"
+    },
+    {
+      "id": "condensed-data",
+      "display": "Barlow Condensed",
+      "body": "Barlow",
+      "mood": "Data-dense admin panels, tables, dashboards",
+      "source": "Google Fonts (OFL)"
+    }
+  ]
+}
