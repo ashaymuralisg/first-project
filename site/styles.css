@@ -378,6 +378,59 @@ fieldset.field { border: none; padding: 0; }
    not a heavy bar */
 .menu__group-title { border-bottom: 2px double color-mix(in srgb, var(--fg) 55%, var(--accent-2) 45%); }
 
+/* ---------- handcrafted micro-interactions (lower sections) ----------
+   Each is one coordinated, hover-triggered gesture — considered, not
+   ambient — meant to read as craft rather than decoration. */
+:root {
+  --shadow-card: 0 22px 45px -28px rgba(36, 27, 20, 0.5);
+  --shadow-card-dark: 0 26px 52px -30px rgba(0, 0, 0, 0.6);
+}
+
+/* Menu rows: an accent hairline grows from the left edge, the row steps
+   forward, the Ø thumbnail tilts to life, and the price warms — all off
+   the same hover. */
+.menu-item { position: relative; transition: background-color 0.25s var(--ease), transform 0.25s var(--ease); }
+.menu-item::before {
+  content: ""; position: absolute; left: -2px; top: 14%; bottom: 14%; width: 2px;
+  background: var(--accent); border-radius: 2px;
+  transform: scaleY(0); transform-origin: center;
+  transition: transform 0.34s var(--ease);
+}
+.menu-item:hover { transform: translateX(6px); }
+.menu-item:hover::before { transform: scaleY(1); }
+.menu-item__thumb { transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease); }
+.menu-item:hover .menu-item__thumb { box-shadow: 0 10px 22px -14px rgba(0, 0, 0, 0.55); }
+.menu-item__thumb--ph::after { transition: transform 0.4s var(--ease); }
+.menu-item:hover .menu-item__thumb--ph::after { transform: scale(1.18) rotate(-8deg); }
+.menu-item__price { transition: color 0.25s var(--ease); }
+.menu-item:hover .menu-item__price { color: var(--accent); }
+
+/* Story techniques: the Ø mark tilts and the row steps forward. */
+.story__craft li { transition: transform 0.28s var(--ease); }
+.story__craft li::before { display: inline-block; transition: transform 0.32s var(--ease); }
+.story__craft li:hover { transform: translateX(6px); }
+.story__craft li:hover::before { transform: rotate(-12deg) scale(1.16); }
+
+/* Review + visit cards: a quiet lift, a warmed edge, a soft shadow. */
+.review { transition: transform 0.32s var(--ease), border-color 0.32s var(--ease), box-shadow 0.32s var(--ease); }
+.review:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-2) 55%, transparent); box-shadow: var(--shadow-card-dark); }
+.visit__card { transition: transform 0.32s var(--ease), border-color 0.32s var(--ease), box-shadow 0.32s var(--ease); }
+.visit__card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-2) 50%, transparent); box-shadow: var(--shadow-card); }
+
+/* Text links: the arrow glides, and underlines draw in rather than just
+   appear — consistent with the nav's underline. */
+.link-arrow { position: relative; }
+.link-arrow::after { content: "\2192"; display: inline-block; margin-left: 0.45rem; transition: transform 0.25s var(--ease); }
+.link-arrow:hover { text-decoration: none; }
+.link-arrow:hover::after { transform: translateX(5px); }
+.visit__social a, .visit__contact a { position: relative; }
+.visit__social a::after, .visit__contact a::after {
+  content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 0;
+  background: currentColor; transition: width 0.28s var(--ease);
+}
+.visit__social a:hover, .visit__contact a:hover { text-decoration: none; }
+.visit__social a:hover::after, .visit__contact a:hover::after { width: 100%; }
+
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
   .story__body { grid-template-columns: 1fr; }
