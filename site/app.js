@@ -523,11 +523,34 @@
   }
 
   /* ============================================================
+     HERO VIDEO (deconstructed smørrebrød)
+     Load + autoplay the heavy film only on larger screens without a
+     reduced-motion preference. Everyone else keeps the lightweight
+     poster still. No loop — it plays the deconstruction once and rests
+     on the exploded frame, as a single considered moment.
+     ============================================================ */
+  function initHeroVideo() {
+    var v = $(".hero__video");
+    if (!v) return;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var large = window.matchMedia && window.matchMedia("(min-width: 768px)").matches;
+    if (reduce || !large) return; // poster only
+    var src = v.getAttribute("data-src");
+    if (!src) return;
+    v.setAttribute("src", src);
+    v.preload = "auto";
+    v.load();
+    var play = v.play();
+    if (play && play.catch) play.catch(function () {}); // ignore autoplay rejection
+  }
+
+  /* ============================================================
      INIT
      ============================================================ */
   function init() {
     $("#year").textContent = new Date().getFullYear();
 
+    initHeroVideo();
     renderMenuFilters();
     renderMenu();
     fillReservationOptions();

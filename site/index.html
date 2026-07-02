@@ -40,6 +40,15 @@
   <main>
     <!-- ============ HERO ============ -->
     <section class="hero" aria-labelledby="hero-title">
+      <!-- Deconstructed-smørrebrød hero film. The heavy video is loaded by
+           app.js only on larger screens without a reduced-motion preference;
+           everyone else (mobile, reduced motion) sees the poster still. -->
+      <div class="hero__media" aria-hidden="true">
+        <video class="hero__video" muted playsinline preload="none"
+               poster="assets/hero-poster.jpg"
+               data-src="assets/hero-smorrebrod.webm"></video>
+        <div class="hero__scrim"></div>
+      </div>
       <p class="hero__eyebrow">Scandinavian deli · Alexandra, Singapore</p>
       <h1 class="hero__title" id="hero-title">
         <span class="hero__word" data-word>OVERBR<span class="o-slash">Ø</span>D</span>

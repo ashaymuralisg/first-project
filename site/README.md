@@ -75,6 +75,23 @@ restrained with the Pacific Northwest direction's lighter touch.
 - **Texture** — a light film-grain overlay (0.16 opacity — between the heavier
   vintage-chophouse grain and Pacific NW's near-absence of one) plus a warm
   gold radial "candlelight" behind the hero wordmark.
+- **Hero film** — a deconstructed-smørrebrød (the Shooting Star) exploded-view
+  film plays behind the wordmark: the plated dish separates into its layers
+  (toast, egg, panko fish, herbed sauce, cured salmon, roe, dill). It plays
+  once and rests on the exploded frame — one considered moment, no loop-snap.
+
+  Assets in `assets/`: `hero-smorrebrod.webm` (the film) and `hero-poster.jpg`
+  (the assembled first frame). `initHeroVideo()` in `app.js` only fetches and
+  autoplays the video on screens ≥768px without a `prefers-reduced-motion`
+  preference; **mobile and reduced-motion visitors get the poster still only**,
+  so the heavy file never downloads on a phone.
+
+  > ⚠️ **Two things to do before this is production-ready:** (1) the film is a
+  > 4K VP9 WebM (~9.7MB) — compress/downscale it to ~1080p (target 1–2MB) so it
+  > doesn't dent the load budget; (2) Safari doesn't reliably play VP9 WebM —
+  > add an H.264 `.mp4` `<source>` so Safari gets the animation too (today it
+  > falls back to the poster). Both need a video encoder that isn't available in
+  > this environment.
 
 ## Reservation form & staff portal
 
