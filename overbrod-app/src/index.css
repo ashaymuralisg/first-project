@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* shadcn CSS-variable theme, tinted to the OVERBRØD palette
+   (cream background, deep-red primary, antique-gold secondary). */
+@layer base {
+  :root {
+    --background: 43 45% 89%;
+    --foreground: 28 28% 11%;
+
+    --card: 43 55% 94%;
+    --card-foreground: 28 28% 11%;
+
+    --primary: 2 63% 34%;
+    --primary-foreground: 40 45% 93%;
+
+    --secondary: 40 44% 47%;
+    --secondary-foreground: 28 28% 11%;
+
+    --muted: 40 28% 84%;
+    --muted-foreground: 30 14% 34%;
+
+    --accent: 2 63% 34%;
+    --accent-foreground: 40 45% 93%;
+
+    --border: 30 18% 80%;
+    --input: 30 18% 80%;
+    --ring: 2 63% 34%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 28 25% 12%;
+    --foreground: 40 40% 92%;
+    --card: 28 22% 16%;
+    --card-foreground: 40 40% 92%;
+    --primary: 2 55% 45%;
+    --primary-foreground: 40 45% 93%;
+    --secondary: 40 44% 55%;
+    --secondary-foreground: 28 28% 11%;
+    --muted: 28 18% 22%;
+    --muted-foreground: 40 20% 70%;
+    --accent: 2 55% 45%;
+    --accent-foreground: 40 45% 93%;
+    --border: 34 22% 28%;
+    --input: 34 22% 28%;
+    --ring: 2 55% 45%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: theme("fontFamily.body");
+    -webkit-font-smoothing: antialiased;
+  }
+}
