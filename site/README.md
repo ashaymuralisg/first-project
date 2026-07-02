@@ -80,18 +80,14 @@ restrained with the Pacific Northwest direction's lighter touch.
   (toast, egg, panko fish, herbed sauce, cured salmon, roe, dill). It plays
   once and rests on the exploded frame — one considered moment, no loop-snap.
 
-  Assets in `assets/`: `hero-smorrebrod.webm` (the film) and `hero-poster.jpg`
-  (the assembled first frame). `initHeroVideo()` in `app.js` only fetches and
-  autoplays the video on screens ≥768px without a `prefers-reduced-motion`
-  preference; **mobile and reduced-motion visitors get the poster still only**,
-  so the heavy file never downloads on a phone.
-
-  > ⚠️ **Two things to do before this is production-ready:** (1) the film is a
-  > 4K VP9 WebM (~9.7MB) — compress/downscale it to ~1080p (target 1–2MB) so it
-  > doesn't dent the load budget; (2) Safari doesn't reliably play VP9 WebM —
-  > add an H.264 `.mp4` `<source>` so Safari gets the animation too (today it
-  > falls back to the poster). Both need a video encoder that isn't available in
-  > this environment.
+  Assets in `assets/`: `hero-smorrebrod.webm` (1080p VP9, ~3.2MB) and
+  `hero-smorrebrod.mp4` (1080p H.264, ~2.1MB) for cross-browser coverage, plus
+  `hero-poster.jpg` (the assembled first frame, ~114KB). `initHeroVideo()` in
+  `app.js` only injects the `<source>`s and autoplays on screens ≥768px without
+  a `prefers-reduced-motion` preference — **mobile and reduced-motion visitors
+  get the poster still only**, so nothing heavy downloads on a phone. The WebM
+  source is listed first (Chrome/Firefox/Edge) with the MP4 as the Safari
+  fallback; the browser plays the first it supports.
 
 ## Reservation form & staff portal
 

@@ -535,9 +535,13 @@
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var large = window.matchMedia && window.matchMedia("(min-width: 768px)").matches;
     if (reduce || !large) return; // poster only
-    var src = v.getAttribute("data-src");
-    if (!src) return;
-    v.setAttribute("src", src);
+    // Inject sources on demand: WebM first (Chrome/Firefox/Edge), MP4/H.264
+    // fallback (Safari). The browser plays the first it supports.
+    var webm = v.getAttribute("data-webm");
+    var mp4 = v.getAttribute("data-mp4");
+    if (!webm && !mp4) return;
+    if (webm) { var s1 = document.createElement("source"); s1.src = webm; s1.type = "video/webm"; v.appendChild(s1); }
+    if (mp4) { var s2 = document.createElement("source"); s2.src = mp4; s2.type = "video/mp4"; v.appendChild(s2); }
     v.preload = "auto";
     v.load();
     var play = v.play();
