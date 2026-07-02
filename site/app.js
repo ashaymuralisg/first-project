@@ -17,6 +17,10 @@
   var STAFF_PASSWORD = "OVERBRODSG";
   var MENU_KEY = "overbrod.menu.v1";
   var BOOKINGS_KEY = "overbrod.bookings.v1";
+  var RETENTION_DAYS = 60; // PDPA retention limitation: drop on-device bookings older than this
+  // Image URLs accepted by the menu editor (defense-in-depth against
+  // javascript:/other schemes being stored and rendered).
+  var SAFE_IMG = /^(https?:\/\/|data:image\/)/i;
 
   var CATEGORIES = [
     "Smørrebrød",
@@ -83,6 +87,16 @@
     save(MENU_KEY, menu);
   }
   var bookings = load(BOOKINGS_KEY, []);
+  if (!Array.isArray(bookings)) bookings = [];
+  // PDPA retention: purge bookings older than RETENTION_DAYS on every load.
+  (function purgeOldBookings() {
+    var cutoff = Date.now() - RETENTION_DAYS * 86400000;
+    var kept = bookings.filter(function (b) {
+      var t = b && b.createdAt ? Date.parse(b.createdAt) : NaN;
+      return isNaN(t) ? true : t >= cutoff;
+    });
+    if (kept.length !== bookings.length) { bookings = kept; save(BOOKINGS_KEY, bookings); }
+  })();
   var unlocked = false;
   var activeDietFilter = "All";
   var activeBookingFilter = "All";
@@ -258,10 +272,30 @@
     bookings.push(booking);
     save(BOOKINGS_KEY, bookings);
 
+    // Deliver the request to the deli. With no backend, the reliable
+    // no-server option is a pre-filled email to the deli's inbox — so the
+    // booking actually reaches OVERBRØD instead of only sitting on the
+    // customer's device. (A backend/booking API is the robust replacement.)
+    var subject = "Table request — " + booking.name + " — " + prettyDate(booking.date) + " " + booking.time;
+    var body = [
+      "New reservation request from the OVERBRØD website:",
+      "",
+      "Name:   " + booking.name,
+      "Date:   " + prettyDate(booking.date) + " (" + booking.date + ")",
+      "Time:   " + booking.time,
+      "Guests: " + booking.party,
+      "Phone:  " + booking.phone,
+      "Email:  " + booking.email,
+      "Notes:  " + (booking.notes || "—"),
+    ].join("\n");
+    var mailto = "mailto:overbrodsg@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
     form.reset();
     $$("[aria-invalid]", form).forEach(function (el) { el.setAttribute("aria-invalid", "false"); });
-    toast("Table requested ✓", "Thanks " + booking.name.split(" ")[0] + " — we've received your request for " + prettyDate(booking.date) + " at " + booking.time + ". We'll confirm shortly.", "success");
+    toast("Almost done — sending your request", "Your email app is opening with the details. Press send and we'll confirm by phone or email.", "success");
     if (unlocked) renderBookings();
+    // open the mail composer after the toast paints
+    setTimeout(function () { window.location.href = mailto; }, 400);
   }
 
   function prettyDate(iso) {
@@ -404,7 +438,7 @@
     b.status = status;
     save(BOOKINGS_KEY, bookings);
     renderBookings();
-    toast("Booking " + status, esc(b.name) + " · " + prettyDate(b.date) + " " + b.time, status === "confirmed" ? "success" : null);
+    toast("Booking " + status, b.name + " · " + prettyDate(b.date) + " " + b.time, status === "confirmed" ? "success" : null);
   }
   function deleteBooking(id) {
     var b = bookings.find(function (x) { return x.id === id; });
@@ -427,7 +461,7 @@
       group.forEach(function (m) {
         html += '<div class="cms-item' + (m.available ? "" : " is-off") + '">' +
           '<div><div class="cms-item__name">' +
-          '<span class="dot' + (m.available ? "" : " dot--off") + '" style="background:' + (m.available ? "var(--color-success)" : "") + '"></span>' +
+          '<span class="dot' + (m.available ? "" : " dot--off") + '"></span>' +
           nordicMark(esc(m.name)) +
           (m.signature ? ' <span class="sig-flag">Signature</span>' : "") +
           (m.available ? "" : ' <span class="badge-off">Hidden</span>') +
@@ -461,7 +495,7 @@
     menu = menu.filter(function (x) { return x.id !== id; });
     save(MENU_KEY, menu);
     renderCMS(); renderMenu();
-    toast("Item deleted", esc(m.name));
+    toast("Item deleted", m.name);
   }
 
   /* ---------- item editor modal ---------- */
@@ -499,11 +533,16 @@
     var name = $("#item-name").value.trim();
     var price = parseFloat($("#item-price").value);
     if (!name || isNaN(price)) { toast("Missing details", "A name and a valid price are required.", "error"); return; }
+    var image = $("#item-image").value.trim();
+    if (image && !SAFE_IMG.test(image)) {
+      toast("Image not added", "Use an https:// image link (or leave blank for the Ø placeholder).", "error");
+      return;
+    }
     var data = {
       name: name,
       price: price,
       category: $("#item-category").value,
-      image: $("#item-image").value.trim(),
+      image: image,
       description: $("#item-desc").value.trim(),
       signature: $("#item-signature").checked,
       available: $("#item-available").checked,
@@ -518,7 +557,7 @@
     save(MENU_KEY, menu);
     closeItemModal();
     renderCMS(); renderMenu();
-    toast(id ? "Item updated" : "Item added", esc(name), "success");
+    toast(id ? "Item updated" : "Item added", name, "success");
   }
 
   /* ============================================================

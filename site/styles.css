@@ -304,6 +304,9 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .footer__brand p { color: color-mix(in srgb, var(--feature-fg) 64%, transparent); margin-top: 0.5rem; max-width: 28ch; }
 .footer__meta { text-align: right; display: flex; flex-direction: column; gap: 0.35rem; }
 .footer__meta p { color: color-mix(in srgb, var(--feature-fg) 60%, transparent); font-size: 0.85rem; }
+.footer__links { margin-top: 0.35rem; }
+.footer__links a { color: color-mix(in srgb, var(--feature-fg) 72%, transparent); font-size: 0.85rem; text-decoration: underline; text-underline-offset: 3px; }
+.footer__links a:hover { color: var(--feature-fg); }
 .footer__staff { margin-top: 0.75rem; align-self: flex-end; background: none; border: none; color: color-mix(in srgb, var(--feature-fg) 62%, transparent); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0; text-decoration: underline; text-underline-offset: 3px; }
 .footer__staff:hover { color: var(--feature-fg); }
 

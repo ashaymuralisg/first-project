@@ -122,6 +122,45 @@ The UI is structured so that swap is a contained change (replace the
 `localStorage` load/save calls in `app.js` with API calls). Happy to build that
 backend as a follow-up.
 
+## Security & PDPA (Singapore)
+
+**Not legal advice.** This is a good-faith technical + PDPA review, not a
+lawyer's sign-off. Before going live with real customer data, have a
+Singapore-qualified lawyer review it and make the owner decisions below.
+
+**Hardening done in the static site:**
+- **Content-Security-Policy** (via `<meta>` and `_headers`) with `script-src
+  'self'` and no `'unsafe-inline'` for scripts — injected inline scripts can't
+  run. Plus `_headers` for hosts that read it (Netlify/Cloudflare Pages):
+  HSTS, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy`, `Permissions-Policy`, COOP. Set the same headers in your
+  server config if your host doesn't read `_headers`.
+- **XSS:** every piece of user/CMS input is HTML-escaped before rendering;
+  the menu image field is restricted to `http(s)`/`data:image` URLs.
+- **External links:** `rel="noopener"`.
+- **PDPA:** a `privacy.html` policy (template — fill DPO + dates), consent copy
+  that covers withdrawal and access/correction/deletion, a link to the policy
+  by the form and in the footer, and **automatic 60-day purge** of on-device
+  booking data (retention limitation).
+- **Booking delivery:** the form now actually reaches the deli — it opens a
+  pre-filled email to `overbrodsg@gmail.com` (the reliable no-backend option),
+  and the copy says so, instead of implying an automatic confirmation.
+
+**Cannot be fixed without a backend / owner action (flagged, not resolved):**
+- The staff-portal password lives in client-side JS — it is **not real
+  security**; the portal should not ship on the public site without a real
+  authenticated backend.
+- Customer PII in `localStorage` can't be truly protected (browser extensions,
+  shared/kiosk devices). A real booking system needs server-side storage,
+  encryption in transit/at rest, and access control.
+- PDPA **Protection** and **Data Breach Notification** obligations, and
+  appointing a **DPO**, require organisational process + a backend.
+- **Dietary/allergen tags are unverified guesses** — an incorrect "Nut-free"
+  etc. is a food-safety and misrepresentation risk. The owner must verify every
+  tag before relying on them.
+- Replace the placeholder OG/canonical domain; consider self-hosting fonts to
+  avoid sending visitor IPs to Google.
+
 ## Accessibility & performance
 
 - **Contrast** — all text meets WCAG AA (≥4.5:1). Gold is used for decorative

@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Content Security Policy (belt-and-braces alongside the server headers in
+       ./_headers). script-src has no 'unsafe-inline', so injected inline scripts
+       can't run. img-src allows https: for owner-added menu photos. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>OVERBRØD — Handcrafted Smørrebrød · Scandinavian Deli, Singapore</title>
   <meta name="description" content="OVERBRØD is a Scandinavian-inspired deli in Alexandra, Singapore, serving handcrafted Danish smørrebrød, Swedish meatballs and Norwegian classics with an Overbrød twist. Reserve a table." />
   <meta name="theme-color" content="#3B2B20" />
@@ -152,7 +157,7 @@
         <div class="reserve__intro">
           <span class="eyebrow">Reservations</span>
           <h2 class="section__title" id="reserve-title">Book your table.</h2>
-          <p>Choose a date, time and party size, and tell us who's coming. We'll hold your table and confirm shortly. Walk-ins are welcome too — but weekends fill up.</p>
+          <p>Choose a date, time and party size, and tell us who's coming. Submitting opens your email app with the details ready to send to us — once you send it, we'll confirm your table by phone or email. Walk-ins are welcome too, but weekends fill up.</p>
           <dl class="reserve__facts">
             <div><dt>Lunch</dt><dd>Mon–Fri, 11:00–14:30</dd></div>
             <div><dt>Dinner</dt><dd>Mon–Fri, 17:00–20:30</dd></div>
@@ -200,11 +205,11 @@
 
           <label class="consent">
             <input type="checkbox" id="r-consent" required />
-            <span>I consent to OVERBR<span class="o-slash">Ø</span>D collecting and using my personal data to manage this reservation and contact me about it, in line with Singapore's Personal Data Protection Act (PDPA). We never sell your data, and you can ask us to delete it any time.</span>
+            <span>I consent to OVERBR<span class="o-slash">Ø</span>D collecting and using my name and contact details to handle this reservation and contact me about it, under Singapore's Personal Data Protection Act (PDPA). We don't sell your data. You can withdraw consent, or ask to access, correct or delete your data, any time — see our <a href="privacy.html">Privacy Policy</a>.</span>
           </label>
 
-          <button type="submit" class="btn btn--primary btn--block">Confirm booking</button>
-          <p class="reserve__pdpa">Your details are stored only to manage your booking.</p>
+          <button type="submit" class="btn btn--primary btn--block">Send booking request</button>
+          <p class="reserve__pdpa">We only use these details to manage your booking. See our <a href="privacy.html">Privacy Policy</a>.</p>
         </form>
       </div>
     </section>
@@ -260,6 +265,7 @@
       <div class="footer__meta">
         <p>370 Alexandra Rd, #01-14A, Singapore 159953</p>
         <p>© <span id="year"></span> OVERBR<span class="o-slash">Ø</span>D. All rights reserved.</p>
+        <p class="footer__links"><a href="privacy.html">Privacy Policy</a></p>
         <button type="button" class="footer__staff" id="staff-login-btn">Staff login</button>
       </div>
     </div>
