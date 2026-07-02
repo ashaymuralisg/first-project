@@ -105,7 +105,14 @@ explicit **PDPA** consent before submitting.
   dietary tags, and an "Available in-store" toggle (hidden items drop off the
   public menu). Edits update the public menu immediately.
 
-### ⚠️ Important: this is a front-end-only demo of those features
+> **A real backend now exists.** `../overbrod-server` provides a secure API
+> (server-side bookings, bcrypt staff auth with httpOnly sessions, email
+> confirmation, rate limiting). When the site is served by that backend,
+> `app.js` auto-detects it and uses the API — the staff password and PII no
+> longer live in the browser. The behavior below is the **offline fallback**
+> used only when the site is opened without the backend.
+
+### ⚠️ Fallback (no backend): front-end-only demo of those features
 
 Because the site is fully static, both the reservations and the menu edits live
 in **`localStorage` on the device that made them** — a booking submitted on a

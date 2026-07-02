@@ -22,6 +22,43 @@
   // javascript:/other schemes being stored and rendered).
   var SAFE_IMG = /^(https?:\/\/|data:image\/)/i;
 
+  /* ============================================================
+     API LAYER
+     When served by the backend (overbrod-server), the page talks to a
+     real API over same-origin cookies. Opened as a static file, or on a
+     host without the API, it falls back to the localStorage demo below.
+     ============================================================ */
+  var API = "/api";
+  var apiMode = false;
+  function apiReq(method, path, body) {
+    return fetch(API + path, {
+      method: method,
+      headers: body ? { "content-type": "application/json" } : undefined,
+      credentials: "same-origin",
+      body: body ? JSON.stringify(body) : undefined,
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (data) {
+        if (!r.ok) { var e = new Error(data.error || ("HTTP " + r.status)); e.status = r.status; e.data = data; throw e; }
+        return data;
+      });
+    });
+  }
+  function detectApi() {
+    if (location.protocol !== "http:" && location.protocol !== "https:") return Promise.resolve(false);
+    return fetch(API + "/health", { credentials: "same-origin" })
+      .then(function (r) { return r.ok; })
+      .catch(function () { return false; });
+  }
+  function loadMenu() {
+    if (!apiMode) return Promise.resolve();
+    return apiReq("GET", "/menu").then(function (d) { menu = d.menu || []; });
+  }
+  function loadBookings() {
+    if (!apiMode) return Promise.resolve();
+    return apiReq("GET", "/staff/bookings").then(function (d) { bookings = d.bookings || []; });
+  }
+  function apiErr(err) { toast("Something went wrong", (err && err.message) || "Please try again.", "error"); }
+
   var CATEGORIES = [
     "Smørrebrød",
     "Hot Mains & Platters",
@@ -269,6 +306,26 @@
       status: "pending",
       createdAt: new Date().toISOString(),
     };
+
+    // ---- API mode: send to the backend (stored server-side + emailed) ----
+    if (apiMode) {
+      var submitBtn = $("#reserve-form button[type=\"submit\"]");
+      if (submitBtn) submitBtn.disabled = true;
+      apiReq("POST", "/bookings", {
+        name: booking.name, email: booking.email, phone: booking.phone,
+        party: booking.party, date: booking.date, time: booking.time, notes: booking.notes,
+      }).then(function () {
+        form.reset();
+        $$("[aria-invalid]", form).forEach(function (el) { el.setAttribute("aria-invalid", "false"); });
+        toast("Table requested ✓", "Thanks " + booking.name.split(" ")[0] + " — we've received your request for " + prettyDate(booking.date) + " at " + booking.time + ". We'll confirm by phone or email shortly.", "success");
+        if (unlocked) { loadBookings().then(renderBookings); }
+      }).catch(function (err) {
+        toast(err && err.status === 429 ? "Too many requests" : "Couldn't send", (err && err.message) || "Please try again, or call us to book.", "error");
+      }).then(function () { if (submitBtn) submitBtn.disabled = false; });
+      return;
+    }
+
+    // ---- demo mode (static, no backend): keep on device + email fallback ----
     bookings.push(booking);
     save(BOOKINGS_KEY, bookings);
 
@@ -364,22 +421,24 @@
   function showDash() {
     $("#portal-login").hidden = true;
     $("#portal-dash").hidden = false;
-    renderBookingFilters();
-    renderBookings();
-    renderCMS();
+    Promise.all([loadBookings(), loadMenu()]).then(function () {
+      renderBookingFilters();
+      renderBookings();
+      renderCMS();
+    }).catch(apiErr);
   }
   function handleLogin(e) {
     e.preventDefault();
     var val = $("#portal-pass").value;
-    if (val === STAFF_PASSWORD) {
-      unlocked = true;
-      $("#portal-err").hidden = true;
-      showDash();
-    } else {
-      $("#portal-err").hidden = false;
-      $("#portal-pass").focus();
-      $("#portal-pass").select();
+    function fail() { $("#portal-err").hidden = false; $("#portal-pass").focus(); $("#portal-pass").select(); }
+    if (apiMode) {
+      apiReq("POST", "/staff/login", { password: val }).then(function () {
+        unlocked = true; $("#portal-err").hidden = true; showDash();
+      }).catch(fail);
+      return;
     }
+    if (val === STAFF_PASSWORD) { unlocked = true; $("#portal-err").hidden = true; showDash(); }
+    else { fail(); }
   }
 
   /* ---------- bookings management ---------- */
@@ -435,15 +494,27 @@
   function setBookingStatus(id, status) {
     var b = bookings.find(function (x) { return x.id === id; });
     if (!b) return;
+    var label = b.name + " · " + prettyDate(b.date) + " " + b.time;
+    if (apiMode) {
+      apiReq("PATCH", "/staff/bookings/" + id, { status: status })
+        .then(loadBookings).then(function () { renderBookings(); toast("Booking " + status, label, status === "confirmed" ? "success" : null); })
+        .catch(apiErr);
+      return;
+    }
     b.status = status;
     save(BOOKINGS_KEY, bookings);
     renderBookings();
-    toast("Booking " + status, b.name + " · " + prettyDate(b.date) + " " + b.time, status === "confirmed" ? "success" : null);
+    toast("Booking " + status, label, status === "confirmed" ? "success" : null);
   }
   function deleteBooking(id) {
     var b = bookings.find(function (x) { return x.id === id; });
     if (!b) return;
     if (!confirm("Delete the booking for " + b.name + " on " + prettyDate(b.date) + "? This cannot be undone.")) return;
+    if (apiMode) {
+      apiReq("DELETE", "/staff/bookings/" + id).then(loadBookings)
+        .then(function () { renderBookings(); toast("Booking deleted", null); }).catch(apiErr);
+      return;
+    }
     bookings = bookings.filter(function (x) { return x.id !== id; });
     save(BOOKINGS_KEY, bookings);
     renderBookings();
@@ -481,9 +552,23 @@
     $$("[data-toggle]", root).forEach(function (b) { b.addEventListener("click", function () { toggleAvailable(b.getAttribute("data-toggle")); }); });
     $$("[data-del]", root).forEach(function (b) { b.addEventListener("click", function () { deleteItem(b.getAttribute("data-del")); }); });
   }
+  // Item → API payload shape (matches the server's menuItemSchema).
+  function menuPayload(m) {
+    return {
+      name: m.name, price: m.price, category: m.category, image: m.image || "",
+      description: m.description || "", signature: !!m.signature, available: !!m.available,
+      addOn: !!m.addOn, diet: m.diet || [],
+    };
+  }
   function toggleAvailable(id) {
     var m = menu.find(function (x) { return x.id === id; });
     if (!m) return;
+    if (apiMode) {
+      var payload = menuPayload(m); payload.available = !m.available;
+      apiReq("PATCH", "/staff/menu/" + id, payload).then(loadMenu)
+        .then(function () { renderCMS(); renderMenu(); }).catch(apiErr);
+      return;
+    }
     m.available = !m.available;
     save(MENU_KEY, menu);
     renderCMS(); renderMenu();
@@ -492,6 +577,11 @@
     var m = menu.find(function (x) { return x.id === id; });
     if (!m) return;
     if (!confirm('Delete "' + m.name + '" from the menu?')) return;
+    if (apiMode) {
+      apiReq("DELETE", "/staff/menu/" + id).then(loadMenu)
+        .then(function () { renderCMS(); renderMenu(); toast("Item deleted", m.name); }).catch(apiErr);
+      return;
+    }
     menu = menu.filter(function (x) { return x.id !== id; });
     save(MENU_KEY, menu);
     renderCMS(); renderMenu();
@@ -548,6 +638,17 @@
       available: $("#item-available").checked,
       diet: $$("#item-diet input").filter(function (cb) { return cb.checked; }).map(function (cb) { return cb.value; }),
     };
+    if (apiMode) {
+      // preserve add-on flag on edit (not exposed in the editor)
+      var existing = id ? menu.find(function (x) { return x.id === id; }) : null;
+      data.addOn = existing ? !!existing.addOn : false;
+      var req = id ? apiReq("PATCH", "/staff/menu/" + id, data) : apiReq("POST", "/staff/menu", data);
+      req.then(loadMenu).then(function () {
+        closeItemModal(); renderCMS(); renderMenu();
+        toast(id ? "Item updated" : "Item added", name, "success");
+      }).catch(apiErr);
+      return;
+    }
     if (id) {
       var m = menu.find(function (x) { return x.id === id; });
       if (m) { Object.assign(m, data); }
@@ -612,6 +713,15 @@
     $("#year").textContent = new Date().getFullYear();
 
     initHeroVideo();
+    // Detect the backend. If present, use it (and load the live menu +
+    // existing staff session); otherwise stay in the localStorage demo.
+    detectApi().then(function (ok) {
+      apiMode = ok;
+      if (!apiMode) return;
+      return apiReq("GET", "/auth").then(function (d) { unlocked = !!(d && d.authenticated); }).catch(function () {})
+        .then(loadMenu).then(function () { renderMenuFilters(); renderMenu(); });
+    }).catch(function () {});
+
     renderMenuFilters();
     renderMenu();
     fillReservationOptions();
@@ -624,7 +734,7 @@
 
     $("#staff-login-btn").addEventListener("click", openPortal);
     $("#portal-login-form").addEventListener("submit", handleLogin);
-    $("#portal-lock").addEventListener("click", function () { unlocked = false; closePortal(); toast("Locked", "Staff portal locked."); });
+    $("#portal-lock").addEventListener("click", function () { unlocked = false; if (apiMode) apiReq("POST", "/staff/logout").catch(function () {}); closePortal(); toast("Locked", "Staff portal locked."); });
     $$("[data-portal-close]").forEach(function (el) { el.addEventListener("click", closePortal); });
     initTabs();
 
