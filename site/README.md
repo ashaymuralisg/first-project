@@ -122,11 +122,30 @@ The UI is structured so that swap is a contained change (replace the
 `localStorage` load/save calls in `app.js` with API calls). Happy to build that
 backend as a follow-up.
 
+## Accessibility & performance
+
+- **Contrast** — all text meets WCAG AA (≥4.5:1). Gold is used for decorative
+  marks only; gold-colored *text* (eyebrows, dietary tags, labels) uses the
+  accessible `--label` / `--label-on-dark` tokens instead of the lighter brand
+  gold.
+- **Keyboard** — skip-link, visible focus rings, `Esc` to close overlays, and a
+  focus trap that keeps `Tab` within the open reservation/portal/menu dialogs
+  and restores focus to the trigger on close.
+- **Mobile nav** — a real hamburger menu (not hidden links): an accessible
+  toggle (`aria-expanded` / `aria-controls`) reveals a dropdown of the section
+  links; closes on link click or `Esc`.
+- **Motion** — the one hero page-load reveal and hover micro-interactions are
+  all disabled under `prefers-reduced-motion`; the hero film is never loaded on
+  mobile or under reduced motion.
+- **Meta** — title, description, canonical, Open Graph (incl. `og:image`), and
+  Twitter card are set. ⚠️ They use a placeholder domain (`https://overbrod.sg/`)
+  — replace it with the real deployed domain so canonical/OG resolve absolutely.
+
 ## Notes for the owner
 
 - **Dietary tags are seeded conservatively.** Only tags we can infer safely are
   pre-filled; `Halal-friendly` is intentionally left unset (the kitchen serves
   pork). Review and correct every tag in the Menu tab before relying on them.
-- **Images** are Ø placeholders until you add real photos — paste an image URL
-  per item in the Menu editor. Real food photography is the single biggest
-  upgrade to the page.
+- **Menu images** are Ø placeholders until you add real photos — paste an image
+  URL per item in the Menu editor. (The hero already uses the real
+  deconstructed-smørrebrød film.)

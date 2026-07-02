@@ -87,6 +87,22 @@
   var activeDietFilter = "All";
   var activeBookingFilter = "All";
   var lastFocused = null;
+  var itemModalOpener = null;
+
+  /* ---------- focus trap (for open dialogs) ---------- */
+  function focusables(container) {
+    return Array.prototype.slice
+      .call(container.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'))
+      .filter(function (el) { return el.offsetParent !== null; });
+  }
+  function trapTab(container, e) {
+    if (e.key !== "Tab" || !container) return;
+    var f = focusables(container);
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
 
   /* ---------- toasts ---------- */
   function toast(title, msg, kind) {
@@ -466,6 +482,7 @@
     $("#item-signature").checked = item ? !!item.signature : false;
     $("#item-available").checked = item ? !!item.available : true;
     $$("#item-diet input").forEach(function (cb) { cb.checked = item ? (item.diet || []).indexOf(cb.value) !== -1 : false; });
+    itemModalOpener = document.activeElement;
     modal.hidden = false;
     modal.setAttribute("aria-hidden", "false");
     setTimeout(function () { $("#item-name").focus(); }, 40);
@@ -474,6 +491,7 @@
     var modal = $("#item-modal");
     modal.hidden = true;
     modal.setAttribute("aria-hidden", "true");
+    if (itemModalOpener && itemModalOpener.focus) itemModalOpener.focus();
   }
   function saveItem(e) {
     e.preventDefault();
@@ -577,10 +595,31 @@
     $("#item-cancel-2").addEventListener("click", closeItemModal);
     $("#item-scrim").addEventListener("click", closeItemModal);
 
+    // Mobile hamburger nav
+    var navToggle = $("#nav-toggle");
+    var navMobile = $("#nav-mobile");
+    function closeNav() { if (navToggle) navToggle.setAttribute("aria-expanded", "false"); if (navMobile) navMobile.hidden = true; }
+    if (navToggle && navMobile) {
+      navToggle.addEventListener("click", function () {
+        var open = navToggle.getAttribute("aria-expanded") === "true";
+        navToggle.setAttribute("aria-expanded", String(!open));
+        navMobile.hidden = open;
+      });
+      $$("a", navMobile).forEach(function (a) { a.addEventListener("click", closeNav); });
+    }
+
     document.addEventListener("keydown", function (e) {
+      var modalOpen = !$("#item-modal").hidden;
+      var portalOpen = !$("#portal").hidden;
       if (e.key === "Escape") {
-        if (!$("#item-modal").hidden) closeItemModal();
-        else if (!$("#portal").hidden) closePortal();
+        if (modalOpen) closeItemModal();
+        else if (portalOpen) closePortal();
+        else if (navToggle && navToggle.getAttribute("aria-expanded") === "true") closeNav();
+        return;
+      }
+      if (e.key === "Tab") {
+        if (modalOpen) trapTab($(".modal__panel"), e);
+        else if (portalOpen) trapTab($(".portal__panel"), e);
       }
     });
 

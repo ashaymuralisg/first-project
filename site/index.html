@@ -5,13 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OVERBRØD — Handcrafted Smørrebrød · Scandinavian Deli, Singapore</title>
   <meta name="description" content="OVERBRØD is a Scandinavian-inspired deli in Alexandra, Singapore, serving handcrafted Danish smørrebrød, Swedish meatballs and Norwegian classics with an Overbrød twist. Reserve a table." />
-  <meta name="theme-color" content="#1C1611" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231C1611'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' fill='%23F4ECDE' text-anchor='middle'%3EO%3C/text%3E%3Cline x1='7' y1='24' x2='25' y2='8' stroke='%23C75B39' stroke-width='2.5'/%3E%3C/svg%3E" />
+  <meta name="theme-color" content="#3B2B20" />
+  <meta name="author" content="OVERBRØD" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233B2B20'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' fill='%23F3E9D6' text-anchor='middle'%3EO%3C/text%3E%3Cline x1='7' y1='24' x2='25' y2='8' stroke='%238E2420' stroke-width='2.5'/%3E%3C/svg%3E" />
+
+  <!-- NOTE: replace https://overbrod.sg/ with the real deployed domain so
+       social scrapers and canonical resolve to absolute URLs. -->
+  <link rel="canonical" href="https://overbrod.sg/" />
 
   <!-- Open Graph -->
+  <meta property="og:site_name" content="OVERBRØD" />
   <meta property="og:title" content="OVERBRØD — Handcrafted Smørrebrød" />
   <meta property="og:description" content="A part of Scandinavia in Singapore, with an OVERBRØD twist. Reserve a table." />
   <meta property="og:type" content="restaurant.restaurant" />
+  <meta property="og:locale" content="en_SG" />
+  <meta property="og:url" content="https://overbrod.sg/" />
+  <meta property="og:image" content="https://overbrod.sg/assets/hero-poster.jpg" />
+  <meta property="og:image:alt" content="OVERBRØD's Shooting Star smørrebrød on a dark plate" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="OVERBRØD — Handcrafted Smørrebrød" />
+  <meta name="twitter:description" content="A part of Scandinavia in Singapore, with an OVERBRØD twist. Reserve a table." />
+  <meta name="twitter:image" content="https://overbrod.sg/assets/hero-poster.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,8 +49,17 @@
         <a href="#reviews">Reviews</a>
         <a href="#visit">Visit</a>
       </nav>
+      <button type="button" class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
       <a href="#reserve" class="btn btn--primary nav__cta">Reserve a table</a>
     </div>
+    <nav class="nav__mobile" id="nav-mobile" aria-label="Mobile" hidden>
+      <a href="#story">Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#visit">Visit</a>
+    </nav>
   </header>
 
   <main>
