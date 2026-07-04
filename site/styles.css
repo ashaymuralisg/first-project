@@ -80,8 +80,8 @@
   --golf: #E8C581;
   --on-accent: #FFF7EA;
 
-  /* light sakura leaded/stained-glass panel for the Find Us cards */
-  --sakura-glass: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20300%20240'%20preserveAspectRatio%3D'xMidYMid%20slice'%3E%3Crect%20width%3D'300'%20height%3D'240'%20fill%3D'%23FBE7EF'%2F%3E%3Cpolygon%20points%3D'0%2C0%2075%2C0%2070%2C70%200%2C80'%20fill%3D'%23FBE3EC'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'75%2C0%20150%2C0%20160%2C88%2070%2C70'%20fill%3D'%23F6CFDE'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'150%2C0%20225%2C0%20235%2C74%20160%2C88'%20fill%3D'%23FCEAD9'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'225%2C0%20300%2C0%20300%2C80%20235%2C74'%20fill%3D'%23EFDCEA'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'0%2C80%2070%2C70%2082%2C150%200%2C160'%20fill%3D'%23F9D6DF'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'70%2C70%20160%2C88%20145%2C168%2082%2C150'%20fill%3D'%23FBEBD2'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'160%2C88%20235%2C74%20228%2C158%20145%2C168'%20fill%3D'%23E9DCEF'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'235%2C74%20300%2C80%20300%2C160%20228%2C158'%20fill%3D'%23F2C7D6'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'0%2C160%2082%2C150%2075%2C240%200%2C240'%20fill%3D'%23E1E7D4'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'82%2C150%20145%2C168%20150%2C240%2075%2C240'%20fill%3D'%23FADBE6'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'145%2C168%20228%2C158%20225%2C240%20150%2C240'%20fill%3D'%23F5CBDD'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'228%2C158%20300%2C160%20300%2C240%20225%2C240'%20fill%3D'%23FCE6EF'%20fill-opacity%3D'0.82'%2F%3E%3Ccircle%20cx%3D'250.0'%20cy%3D'26.0'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'269.0'%20cy%3D'39.8'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'261.8'%20cy%3D'62.2'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'238.2'%20cy%3D'62.2'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'231.0'%20cy%3D'39.8'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'250'%20cy%3D'46'%20r%3D'10.0'%20fill%3D'%23F6C56A'%20fill-opacity%3D'0.28'%2F%3E%3Ccircle%20cx%3D'52.0'%20cy%3D'180.0'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'67.2'%20cy%3D'191.1'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'61.4'%20cy%3D'208.9'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'42.6'%20cy%3D'208.9'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'36.8'%20cy%3D'191.1'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'52'%20cy%3D'196'%20r%3D'8.0'%20fill%3D'%23F6C56A'%20fill-opacity%3D'0.24'%2F%3E%3Cg%20fill%3D'none'%20stroke%3D'%23C98BA6'%20stroke-opacity%3D'0.55'%20stroke-width%3D'1.8'%20stroke-linejoin%3D'round'%3E%3Cpolygon%20points%3D'0%2C0%2075%2C0%2070%2C70%200%2C80'%2F%3E%3Cpolygon%20points%3D'75%2C0%20150%2C0%20160%2C88%2070%2C70'%2F%3E%3Cpolygon%20points%3D'150%2C0%20225%2C0%20235%2C74%20160%2C88'%2F%3E%3Cpolygon%20points%3D'225%2C0%20300%2C0%20300%2C80%20235%2C74'%2F%3E%3Cpolygon%20points%3D'0%2C80%2070%2C70%2082%2C150%200%2C160'%2F%3E%3Cpolygon%20points%3D'70%2C70%20160%2C88%20145%2C168%2082%2C150'%2F%3E%3Cpolygon%20points%3D'160%2C88%20235%2C74%20228%2C158%20145%2C168'%2F%3E%3Cpolygon%20points%3D'235%2C74%20300%2C80%20300%2C160%20228%2C158'%2F%3E%3Cpolygon%20points%3D'0%2C160%2082%2C150%2075%2C240%200%2C240'%2F%3E%3Cpolygon%20points%3D'82%2C150%20145%2C168%20150%2C240%2075%2C240'%2F%3E%3Cpolygon%20points%3D'145%2C168%20228%2C158%20225%2C240%20150%2C240'%2F%3E%3Cpolygon%20points%3D'228%2C158%20300%2C160%20300%2C240%20225%2C240'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  /* light sakura-blossom pink for the Find Us liquid-glass cards */
+  --sakura: #FBD3E0;
 
   /* gradients & atmosphere */
   --grad-ember: linear-gradient(135deg, #BA3D03 0%, #C24A08 55%, #D9660F 100%);
@@ -507,17 +507,16 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 }
 .visit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
 
-/* Light sakura stained glass: a hand-built leaded-glass panel (pale
-   cherry-blossom panes + dusty-rose leading + a couple of blossoms) sits
-   under the .glass frost + a pearly specular sheen. Kept pale so the
-   dark ink text stays fully legible. */
+/* Sakura liquid glass: the same frosted-glass treatment as elsewhere
+   (blur + specular sheen), tinted a light cherry-blossom pink. Kept pale
+   so the dark ink text stays fully legible. */
 .glass--sakura {
   color: var(--fg);
-  background:
-    var(--sakura-glass) center center / cover no-repeat,
-    linear-gradient(158deg, #FCEAF1 0%, #F5D2E0 100%);
-  border-color: color-mix(in srgb, #C98BA6 55%, transparent);
-  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  background: linear-gradient(158deg,
+    color-mix(in srgb, var(--sakura) 82%, transparent) 0%,
+    color-mix(in srgb, var(--sakura) 64%, transparent) 100%);
+  border-color: color-mix(in srgb, #C98BA6 45%, transparent);
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 .glass--sakura::before {
   /* pearly light catching the top of the glass */
