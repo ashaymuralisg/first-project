@@ -40,38 +40,46 @@
   --title-tracking: -0.008em;
   --hero-weight: 560;
   --grain-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  --grain-opacity: 0.16;
+  --grain-opacity: 0.14;
 
-  /* body — from design/tokens.css (ui-toolkit "overbrod-chophouse") */
-  --bg: var(--color-background);
-  --bg-2: #EAE0C9;
-  --panel: var(--color-surface);
-  --fg: #241B14;
-  --fg-soft: rgba(36, 27, 20, 0.72);
-  --fg-mute: rgba(36, 27, 20, 0.64); /* WCAG AA: 4.7:1 on cream for small text */
-  --line: rgba(36, 27, 20, 0.14);
-  --line-2: rgba(36, 27, 20, 0.3);
+  /* ---- Ember & Sand palette (ui-toolkit "overbrod-ember") ----
+     Black bean #3D1202 · Mahogany #BA3D03 · Cadmium #E58423 · Golf #E8C581.
+     Built for gradients + candlelight rather than flat colour blocks. */
 
-  /* Accessible "gold label" text colors. The brand gold (--accent-2) is
-     too light for small text (fails AA on both cream and walnut), so gold
-     TEXT uses these instead; --accent-2 stays for decorative marks only. */
-  --label: #7A5E24;          /* gold-bronze, 4.99:1 on cream */
-  --label-on-dark: #C6A25A;  /* lighter gold, 5.62:1 on walnut */
+  /* body — golden-sand light ground */
+  --bg: var(--color-background);        /* #F4E7C9 */
+  --bg-2: #EFDEB8;
+  --panel: var(--color-surface);        /* #FAF2DC */
+  --fg: #3D1202;                        /* black bean ink */
+  --fg-soft: rgba(61, 18, 2, 0.72);
+  --fg-mute: rgba(61, 18, 2, 0.64);     /* AA: 4.7:1 on sand */
+  --line: rgba(61, 18, 2, 0.14);
+  --line-2: rgba(61, 18, 2, 0.3);
 
-  /* feature (inverted) surface — warm mid walnut, deliberately
-     lighter than a classic dark-steakhouse near-black */
-  --feature-bg: #3B2B20;
-  --feature-fg: #F3E9D6;
-  --feature-soft: rgba(243, 233, 214, 0.74);
-  --feature-line: rgba(197, 157, 90, 0.24);
+  /* Accessible label text. Cadmium/golf are too light for small text, so
+     gold-ish TEXT uses these; the bright hues stay for fills/marks/gradients. */
+  --label: #8F2E02;          /* deep mahogany, 6.7:1 on sand */
+  --label-on-dark: #E58423;  /* cadmium, 5.95:1 on black bean */
 
-  /* accent: deep red + antique gold, from design/tokens.css */
-  --accent: var(--color-primary);
-  --accent-strong: #6E1B18;
-  --accent-2: var(--color-secondary);
-  --on-accent: #F6EEDD;
+  /* feature (inverted) surface — black-bean dark room */
+  --feature-bg: #3D1202;
+  --feature-fg: #F6EAD0;
+  --feature-soft: rgba(246, 234, 208, 0.76);
+  --feature-line: rgba(229, 132, 35, 0.28);
 
-  --glow: rgba(197, 157, 90, 0.1);
+  /* accent: mahogany (light-ctx) + cadmium (bright/decor) */
+  --accent: var(--color-primary);       /* #BA3D03 mahogany */
+  --accent-strong: #8F2E02;
+  --accent-2: var(--color-secondary);   /* #E58423 cadmium */
+  --golf: #E8C581;
+  --on-accent: #FFF7EA;
+
+  /* gradients & atmosphere */
+  --grad-ember: linear-gradient(135deg, #BA3D03 0%, #C24A08 55%, #D9660F 100%);
+  --grad-ember-strong: linear-gradient(135deg, #8F2E02 0%, #BA3D03 100%);
+  --grad-rule: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+  --glow: rgba(229, 132, 35, 0.2);
+  --glow-2: rgba(186, 61, 3, 0.16);
 }
 
 /* ---------- reset ---------- */
@@ -81,7 +89,12 @@
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   font-family: var(--font-body), system-ui, sans-serif;
+  /* warm sand ground with a soft top-light wash so it never reads as a flat block */
   background-color: var(--bg);
+  background-image:
+    radial-gradient(120% 70% at 50% -8%, #FBF3DC 0%, rgba(251, 243, 220, 0) 60%),
+    radial-gradient(90% 60% at 100% 110%, rgba(232, 197, 129, 0.35) 0%, rgba(232, 197, 129, 0) 55%);
+  background-attachment: fixed;
   color: var(--fg);
   line-height: 1.6;
   font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
@@ -111,6 +124,9 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
    (the slashed Ø) reads as a sitewide system grounded in the real language
    of the menu, rather than a one-off logo trick. */
 .o-slash { color: var(--accent); font-style: normal; }
+/* On the dark black-bean surfaces, mahogany is too low-contrast, so the
+   Nordic marks switch to cadmium (AA-safe on black bean). */
+.nav .o-slash, .hero .o-slash, .footer .o-slash, .reviews .o-slash { color: var(--accent-2); }
 .skip-link {
   position: absolute; left: 50%; top: -60px; transform: translateX(-50%);
   background: var(--accent); color: var(--on-accent); padding: 0.6rem 1rem;
@@ -126,10 +142,11 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
   font-weight: 600; font-size: 0.9rem; letter-spacing: 0.03em;
   text-decoration: none; border: 1.5px solid transparent; border-radius: 999px;
   background: var(--accent); color: var(--on-accent);
-  transition: transform 0.25s var(--ease), background-color 0.25s var(--ease), box-shadow 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), filter 0.25s var(--ease);
   will-change: transform;
 }
-.btn--primary:hover { background: var(--accent-strong); transform: translateY(-2px); box-shadow: 0 12px 26px -14px var(--accent); }
+.btn--primary { background: var(--grad-ember); box-shadow: 0 8px 22px -14px rgba(186, 61, 3, 0.8); }
+.btn--primary:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 14px 30px -14px rgba(186, 61, 3, 0.85); }
 .btn--primary:active { transform: translateY(0); }
 .btn--ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
 .btn--ghost:hover { border-color: var(--fg); transform: translateY(-2px); }
@@ -174,7 +191,15 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
   text-align: center; padding: clamp(3rem, 9vw, 7rem) var(--gutter);
   position: relative; overflow: hidden;
 }
-.hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(58% 58% at 50% 44%, var(--glow), transparent 72%); pointer-events: none; z-index: 1; }
+/* layered candlelight: a warm cadmium core over a deeper mahogany bloom,
+   with a soft vignette so the black-bean hero has depth, not a flat fill */
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background:
+    radial-gradient(46% 46% at 50% 40%, var(--glow), transparent 70%),
+    radial-gradient(85% 75% at 50% 30%, var(--glow-2), transparent 72%),
+    radial-gradient(120% 120% at 50% 120%, rgba(0, 0, 0, 0.45), transparent 55%);
+}
 .hero > * { position: relative; z-index: 2; }
 /* Video/poster layer sits behind the glow and the content. Declared after
    `.hero > *` so it wins the z-index (equal specificity, later rule). */
@@ -183,8 +208,16 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
 .hero__scrim { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20, 14, 9, 0.52), rgba(20, 14, 9, 0.34) 42%, rgba(20, 14, 9, 0.72)); }
 .hero__eyebrow { color: color-mix(in srgb, var(--feature-fg) 62%, transparent); letter-spacing: 0.3em; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem); font-family: var(--font-body), sans-serif; }
 .hero__title { margin: 0; overflow: hidden; padding: 0.08em 0; }
-.hero__word { display: inline-block; font-size: clamp(3.2rem, 15vw, 12rem); font-weight: var(--hero-weight, 500); letter-spacing: -0.02em; line-height: 0.9; }
-.hero__word .o-slash { color: var(--accent); }
+.hero__word {
+  display: inline-block; font-size: clamp(3.2rem, 15vw, 12rem);
+  font-weight: var(--hero-weight, 500); letter-spacing: -0.02em; line-height: 0.9;
+  /* warm gold → ember gradient wordmark (both ends AA-safe on black bean) */
+  background: linear-gradient(176deg, #F4E7C6 0%, #E8C581 52%, #E58423 116%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.hero__word .o-slash { -webkit-text-fill-color: var(--accent-2); }
+.hero__word .o-slash { color: var(--accent-2); }
 
 /* signature moment: one orchestrated page-load reveal */
 .hero__word { transform: translateY(115%); transition: transform 1.05s var(--ease) 0.15s; }
@@ -230,7 +263,7 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .menu-item:hover { background: color-mix(in srgb, var(--panel) 60%, transparent); }
 .menu-item__thumb { width: 64px; height: 64px; border-radius: var(--radius); overflow: hidden; background: var(--feature-bg); color: var(--feature-fg); display: grid; place-items: center; position: relative; flex-shrink: 0; }
 .menu-item__thumb img { width: 100%; height: 100%; object-fit: cover; }
-.menu-item__thumb--ph::after { content: "Ø"; color: var(--accent); font-family: var(--font-display), serif; font-size: 1.5rem; position: absolute; }
+.menu-item__thumb--ph::after { content: "Ø"; color: var(--accent-2); font-family: var(--font-display), serif; font-size: 1.5rem; position: absolute; }
 .menu-item__body { min-width: 0; }
 .menu-item__name { font-weight: 600; font-size: 1.02rem; display: flex; flex-wrap: wrap; gap: 0.4rem 0.55rem; align-items: baseline; }
 .menu-item__desc { color: var(--fg-mute); font-size: 0.9rem; margin-top: 0.25rem; line-height: 1.45; }

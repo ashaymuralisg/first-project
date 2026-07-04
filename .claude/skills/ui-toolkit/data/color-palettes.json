@@ -176,6 +176,22 @@
         "warning": "#AD8A44",
         "danger": "#8B2E2C"
       }
+    },
+    {
+      "id": "overbrod-ember",
+      "name": "Ember & Sand",
+      "mood": "Warm autumnal firelight — black-bean dark rooms, mahogany and cadmium-orange embers, golden-sand light; built for gradients and candlelit glow, not flat blocks",
+      "colors": {
+        "primary": "#BA3D03",
+        "secondary": "#E58423",
+        "accent": "#E58423",
+        "neutral": "#7A4A2E",
+        "background": "#F4E7C9",
+        "surface": "#FAF2DC",
+        "success": "#6E6327",
+        "warning": "#E58423",
+        "danger": "#A3300B"
+      }
     }
   ]
 }

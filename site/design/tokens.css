@@ -1,13 +1,13 @@
 :root {
-  --color-primary: #8E2420;
-  --color-secondary: #AD8A44;
-  --color-accent: #8E2420;
-  --color-neutral: #8A7A5E;
-  --color-background: #F1E8D5;
-  --color-surface: #FAF3E4;
-  --color-success: #5C6B3F;
-  --color-warning: #AD8A44;
-  --color-danger: #8B2E2C;
+  --color-primary: #BA3D03;
+  --color-secondary: #E58423;
+  --color-accent: #E58423;
+  --color-neutral: #7A4A2E;
+  --color-background: #F4E7C9;
+  --color-surface: #FAF2DC;
+  --color-success: #6E6327;
+  --color-warning: #E58423;
+  --color-danger: #A3300B;
   --font-display: "Playfair Display";
   --font-body: "EB Garamond";
   --radius: 0.25rem;

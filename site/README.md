@@ -43,14 +43,19 @@ Northwest regional-modern à la Canlis, and a vintage chophouse à la El Gaucho)
 before settling on a **hybrid**: the vintage chophouse palette and typography,
 restrained with the Pacific Northwest direction's lighter touch.
 
-- **Palette** — cream body (`#F1E8D5`), deep red accent (`#8E2420`), antique
-  gold secondary (`#AD8A44`). Generated through the `ui-toolkit` skill
-  (`npm run tokens:generate -- --palette overbrod-chophouse --fonts
-  overbrod-chophouse-light`) into `design/tokens.css`; `styles.css` maps those
-  flat roles onto semantic names and adds one hand-authored extension: a warm
-  mid-toned walnut (`#3B2B20`) for the inverted "feature" sections (nav, hero,
-  reviews, footer) — deliberately *lighter* than a classic dark-steakhouse
-  near-black, so it reads as a sunlit dining room rather than a cave.
+- **Palette — "Ember & Sand"** — black bean (`#3D1202`), mahogany (`#BA3D03`),
+  cadmium orange (`#E58423`), golf/golden-sand (`#E8C581`). Generated through
+  the `ui-toolkit` skill (`npm run tokens:generate -- --palette overbrod-ember
+  --fonts overbrod-chophouse-light`) into `design/tokens.css`; `styles.css` maps
+  those flat roles onto semantic names, with black bean for the inverted
+  "feature" surfaces (nav, hero, reviews, footer) and golden sand for the light
+  ground. Built for gradients and candlelight rather than flat blocks: a warm
+  top-light wash on the sand ground, a layered cadmium+mahogany glow behind the
+  hero, an ember-gradient wordmark and buttons.
+  - **Contrast is context-aware:** mahogany passes AA on the light sand but not
+    on black bean, so the Nordic marks / accents switch to cadmium on dark
+    surfaces. All text still meets WCAG AA (`--label` #8F2E02 on light,
+    `--label-on-dark` #E58423 on dark).
 - **Type** — Playfair Display (vintage chophouse serif) over EB Garamond, set
   at a lighter weight (560 vs. a typical bold chophouse 700–800) for a more
   regional-modern, less shouty read. Google Fonts (SIL OFL); falls back to
