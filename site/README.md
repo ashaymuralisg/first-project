@@ -36,6 +36,22 @@ python3 -m http.server 8099
 Upload the `site/` folder to any static host — Netlify, Vercel, Cloudflare
 Pages, GitHub Pages, S3. There is no server component to configure.
 
+## Brand assets
+
+`assets/brand/` holds OVERBRØD's real logo (hand-drawn script wordmark, white
+on black):
+
+- `logo.png` — the original, opaque. Used as the **favicon** and the
+  **Instagram avatar** (both expect a filled background; cropped to a circle
+  via CSS for the avatar).
+- `logo-mark.png` — the same artwork with the black background removed
+  (alpha extracted from luminance, so it's a clean transparent white mark).
+  Used as the small icon in the **nav** and **footer**, next to the existing
+  typographic wordmark, so it sits cleanly on any of the site's dark surfaces
+  without a blocky black square behind it. Hidden below 620px width (the
+  wordmark's coloured Ø already carries the brand mark there; keeps the
+  mobile nav from crowding the Reserve button).
+
 ## Design
 
 Three directions were explored (dark luxury à la Carbone/Bavette's, Pacific

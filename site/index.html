@@ -12,7 +12,8 @@
   <meta name="description" content="OVERBRØD is a Scandinavian-inspired deli in Alexandra, Singapore, serving handcrafted Danish smørrebrød, Swedish meatballs and Norwegian classics with an Overbrød twist. Reserve a table." />
   <meta name="theme-color" content="#3D1202" />
   <meta name="author" content="OVERBRØD" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233D1202'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' fill='%23E8C581' text-anchor='middle'%3EO%3C/text%3E%3Cline x1='7' y1='24' x2='25' y2='8' stroke='%23E58423' stroke-width='2.5'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/png" href="assets/brand/logo.png" />
+  <link rel="apple-touch-icon" href="assets/brand/logo.png" />
 
   <!-- NOTE: replace https://overbrod.sg/ with the real deployed domain so
        social scrapers and canonical resolve to absolute URLs. -->
@@ -47,7 +48,10 @@
   <!-- ============ NAV ============ -->
   <header class="nav" id="top">
     <div class="nav__inner">
-      <a class="nav__brand" href="#top" aria-label="OVERBRØD home">OVERBR<span class="o-slash">Ø</span>D</a>
+      <a class="nav__brand" href="#top" aria-label="OVERBRØD home">
+        <img class="nav__logo" src="assets/brand/logo-mark.png" width="34" height="34" alt="" />
+        OVERBR<span class="o-slash">Ø</span>D
+      </a>
       <nav class="nav__links" aria-label="Primary">
         <a href="#story">Story</a>
         <a href="#menu">Menu</a>
@@ -117,7 +121,7 @@
 
       <div class="insta__card">
         <header class="insta__profile">
-          <span class="insta__avatar" aria-hidden="true">Ø</span>
+          <img class="insta__avatar" src="assets/brand/logo.png" width="60" height="60" alt="OVERBRØD logo" />
           <div class="insta__id">
             <span class="insta__handle">@overbrod</span>
             <span class="insta__name">OVERBR<span class="o-slash">Ø</span>D · Scandinavian deli</span>
@@ -318,7 +322,10 @@
   <footer class="footer">
     <div class="footer__inner">
       <div class="footer__brand">
-        <span class="footer__word">OVERBR<span class="o-slash">Ø</span>D</span>
+        <div class="footer__lockup">
+          <img class="footer__logo" src="assets/brand/logo-mark.png" width="40" height="40" alt="" />
+          <span class="footer__word">OVERBR<span class="o-slash">Ø</span>D</span>
+        </div>
         <p>Handcrafted sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d, a part of Scandinavia in Singapore.</p>
       </div>
       <div class="footer__meta">
