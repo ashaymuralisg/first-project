@@ -207,19 +207,16 @@ Singapore-qualified lawyer review it and make the owner decisions below.
   (`instagram.com/overbrod`). Photos are inert; videos show a play button and
   swap in a real `<video controls>` on click.
 
-  **The 2 videos (slots 1 and 5) are real** — `assets/instagram/video-1.mp4`
-  and `video-2.mp4` are OVERBRØD's actual reels, wired up via each tile's
-  `data-mp4`. The **4 photos are still on-brand placeholders**
-  (`assets/instagram/1.jpg`…`4.jpg`) because pasted chat images aren't
-  retrievable as files here — only proper file attachments are. The 2 video
-  **posters** (the static thumbnail shown before tapping play) are also
-  placeholders: this environment's Chromium has no H.264 decoder, so a real
-  first-frame thumbnail couldn't be extracted here — any environment with a
-  standard browser/ffmpeg can do this in one step. **To finish it:**
-  1. Send the 4 real photos as file attachments, in display order (positions
-     2, 3, 4, 6) — for carousel/slide posts, use only the first image.
+  **The 2 videos (slots 1 and 5) are fully real** — `assets/instagram/
+  video-1.mp4` / `video-2.mp4` are OVERBRØD's actual reels, and
+  `video-1.jpg` / `video-2.jpg` are their real poster thumbnails (resized to
+  900px wide, ~80% JPEG quality). The **4 photos are still on-brand
+  placeholders** (`assets/instagram/1.jpg`…`4.jpg`) because pasted chat
+  images aren't retrievable as files here — only proper file attachments (or
+  a zip) are. **To finish it:**
+  1. Send the 4 real photos as file attachments (or zipped, if pasting them
+     doesn't work), in display order (positions 2, 3, 4, 6) — for
+     carousel/slide posts, use only the first image.
   2. Replace `assets/instagram/1.jpg` … `4.jpg` with them.
-  3. Generate a poster frame for each video (e.g. `ffmpeg -i video-1.mp4
-     -frames:v 1 video-1.jpg`, or a screenshot of the first frame) and
-     replace `video-1.jpg` / `video-2.jpg`.
-  4. Update each `alt` text in `index.html` to describe the real photo/video.
+  3. Update the `alt` text on those 4 `<figure>` tiles in `index.html` to
+     describe the real photos.
