@@ -707,12 +707,47 @@
   }
 
   /* ============================================================
+     INSTAGRAM GALLERY (static — plays videos in place on click)
+     Photos are inert. Videos swap their poster for a real <video controls
+     autoplay> the first time they're activated (click or Enter/Space).
+     Nothing in this gallery links to Instagram except the Follow button.
+     ============================================================ */
+  function playInstaVideo(tile) {
+    if (tile.classList.contains("is-playing")) return;
+    var webm = tile.getAttribute("data-webm");
+    var mp4 = tile.getAttribute("data-mp4");
+    if (!webm && !mp4) {
+      toast("Video not added yet", "Drop the file in and set data-webm/data-mp4 on this tile.", "error");
+      return;
+    }
+    var video = document.createElement("video");
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    if (webm) { var s1 = document.createElement("source"); s1.src = webm; s1.type = "video/webm"; video.appendChild(s1); }
+    if (mp4) { var s2 = document.createElement("source"); s2.src = mp4; s2.type = "video/mp4"; video.appendChild(s2); }
+    tile.appendChild(video);
+    tile.classList.add("is-playing");
+    var p = video.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+  function initInstaVideos() {
+    $$(".insta__tile--video").forEach(function (tile) {
+      tile.addEventListener("click", function () { playInstaVideo(tile); });
+      tile.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playInstaVideo(tile); }
+      });
+    });
+  }
+
+  /* ============================================================
      INIT
      ============================================================ */
   function init() {
     $("#year").textContent = new Date().getFullYear();
 
     initHeroVideo();
+    initInstaVideos();
     // Detect the backend. If present, use it (and load the live menu +
     // existing staff session); otherwise stay in the localStorage demo.
     detectApi().then(function (ok) {

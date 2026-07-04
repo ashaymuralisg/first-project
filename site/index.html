@@ -108,7 +108,7 @@
       </div>
     </section>
 
-    <!-- ============ INSTAGRAM (static gallery, links to profile) ============ -->
+    <!-- ============ INSTAGRAM (static gallery — only Follow links out) ============ -->
     <section class="insta section" id="instagram" aria-labelledby="insta-title">
       <div class="section__head">
         <span class="eyebrow">On Instagram</span>
@@ -119,9 +119,10 @@
         <header class="insta__profile">
           <span class="insta__avatar" aria-hidden="true">Ø</span>
           <div class="insta__id">
-            <a class="insta__handle" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">@overbrod</a>
+            <span class="insta__handle">@overbrod</span>
             <span class="insta__name">OVERBR<span class="o-slash">Ø</span>D · Scandinavian deli</span>
           </div>
+          <!-- The only link out of this section, per request. -->
           <a class="btn btn--primary btn--sm insta__follow" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">
             <svg class="insta__glyph" viewBox="0 0 24 24" aria-hidden="true" width="16" height="16">
               <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -132,25 +133,35 @@
           </a>
         </header>
 
+        <!-- 4 photos + 2 videos, in the order of OVERBRØD's last 6 posts.
+             Photos are static (first image only, for any carousel post).
+             Videos play in place on click; nothing here links to Instagram. -->
         <div class="insta__grid">
-          <a class="insta__tile" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">
-            <img src="assets/instagram/1.jpg" width="800" height="800" loading="lazy" alt="Three open-faced smørrebrød on a metal tray — mushroom, shrimp and cured salmon — by the café window." />
-          </a>
-          <a class="insta__tile" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">
-            <img src="assets/instagram/2.jpg" width="800" height="800" loading="lazy" alt="Brunch spread: creamy tomato soup, an open sandwich with egg, a grain bowl topped with roe, and a black coffee." />
-          </a>
-          <a class="insta__tile" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">
-            <img src="assets/instagram/3.jpg" width="800" height="800" loading="lazy" alt="Braised meat shank plated over sauce with roasted beetroot and microgreens." />
-          </a>
-          <a class="insta__tile" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">
-            <img src="assets/instagram/4.jpg" width="800" height="800" loading="lazy" alt="Festive candlelit spread — a roast platter, cured salmon, and a plate of chicken with cranberry sauce." />
-          </a>
-          <a class="insta__tile" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">
-            <img src="assets/instagram/5.jpg" width="800" height="800" loading="lazy" alt="Close-up of a spoon holding thick-cut bacon and scrambled eggs, with pasta behind." />
-          </a>
-          <a class="insta__tile" href="https://www.instagram.com/overbrod/" target="_blank" rel="noopener noreferrer">
-            <img src="assets/instagram/6.jpg" width="800" height="800" loading="lazy" alt="Open-faced sandwich with sliced beef, pickled onion, shaved fennel and dill on toasted sourdough." />
-          </a>
+          <figure class="insta__tile insta__tile--photo">
+            <img src="assets/instagram/1.jpg" width="800" height="800" loading="lazy" alt="Placeholder — replace with OVERBRØD Instagram post 1 (photo)." />
+          </figure>
+          <figure class="insta__tile insta__tile--photo">
+            <img src="assets/instagram/2.jpg" width="800" height="800" loading="lazy" alt="Placeholder — replace with OVERBRØD Instagram post 2 (photo)." />
+          </figure>
+          <figure class="insta__tile insta__tile--photo">
+            <img src="assets/instagram/3.jpg" width="800" height="800" loading="lazy" alt="Placeholder — replace with OVERBRØD Instagram post 3 (photo)." />
+          </figure>
+          <figure class="insta__tile insta__tile--photo">
+            <img src="assets/instagram/4.jpg" width="800" height="800" loading="lazy" alt="Placeholder — replace with OVERBRØD Instagram post 4 (photo)." />
+          </figure>
+
+          <div class="insta__tile insta__tile--video" role="button" tabindex="0" data-webm="" data-mp4="" aria-label="Play video — OVERBRØD Instagram post 5">
+            <img class="insta__poster" src="assets/instagram/video-1.jpg" width="800" height="800" loading="lazy" alt="Placeholder — replace with OVERBRØD Instagram post 5 (video)." />
+            <span class="insta__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            </span>
+          </div>
+          <div class="insta__tile insta__tile--video" role="button" tabindex="0" data-webm="" data-mp4="" aria-label="Play video — OVERBRØD Instagram post 6">
+            <img class="insta__poster" src="assets/instagram/video-2.jpg" width="800" height="800" loading="lazy" alt="Placeholder — replace with OVERBRØD Instagram post 6 (video)." />
+            <span class="insta__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            </span>
+          </div>
         </div>
       </div>
     </section>

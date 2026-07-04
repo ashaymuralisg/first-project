@@ -200,3 +200,21 @@ Singapore-qualified lawyer review it and make the owner decisions below.
 - **Menu images** are Ø placeholders until you add real photos — paste an image
   URL per item in the Menu editor. (The hero already uses the real
   deconstructed-smørrebrød film.)
+- **Instagram gallery** (between Story and Menu) is a static, one-time snapshot
+  — it will *not* auto-update as OVERBRØD posts more. It shows 4 photos + 2
+  videos; nothing in the grid links to Instagram except the **Follow** button
+  (`instagram.com/overbrod`). Photos are inert; videos show a play button and
+  swap in a real `<video controls>` on click.
+
+  Currently filled with on-brand placeholders (`assets/instagram/1–4.jpg`,
+  `video-1.jpg`, `video-2.jpg`) because the real posts couldn't be fetched —
+  Instagram is unreachable from the environment this was built in, and pasted
+  chat images aren't retrievable as files. **To finish it:**
+  1. Save OVERBRØD's actual last 6 posts (in the order you want them shown) —
+     for carousel/slide posts, use only the first image.
+  2. Replace `assets/instagram/1.jpg` … `4.jpg` with the 4 photos, and
+     `video-1.jpg` / `video-2.jpg` with poster frames for the 2 videos.
+  3. Add the video files (e.g. `assets/instagram/video-1.mp4`) and set the
+     matching tile's `data-mp4` (and `data-webm` if you have one) attribute in
+     `index.html` to their path.
+  4. Update each `alt` text in `index.html` to describe the real photo/video.
