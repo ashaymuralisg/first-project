@@ -201,20 +201,25 @@ Singapore-qualified lawyer review it and make the owner decisions below.
   URL per item in the Menu editor. (The hero already uses the real
   deconstructed-smørrebrød film.)
 - **Instagram gallery** (between Story and Menu) is a static, one-time snapshot
-  — it will *not* auto-update as OVERBRØD posts more. It shows 4 photos + 2
-  videos; nothing in the grid links to Instagram except the **Follow** button
+  — it will *not* auto-update as OVERBRØD posts more. Grid order matches the
+  real last 6 posts: **video, photo, photo, photo, video, photo**. Nothing in
+  the grid links to Instagram except the **Follow** button
   (`instagram.com/overbrod`). Photos are inert; videos show a play button and
   swap in a real `<video controls>` on click.
 
-  Currently filled with on-brand placeholders (`assets/instagram/1–4.jpg`,
-  `video-1.jpg`, `video-2.jpg`) because the real posts couldn't be fetched —
-  Instagram is unreachable from the environment this was built in, and pasted
-  chat images aren't retrievable as files. **To finish it:**
-  1. Save OVERBRØD's actual last 6 posts (in the order you want them shown) —
-     for carousel/slide posts, use only the first image.
-  2. Replace `assets/instagram/1.jpg` … `4.jpg` with the 4 photos, and
-     `video-1.jpg` / `video-2.jpg` with poster frames for the 2 videos.
-  3. Add the video files (e.g. `assets/instagram/video-1.mp4`) and set the
-     matching tile's `data-mp4` (and `data-webm` if you have one) attribute in
-     `index.html` to their path.
+  **The 2 videos (slots 1 and 5) are real** — `assets/instagram/video-1.mp4`
+  and `video-2.mp4` are OVERBRØD's actual reels, wired up via each tile's
+  `data-mp4`. The **4 photos are still on-brand placeholders**
+  (`assets/instagram/1.jpg`…`4.jpg`) because pasted chat images aren't
+  retrievable as files here — only proper file attachments are. The 2 video
+  **posters** (the static thumbnail shown before tapping play) are also
+  placeholders: this environment's Chromium has no H.264 decoder, so a real
+  first-frame thumbnail couldn't be extracted here — any environment with a
+  standard browser/ffmpeg can do this in one step. **To finish it:**
+  1. Send the 4 real photos as file attachments, in display order (positions
+     2, 3, 4, 6) — for carousel/slide posts, use only the first image.
+  2. Replace `assets/instagram/1.jpg` … `4.jpg` with them.
+  3. Generate a poster frame for each video (e.g. `ffmpeg -i video-1.mp4
+     -frames:v 1 video-1.jpg`, or a screenshot of the first frame) and
+     replace `video-1.jpg` / `video-2.jpg`.
   4. Update each `alt` text in `index.html` to describe the real photo/video.
