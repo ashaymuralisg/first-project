@@ -249,6 +249,49 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .story__craft li::before { content: "Ø"; color: var(--accent); font-family: var(--font-display), serif; font-weight: 600; }
 .story__craft span { font-weight: 600; letter-spacing: 0.02em; }
 
+/* ---------- instagram (static gallery, links to profile) ---------- */
+.insta__card {
+  border: 1px solid var(--line-2);
+  border-radius: calc(var(--radius) * 4);
+  background: var(--panel);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 24px 55px -34px rgba(61, 18, 2, 0.45);
+}
+.insta__profile { display: flex; align-items: center; gap: 1rem; margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem); padding-bottom: 1.15rem; border-bottom: 1px solid var(--line); }
+.insta__avatar {
+  width: 60px; height: 60px; flex-shrink: 0; border-radius: 50%;
+  display: grid; place-items: center; background: var(--feature-bg);
+  color: var(--accent-2); font-family: var(--font-display), serif; font-size: 1.9rem; line-height: 1;
+  /* cadmium "story ring" that fits the ember palette */
+  box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--accent-2), 0 0 0 6px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.insta__id { display: flex; flex-direction: column; gap: 0.15rem; }
+.insta__handle { font-family: var(--font-display), serif; font-size: 1.35rem; font-weight: 600; color: var(--fg); text-decoration: none; }
+.insta__handle:hover { color: var(--accent); }
+.insta__name { font-size: 0.85rem; color: var(--fg-mute); }
+.insta__follow { margin-left: auto; }
+.insta__glyph { display: inline-block; vertical-align: -2px; }
+
+.insta__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.6rem, 1.4vw, 1rem); }
+/* each tile is a warm gradient "frame" around a square photo */
+.insta__tile {
+  position: relative; display: block; padding: 6px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--golf), var(--accent-2));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: 0 4px 12px -6px rgba(61, 18, 2, 0.4);
+  transition: transform 0.34s var(--ease), box-shadow 0.34s var(--ease);
+  will-change: transform;
+}
+.insta__tile img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 7px; }
+/* hover/focus: enlarge and lift the framed photo toward the viewer, the ring
+   casting a deep shadow, raised above its neighbours */
+.insta__tile:hover, .insta__tile:focus-visible {
+  transform: scale(1.06) translateY(-5px);
+  box-shadow: 0 30px 60px -20px rgba(61, 18, 2, 0.6), 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent);
+  z-index: 3;
+}
+@media (max-width: 520px) { .insta__grid { grid-template-columns: repeat(2, 1fr); } }
+
 /* ---------- menu ---------- */
 .menu__filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
 .menu__filter { border: 1.5px solid var(--line-2); background: transparent; color: var(--fg-soft); padding: 0.4rem 0.9rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; transition: all 0.2s var(--ease); }
