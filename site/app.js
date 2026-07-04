@@ -741,6 +741,97 @@
   }
 
   /* ============================================================
+     RESERVE EMBERS — a handful of drifting sparks that lean subtly
+     toward the cursor, like heat bending toward a draft. Depth varies
+     per ember (--depth, set in CSS) so nearer sparks drift a little
+     further than distant ones. Disabled under reduced motion.
+     ============================================================ */
+  function initEmberParallax() {
+    var field = $(".reserve__embers");
+    if (!field) return;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    var section = $("#reserve");
+    var ticking = false;
+    var dx = 0, dy = 0;
+    function apply() {
+      ticking = false;
+      field.style.setProperty("--ember-dx", dx.toFixed(1) + "px");
+      field.style.setProperty("--ember-dy", dy.toFixed(1) + "px");
+    }
+    section.addEventListener("mousemove", function (e) {
+      var r = section.getBoundingClientRect();
+      var nx = (e.clientX - r.left) / r.width - 0.5; // -0.5..0.5
+      var ny = (e.clientY - r.top) / r.height - 0.5;
+      dx = nx * 16; // max ~8px either side, scaled per-ember by --depth
+      dy = ny * 10;
+      if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+    });
+    section.addEventListener("mouseleave", function () {
+      dx = 0; dy = 0;
+      if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+    });
+  }
+
+  /* ============================================================
+     STORY & MENU — a faint cursor-following glow (--mx/--my consumed by
+     the section's own background-image in CSS) plus a one-time
+     scroll-reveal. Both no-ops under reduced motion.
+     ============================================================ */
+  function initCursorSpotlight() {
+    [$("#story"), $("#menu")].forEach(function (section) {
+      if (!section) return;
+      var ticking = false, mx = 30, my = 20;
+      function apply() {
+        ticking = false;
+        section.style.setProperty("--mx", mx.toFixed(1) + "%");
+        section.style.setProperty("--my", my.toFixed(1) + "%");
+      }
+      section.addEventListener("mousemove", function (e) {
+        var r = section.getBoundingClientRect();
+        mx = ((e.clientX - r.left) / r.width) * 100;
+        my = ((e.clientY - r.top) / r.height) * 100;
+        if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+      });
+    });
+  }
+
+  var revealObserver = null;
+  function revealIO() {
+    if (revealObserver || !("IntersectionObserver" in window)) return revealObserver;
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    return revealObserver;
+  }
+  // Safe to call repeatedly (e.g. after the menu re-renders): elements
+  // already bound are skipped, so nothing re-animates or double-observes.
+  function initScrollReveal() {
+    var io = revealIO();
+    if (!io) return;
+    var targets = [];
+    var lede = $(".story__lede");
+    if (lede && !lede.dataset.revealBound) targets.push(lede);
+    $$(".story__craft li").forEach(function (li, i) {
+      if (li.dataset.revealBound) return;
+      li.style.transitionDelay = (i * 60) + "ms";
+      targets.push(li);
+    });
+    $$(".menu__group").forEach(function (group) {
+      $$(".menu-item", group).forEach(function (item, i) {
+        if (item.dataset.revealBound) return;
+        item.style.transitionDelay = Math.min(i * 45, 270) + "ms";
+        targets.push(item);
+      });
+    });
+    targets.forEach(function (t) { t.dataset.revealBound = "1"; t.classList.add("reveal"); io.observe(t); });
+  }
+
+  /* ============================================================
      INIT
      ============================================================ */
   function init() {
@@ -748,17 +839,21 @@
 
     initHeroVideo();
     initInstaVideos();
+    initEmberParallax();
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) initCursorSpotlight();
     // Detect the backend. If present, use it (and load the live menu +
     // existing staff session); otherwise stay in the localStorage demo.
     detectApi().then(function (ok) {
       apiMode = ok;
       if (!apiMode) return;
       return apiReq("GET", "/auth").then(function (d) { unlocked = !!(d && d.authenticated); }).catch(function () {})
-        .then(loadMenu).then(function () { renderMenuFilters(); renderMenu(); });
+        .then(loadMenu).then(function () { renderMenuFilters(); renderMenu(); if (!reduceMotion) initScrollReveal(); });
     }).catch(function () {});
 
     renderMenuFilters();
     renderMenu();
+    if (!reduceMotion) initScrollReveal();
     fillReservationOptions();
     fillCategorySelect();
     renderOpenStatus();

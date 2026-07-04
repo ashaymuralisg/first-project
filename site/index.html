@@ -46,7 +46,7 @@
   <a class="skip-link" href="#menu">Skip to menu</a>
 
   <!-- ============ NAV ============ -->
-  <header class="nav" id="top">
+  <header class="nav glass glass--dark" id="top">
     <div class="nav__inner">
       <a class="nav__brand" href="#top" aria-label="OVERBRØD home">
         <img class="nav__logo" src="assets/brand/logo-mark.png" width="34" height="34" alt="" />
@@ -119,7 +119,7 @@
         <h2 class="section__title" id="insta-title">Straight from the pass.</h2>
       </div>
 
-      <div class="insta__card">
+      <div class="insta__card glass">
         <header class="insta__profile">
           <img class="insta__avatar" src="assets/brand/logo.png" width="60" height="60" alt="OVERBRØD logo" />
           <div class="insta__id">
@@ -216,6 +216,17 @@
 
     <!-- ============ RESERVATION ============ -->
     <section class="reserve section" id="reserve" aria-labelledby="reserve-title">
+      <div class="reserve__embers" aria-hidden="true">
+        <span class="ember" style="left: 6%;"></span>
+        <span class="ember" style="left: 16%;"></span>
+        <span class="ember" style="left: 27%;"></span>
+        <span class="ember" style="left: 39%;"></span>
+        <span class="ember" style="left: 52%;"></span>
+        <span class="ember" style="left: 64%;"></span>
+        <span class="ember" style="left: 75%;"></span>
+        <span class="ember" style="left: 86%;"></span>
+        <span class="ember" style="left: 94%;"></span>
+      </div>
       <div class="reserve__inner">
         <div class="reserve__intro">
           <span class="eyebrow">Reservations</span>
@@ -228,7 +239,7 @@
           </dl>
         </div>
 
-        <form class="reserve__form" id="reserve-form" novalidate>
+        <form class="reserve__form glass" id="reserve-form" novalidate>
           <div class="field-row">
             <div class="field">
               <label for="r-date">Date</label>
@@ -271,7 +282,7 @@
             <span>I consent to OVERBR<span class="o-slash">Ø</span>D collecting and using my name and contact details to handle this reservation and contact me about it, under Singapore's Personal Data Protection Act (PDPA). We don't sell your data. You can withdraw consent, or ask to access, correct or delete your data, any time — see our <a href="privacy.html">Privacy Policy</a>.</span>
           </label>
 
-          <button type="submit" class="btn btn--primary btn--block">Send booking request</button>
+          <button type="submit" class="btn btn--primary btn--block reserve__submit">Send booking request</button>
           <p class="reserve__pdpa">We only use these details to manage your booking. See our <a href="privacy.html">Privacy Policy</a>.</p>
         </form>
       </div>
@@ -342,7 +353,7 @@
 
   <!-- ============ STAFF PORTAL (hidden until unlocked) ============ -->
   <div class="portal" id="portal" hidden aria-hidden="true">
-    <div class="portal__panel" role="dialog" aria-modal="true" aria-labelledby="portal-title">
+    <div class="portal__panel glass" role="dialog" aria-modal="true" aria-labelledby="portal-title">
       <!-- Login view -->
       <div class="portal__login" id="portal-login">
         <button type="button" class="portal__close" data-portal-close aria-label="Close">✕</button>

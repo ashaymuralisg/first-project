@@ -82,6 +82,26 @@
   --glow-2: rgba(186, 61, 3, 0.16);
 }
 
+/* ---------- liquid glass (used sparingly: nav, reservation card, staff
+   portal, Instagram card — not applied everywhere) ---------- */
+.glass {
+  position: relative;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--panel) 68%, transparent) 0%, color-mix(in srgb, var(--panel) 46%, transparent) 100%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid color-mix(in srgb, var(--feature-fg, #fff) 22%, transparent);
+}
+.glass::before {
+  /* specular highlight along the top edge, like light catching glass */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--golf) 55%, white) 0%, transparent 26%);
+  opacity: 0.16; mix-blend-mode: overlay;
+}
+.glass--dark {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--feature-bg) 62%, transparent) 0%, color-mix(in srgb, var(--feature-bg) 40%, transparent) 100%);
+  border-color: color-mix(in srgb, var(--feature-fg) 18%, transparent);
+}
+
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
@@ -151,6 +171,18 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
 .btn--ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
 .btn--ghost:hover { border-color: var(--fg); transform: translateY(-2px); }
 .btn--block { width: 100%; }
+
+/* a slow, time-based breathing glow on the reservation CTA only — distinct
+   from the cursor-driven embers: this one lives on its own clock, a quiet
+   pulse rather than something that reacts to the pointer. Paused on
+   hover (the existing lift/brighten hover already reads as "alive") and
+   removed entirely under reduced motion via the global animation reset. */
+.reserve__submit { animation: cta-breathe 4.2s ease-in-out infinite; }
+.reserve__submit:hover { animation-play-state: paused; }
+@keyframes cta-breathe {
+  0%, 100% { box-shadow: 0 8px 22px -14px rgba(186, 61, 3, 0.8), 0 0 0 0 color-mix(in srgb, var(--accent-2) 40%, transparent); }
+  50% { box-shadow: 0 8px 22px -14px rgba(186, 61, 3, 0.8), 0 0 18px 3px color-mix(in srgb, var(--accent-2) 45%, transparent); }
+}
 .btn--sm { padding: 0.55rem 1rem; font-size: 0.82rem; }
 .link-arrow { display: inline-block; font-weight: 600; color: var(--accent); text-decoration: none; }
 .link-arrow:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -158,8 +190,6 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
 /* ---------- nav ---------- */
 .nav {
   position: sticky; top: 0; z-index: 100;
-  background: color-mix(in srgb, var(--feature-bg) 94%, transparent);
-  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--feature-line);
   color: var(--feature-fg);
 }
@@ -242,6 +272,22 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .section__sub { margin-top: 1.1rem; color: var(--fg-soft); font-size: 1.05rem; max-width: 46ch; }
 .inline-sig { font-family: var(--font-body), sans-serif; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-accent); background: var(--accent); padding: 0.15em 0.5em; border-radius: 999px; vertical-align: middle; }
 
+/* ---------- cursor spotlight (Story & Menu): a faint warm glow that
+   follows the pointer, set via --mx/--my in app.js. Lives on the
+   section's own background layer, so it always sits under the content
+   with no z-index bookkeeping needed. Off entirely under
+   prefers-reduced-motion (see media query below). ---------- */
+.story, .menu {
+  background-image: radial-gradient(480px circle at var(--mx, 30%) var(--my, 20%), color-mix(in srgb, var(--accent-2) 12%, transparent) 0%, transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/* ---------- scroll reveal: one-time fade + rise, added by app.js and
+   never repeated. No class present at all without JS, so content is
+   always fully visible if scripting is off. ---------- */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
 /* ---------- story ---------- */
 .story__body { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
 .story__lede { font-size: clamp(1.15rem, 1rem + 1vw, 1.6rem); line-height: 1.5; font-family: var(--font-display), serif; font-weight: 380; }
@@ -252,9 +298,7 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 
 /* ---------- instagram (static gallery — only "Follow" links out) ---------- */
 .insta__card {
-  border: 1px solid var(--line-2);
   border-radius: calc(var(--radius) * 4);
-  background: var(--panel);
   padding: clamp(1.25rem, 3vw, 2rem);
   box-shadow: 0 24px 55px -34px rgba(61, 18, 2, 0.45);
 }
@@ -355,14 +399,48 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .review figcaption::before { content: "— "; color: var(--label-on-dark); }
 
 /* ---------- reservation ---------- */
-.reserve { max-width: none; background: var(--bg-2); }
-.reserve__inner { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.reserve { max-width: none; background: var(--bg-2); position: relative; overflow: hidden; }
+.reserve__inner { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+
+/* embers: a handful of drifting sparks, subtly nudged by the cursor via
+   --ember-dx/--ember-dy (set in app.js); disabled entirely under
+   prefers-reduced-motion */
+.reserve__embers {
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+}
+.ember {
+  position: absolute; bottom: -6%; width: 5px; height: 5px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--golf) 70%, white) 0%, var(--accent-2) 55%, transparent 100%);
+  box-shadow: 0 0 7px 2px color-mix(in srgb, var(--accent-2) 55%, transparent);
+  opacity: 0;
+  transform: translate3d(calc(var(--ember-dx, 0px) * var(--depth, 1)), calc(var(--ember-dy, 0px) * var(--depth, 1)), 0);
+  transition: transform 0.6s ease-out;
+  animation: ember-rise 13s ease-in infinite;
+  will-change: transform;
+}
+.ember:nth-child(1) { animation-duration: 12s; animation-delay: 0s; --depth: 0.6; }
+.ember:nth-child(2) { animation-duration: 15s; animation-delay: 1.4s; --depth: 1.1; }
+.ember:nth-child(3) { animation-duration: 11s; animation-delay: 2.8s; --depth: 0.8; }
+.ember:nth-child(4) { animation-duration: 16s; animation-delay: 0.6s; --depth: 1.3; }
+.ember:nth-child(5) { animation-duration: 13s; animation-delay: 3.6s; --depth: 0.7; }
+.ember:nth-child(6) { animation-duration: 14s; animation-delay: 2s; --depth: 1.2; }
+.ember:nth-child(7) { animation-duration: 12.5s; animation-delay: 4.4s; --depth: 0.9; }
+.ember:nth-child(8) { animation-duration: 17s; animation-delay: 1s; --depth: 1.4; }
+.ember:nth-child(9) { animation-duration: 11.5s; animation-delay: 3.2s; --depth: 0.65; }
+
+@keyframes ember-rise {
+  0% { opacity: 0; bottom: -4%; transform: translate3d(calc(var(--ember-dx, 0px) * var(--depth, 1)), calc(var(--ember-dy, 0px) * var(--depth, 1)), 0) translateX(0); }
+  8% { opacity: 0.55; }
+  50% { opacity: 0.7; transform: translate3d(calc((var(--ember-dx, 0px) + 10px) * var(--depth, 1)), calc(var(--ember-dy, 0px) * var(--depth, 1)), 0) translateX(10px); }
+  92% { opacity: 0.35; }
+  100% { opacity: 0; bottom: 104%; transform: translate3d(calc((var(--ember-dx, 0px) - 6px) * var(--depth, 1)), calc(var(--ember-dy, 0px) * var(--depth, 1)), 0) translateX(-6px); }
+}
 .reserve__intro p { color: var(--fg-soft); margin-top: 1rem; max-width: 40ch; }
 .reserve__facts { margin-top: 2rem; }
 .reserve__facts > div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.7rem 0; border-top: 1px solid var(--line); }
 .reserve__facts dt { font-weight: 600; }
 .reserve__facts dd { color: var(--fg-soft); font-variant-numeric: tabular-nums; }
-.reserve__form { background: var(--panel); border: 1px solid var(--line); border-radius: calc(var(--radius) * 2); padding: clamp(1.5rem, 3vw, 2.25rem); }
+.reserve__form { border-radius: calc(var(--radius) * 2); padding: clamp(1.5rem, 3vw, 2.25rem); }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .reserve__form .field-row:first-child { grid-template-columns: 1.1fr 1fr 1fr; }
 .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
@@ -425,7 +503,7 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 /* ---------- staff portal ---------- */
 .portal { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: clamp(0.5rem, 3vw, 2rem); }
 .portal__scrim { position: absolute; inset: 0; background: rgba(10, 8, 6, 0.66); backdrop-filter: blur(3px); }
-.portal__panel { position: relative; z-index: 1; background: var(--bg); color: var(--fg); border-radius: calc(var(--radius) * 2.5); width: min(960px, 100%); max-height: 92vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6); animation: pop 0.3s var(--ease); border: 1px solid var(--line); }
+.portal__panel { position: relative; z-index: 1; color: var(--fg); border-radius: calc(var(--radius) * 2.5); width: min(960px, 100%); max-height: 92vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6); animation: pop 0.3s var(--ease); }
 @keyframes pop { from { opacity: 0; transform: scale(0.97) translateY(10px); } }
 .portal__close { background: none; border: none; font-size: 1.1rem; line-height: 1; padding: 0.4rem; color: var(--fg-mute); border-radius: var(--radius); }
 .portal__close:hover { color: var(--fg); background: var(--line); }
@@ -599,4 +677,7 @@ fieldset.field { border: none; padding: 0; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .hero__word, .hero__eyebrow, .hero__tagline, .hero__actions, .hero__note { opacity: 1 !important; transform: none !important; }
+  .reserve__embers { display: none; }
+  .story, .menu { background-image: none; }
+  .reveal { opacity: 1 !important; transform: none !important; }
 }
