@@ -846,6 +846,14 @@
         targets.push(item);
       });
     });
+    // Review + Find-us cards rise in a staggered sequence as they scroll up.
+    [".review", ".visit__card"].forEach(function (sel) {
+      $$(sel).forEach(function (card, i) {
+        if (card.dataset.revealBound) return;
+        card.style.transitionDelay = (i * 90) + "ms";
+        targets.push(card);
+      });
+    });
     targets.forEach(function (t) { t.dataset.revealBound = "1"; t.classList.add("reveal"); io.observe(t); });
   }
 
