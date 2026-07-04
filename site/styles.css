@@ -41,6 +41,12 @@
   --hero-weight: 560;
   --grain-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   --grain-opacity: 0.14;
+  /* a fine linen-weave crosshatch — the "paper" a real menu is printed on,
+     baked at a low fixed alpha so it reads as texture, not pattern, at a
+     glance. Two tints: dark hairline for the sand grounds, gold hairline
+     for the black-bean feature surfaces. */
+  --pattern-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg stroke='%233D1202' stroke-width='0.6' opacity='0.07'%3E%3Cpath d='M0 0L48 48M0 48L48 0'/%3E%3C/g%3E%3C/svg%3E");
+  --pattern-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg stroke='%23E8C581' stroke-width='0.6' opacity='0.06'%3E%3Cpath d='M0 0L48 48M0 48L48 0'/%3E%3C/g%3E%3C/svg%3E");
 
   /* ---- Ember & Sand palette (ui-toolkit "overbrod-ember") ----
      Black bean #3D1202 · Mahogany #BA3D03 · Cadmium #E58423 · Golf #E8C581.
@@ -226,10 +232,13 @@ h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500;
    with a soft vignette so the black-bean hero has depth, not a flat fill */
 .hero::before {
   content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background:
+  background-image:
     radial-gradient(46% 46% at 50% 40%, var(--glow), transparent 70%),
     radial-gradient(85% 75% at 50% 30%, var(--glow-2), transparent 72%),
-    radial-gradient(120% 120% at 50% 120%, rgba(0, 0, 0, 0.45), transparent 55%);
+    radial-gradient(120% 120% at 50% 120%, rgba(0, 0, 0, 0.45), transparent 55%),
+    var(--pattern-dark);
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+  background-size: auto, auto, auto, 48px 48px;
 }
 .hero > * { position: relative; z-index: 2; }
 /* Video/poster layer sits behind the glow and the content. Declared after
@@ -278,8 +287,12 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
    with no z-index bookkeeping needed. Off entirely under
    prefers-reduced-motion (see media query below). ---------- */
 .story, .menu {
-  background-image: radial-gradient(480px circle at var(--mx, 30%) var(--my, 20%), color-mix(in srgb, var(--accent-2) 12%, transparent) 0%, transparent 70%);
-  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(480px circle at var(--mx, 30%) var(--my, 20%), color-mix(in srgb, var(--accent-2) 12%, transparent) 0%, transparent 70%),
+    radial-gradient(75% 55% at 90% 0%, color-mix(in srgb, var(--golf) 30%, transparent) 0%, transparent 65%),
+    var(--pattern-light);
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, 48px 48px;
 }
 
 /* ---------- scroll reveal: one-time fade + rise, added by app.js and
@@ -388,7 +401,24 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .noscript { padding: 1.5rem; border: 1px solid var(--line-2); border-radius: var(--radius); }
 
 /* ---------- reviews ---------- */
-.reviews { background: var(--feature-bg); color: var(--feature-fg); max-width: none; }
+/* a soft ember bloom + a fine gold linen weave, in place of a flat fill,
+   with the weave drifting almost imperceptibly — the one section of the
+   site with no other motion, so it reads as "alive" rather than inert */
+.reviews {
+  background-color: var(--feature-bg); color: var(--feature-fg); max-width: none;
+  background-image:
+    radial-gradient(65% 60% at 10% 0%, rgba(229, 132, 35, 0.1), transparent 62%),
+    radial-gradient(80% 70% at 100% 100%, rgba(0, 0, 0, 0.35), transparent 60%),
+    var(--pattern-dark);
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, 48px 48px;
+  background-position: 0 0, 0 0, 0 0;
+  animation: pattern-drift 46s ease-in-out infinite alternate;
+}
+@keyframes pattern-drift {
+  from { background-position: 0 0, 0 0, 0px 0px; }
+  to   { background-position: 0 0, 0 0, 26px 18px; }
+}
 .reviews > .section__head, .reviews > .reviews__grid { max-width: var(--maxw); margin-left: auto; margin-right: auto; }
 .reviews .eyebrow { color: var(--label-on-dark); }
 .reviews__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
@@ -399,7 +429,15 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .review figcaption::before { content: "— "; color: var(--label-on-dark); }
 
 /* ---------- reservation ---------- */
-.reserve { max-width: none; background: var(--bg-2); position: relative; overflow: hidden; }
+.reserve {
+  max-width: none; position: relative; overflow: hidden;
+  background-color: var(--bg-2);
+  background-image:
+    radial-gradient(70% 60% at 8% 100%, color-mix(in srgb, var(--accent-2) 14%, transparent) 0%, transparent 65%),
+    var(--pattern-light);
+  background-repeat: no-repeat, repeat;
+  background-size: auto, 48px 48px;
+}
 .reserve__inner { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
 
 /* embers: a handful of drifting sparks, subtly nudged by the cursor via
@@ -457,6 +495,13 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .reserve__pdpa { text-align: center; font-size: 0.78rem; color: var(--fg-mute); margin-top: 0.85rem; }
 
 /* ---------- visit ---------- */
+.visit {
+  background-image:
+    radial-gradient(65% 60% at 95% 0%, color-mix(in srgb, var(--accent-2) 12%, transparent) 0%, transparent 62%),
+    var(--pattern-light);
+  background-repeat: no-repeat, repeat;
+  background-size: auto, 48px 48px;
+}
 .visit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
 .visit__card { padding: 1.9rem; border-radius: var(--radius); }
 .visit__card h3 { font-size: 1.25rem; margin-bottom: 1rem; }
@@ -477,7 +522,20 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .visit__social a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- footer ---------- */
-.footer { background: var(--feature-bg); color: var(--feature-fg); }
+.footer {
+  background-color: var(--feature-bg); color: var(--feature-fg);
+  background-image:
+    radial-gradient(70% 80% at 85% 0%, rgba(229, 132, 35, 0.08), transparent 62%),
+    var(--pattern-dark);
+  background-repeat: no-repeat, repeat;
+  background-size: auto, 48px 48px;
+  background-position: 0 0, 0 0;
+  animation: pattern-drift-2 46s ease-in-out infinite alternate;
+}
+@keyframes pattern-drift-2 {
+  from { background-position: 0 0, 0px 0px; }
+  to   { background-position: 0 0, 26px 18px; }
+}
 .footer__inner { max-width: var(--maxw); margin: 0 auto; padding: clamp(3rem, 6vw, 4.5rem) var(--gutter); display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; }
 .footer__lockup { display: flex; align-items: center; gap: 0.7rem; }
 .footer__logo { display: block; height: 40px; width: 40px; object-fit: contain; }
