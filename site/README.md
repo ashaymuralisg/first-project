@@ -200,23 +200,14 @@ Singapore-qualified lawyer review it and make the owner decisions below.
 - **Menu images** are Ø placeholders until you add real photos — paste an image
   URL per item in the Menu editor. (The hero already uses the real
   deconstructed-smørrebrød film.)
-- **Instagram gallery** (between Story and Menu) is a static, one-time snapshot
-  — it will *not* auto-update as OVERBRØD posts more. Grid order matches the
-  real last 6 posts: **video, photo, photo, photo, video, photo**. Nothing in
-  the grid links to Instagram except the **Follow** button
-  (`instagram.com/overbrod`). Photos are inert; videos show a play button and
-  swap in a real `<video controls>` on click.
-
-  **The 2 videos (slots 1 and 5) are fully real** — `assets/instagram/
-  video-1.mp4` / `video-2.mp4` are OVERBRØD's actual reels, and
-  `video-1.jpg` / `video-2.jpg` are their real poster thumbnails (resized to
-  900px wide, ~80% JPEG quality). The **4 photos are still on-brand
-  placeholders** (`assets/instagram/1.jpg`…`4.jpg`) because pasted chat
-  images aren't retrievable as files here — only proper file attachments (or
-  a zip) are. **To finish it:**
-  1. Send the 4 real photos as file attachments (or zipped, if pasting them
-     doesn't work), in display order (positions 2, 3, 4, 6) — for
-     carousel/slide posts, use only the first image.
-  2. Replace `assets/instagram/1.jpg` … `4.jpg` with them.
-  3. Update the `alt` text on those 4 `<figure>` tiles in `index.html` to
-     describe the real photos.
+- **Instagram gallery** (between Story and Menu) is complete, using
+  OVERBRØD's actual last 6 posts — a static, one-time snapshot that will
+  *not* auto-update as new posts go up. Grid order: **video, photo, photo,
+  photo, video, photo**. Nothing in the grid links to Instagram except the
+  **Follow** button (`instagram.com/overbrod`); photos are inert, and each
+  video shows a play button and swaps in a real `<video controls>` on click.
+  All 6 assets in `assets/instagram/` (`video-1.mp4`/`.jpg`,
+  `video-2.mp4`/`.jpg`, `1.jpg`…`4.jpg`) are the real content, resized for web
+  (900px wide, ~80% JPEG quality). To swap any of them later (e.g. when
+  OVERBRØD wants to refresh the snapshot), just replace the file at the same
+  path and update its `alt` text in `index.html`.
