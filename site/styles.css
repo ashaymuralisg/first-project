@@ -80,10 +80,8 @@
   --golf: #E8C581;
   --on-accent: #FFF7EA;
 
-  /* Find Us feature colours: cream-vanilla ground, cherry-cola cards */
-  --cream: #EFE6DD;
-  --cola: #9A0002;
-  --cola-2: #B4131A;   /* lifted cherry for the glass gradient's far stop */
+  /* light sakura leaded/stained-glass panel for the Find Us cards */
+  --sakura-glass: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20300%20240'%20preserveAspectRatio%3D'xMidYMid%20slice'%3E%3Crect%20width%3D'300'%20height%3D'240'%20fill%3D'%23FBE7EF'%2F%3E%3Cpolygon%20points%3D'0%2C0%2075%2C0%2070%2C70%200%2C80'%20fill%3D'%23FBE3EC'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'75%2C0%20150%2C0%20160%2C88%2070%2C70'%20fill%3D'%23F6CFDE'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'150%2C0%20225%2C0%20235%2C74%20160%2C88'%20fill%3D'%23FCEAD9'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'225%2C0%20300%2C0%20300%2C80%20235%2C74'%20fill%3D'%23EFDCEA'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'0%2C80%2070%2C70%2082%2C150%200%2C160'%20fill%3D'%23F9D6DF'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'70%2C70%20160%2C88%20145%2C168%2082%2C150'%20fill%3D'%23FBEBD2'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'160%2C88%20235%2C74%20228%2C158%20145%2C168'%20fill%3D'%23E9DCEF'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'235%2C74%20300%2C80%20300%2C160%20228%2C158'%20fill%3D'%23F2C7D6'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'0%2C160%2082%2C150%2075%2C240%200%2C240'%20fill%3D'%23E1E7D4'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'82%2C150%20145%2C168%20150%2C240%2075%2C240'%20fill%3D'%23FADBE6'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'145%2C168%20228%2C158%20225%2C240%20150%2C240'%20fill%3D'%23F5CBDD'%20fill-opacity%3D'0.82'%2F%3E%3Cpolygon%20points%3D'228%2C158%20300%2C160%20300%2C240%20225%2C240'%20fill%3D'%23FCE6EF'%20fill-opacity%3D'0.82'%2F%3E%3Ccircle%20cx%3D'250.0'%20cy%3D'26.0'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'269.0'%20cy%3D'39.8'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'261.8'%20cy%3D'62.2'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'238.2'%20cy%3D'62.2'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'231.0'%20cy%3D'39.8'%20r%3D'12.4'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.35'%2F%3E%3Ccircle%20cx%3D'250'%20cy%3D'46'%20r%3D'10.0'%20fill%3D'%23F6C56A'%20fill-opacity%3D'0.28'%2F%3E%3Ccircle%20cx%3D'52.0'%20cy%3D'180.0'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'67.2'%20cy%3D'191.1'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'61.4'%20cy%3D'208.9'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'42.6'%20cy%3D'208.9'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'36.8'%20cy%3D'191.1'%20r%3D'9.9'%20fill%3D'%23EBA6C2'%20fill-opacity%3D'0.3'%2F%3E%3Ccircle%20cx%3D'52'%20cy%3D'196'%20r%3D'8.0'%20fill%3D'%23F6C56A'%20fill-opacity%3D'0.24'%2F%3E%3Cg%20fill%3D'none'%20stroke%3D'%23C98BA6'%20stroke-opacity%3D'0.55'%20stroke-width%3D'1.8'%20stroke-linejoin%3D'round'%3E%3Cpolygon%20points%3D'0%2C0%2075%2C0%2070%2C70%200%2C80'%2F%3E%3Cpolygon%20points%3D'75%2C0%20150%2C0%20160%2C88%2070%2C70'%2F%3E%3Cpolygon%20points%3D'150%2C0%20225%2C0%20235%2C74%20160%2C88'%2F%3E%3Cpolygon%20points%3D'225%2C0%20300%2C0%20300%2C80%20235%2C74'%2F%3E%3Cpolygon%20points%3D'0%2C80%2070%2C70%2082%2C150%200%2C160'%2F%3E%3Cpolygon%20points%3D'70%2C70%20160%2C88%20145%2C168%2082%2C150'%2F%3E%3Cpolygon%20points%3D'160%2C88%20235%2C74%20228%2C158%20145%2C168'%2F%3E%3Cpolygon%20points%3D'235%2C74%20300%2C80%20300%2C160%20228%2C158'%2F%3E%3Cpolygon%20points%3D'0%2C160%2082%2C150%2075%2C240%200%2C240'%2F%3E%3Cpolygon%20points%3D'82%2C150%20145%2C168%20150%2C240%2075%2C240'%2F%3E%3Cpolygon%20points%3D'145%2C168%20228%2C158%20225%2C240%20150%2C240'%2F%3E%3Cpolygon%20points%3D'228%2C158%20300%2C160%20300%2C240%20225%2C240'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 
   /* gradients & atmosphere */
   --grad-ember: linear-gradient(135deg, #BA3D03 0%, #C24A08 55%, #D9660F 100%);
@@ -499,57 +497,53 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .consent input { margin-top: 0.2rem; width: 1.1rem; height: 1.1rem; accent-color: var(--accent); flex-shrink: 0; }
 .reserve__pdpa { text-align: center; font-size: 0.78rem; color: var(--fg-mute); margin-top: 0.85rem; }
 
-/* ---------- visit (Find us) — cream-vanilla ground, cherry-cola glass ---------- */
+/* ---------- visit (Find us) — sand ground, sakura stained-glass cards ---------- */
 .visit {
-  max-width: none;
-  background-color: var(--cream);
   background-image:
-    radial-gradient(60% 55% at 92% 4%, color-mix(in srgb, var(--cola) 8%, transparent) 0%, transparent 60%),
-    radial-gradient(55% 55% at 6% 98%, color-mix(in srgb, var(--accent-2) 10%, transparent) 0%, transparent 62%),
+    radial-gradient(65% 60% at 95% 0%, color-mix(in srgb, var(--accent-2) 12%, transparent) 0%, transparent 62%),
     var(--pattern-light);
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-size: auto, auto, 48px 48px;
+  background-repeat: no-repeat, repeat;
+  background-size: auto, 48px 48px;
 }
-.visit__inner { max-width: var(--maxw); margin: 0 auto; }
 .visit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
 
-/* Cherry-cola liquid glass: a rich, translucent oxblood tint over the
-   .glass blur + specular sheen, with a gilt edge. Text goes cream/gold. */
-.glass--cola {
-  color: var(--feature-fg);
+/* Light sakura stained glass: a hand-built leaded-glass panel (pale
+   cherry-blossom panes + dusty-rose leading + a couple of blossoms) sits
+   under the .glass frost + a pearly specular sheen. Kept pale so the
+   dark ink text stays fully legible. */
+.glass--sakura {
+  color: var(--fg);
   background:
-    linear-gradient(158deg, color-mix(in srgb, var(--cola-2) 95%, transparent) 0%, color-mix(in srgb, #5E0002 96%, transparent) 100%);
-  border-color: color-mix(in srgb, var(--golf) 40%, transparent);
-  box-shadow: var(--shadow-card), inset 0 1px 0 color-mix(in srgb, var(--golf) 28%, transparent);
+    var(--sakura-glass) center center / cover no-repeat,
+    linear-gradient(158deg, #FCEAF1 0%, #F5D2E0 100%);
+  border-color: color-mix(in srgb, #C98BA6 55%, transparent);
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
-.glass--cola::before {
-  /* stronger, warmer specular so the sheen reads on the dark card */
-  background: linear-gradient(158deg, color-mix(in srgb, var(--golf) 78%, white) 0%, transparent 30%);
-  opacity: 0.22;
+.glass--sakura::before {
+  /* pearly light catching the top of the glass */
+  background: linear-gradient(158deg, rgba(255, 255, 255, 0.9) 0%, transparent 34%);
+  opacity: 0.5;
 }
 
 .visit__card { padding: 1.9rem; border-radius: calc(var(--radius) * 1.5); overflow: hidden; }
 .visit__card > * { position: relative; z-index: 1; }
-.visit__card h3 { font-size: 1.25rem; margin-bottom: 1rem; color: var(--feature-fg); }
-.hours div { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.5rem 0; border-top: 1px solid color-mix(in srgb, var(--golf) 22%, transparent); font-variant-numeric: tabular-nums; }
+.visit__card h3 { font-size: 1.25rem; margin-bottom: 1rem; color: var(--fg); }
+.hours div { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.5rem 0; border-top: 1px solid color-mix(in srgb, #9A3B57 24%, transparent); font-variant-numeric: tabular-nums; }
 .hours dt { font-weight: 600; font-size: 0.85rem; }
-.hours dd { color: color-mix(in srgb, var(--feature-fg) 80%, transparent); font-size: 0.92rem; }
+.hours dd { color: var(--fg-soft); font-size: 0.92rem; }
 .visit__status { margin-top: 1rem; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem; }
-.visit__status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: color-mix(in srgb, var(--feature-fg) 55%, transparent); }
-.visit__status.is-open::before { background: var(--golf); box-shadow: 0 0 0 3px color-mix(in srgb, var(--golf) 30%, transparent); }
-.visit__status.is-closed::before { background: transparent; border: 1.5px solid color-mix(in srgb, var(--feature-fg) 55%, transparent); }
+.visit__status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--fg-mute); }
+.visit__status.is-open::before { background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.visit__status.is-closed::before { background: transparent; border: 1.5px solid var(--fg-mute); }
 .visit__addr { font-style: normal; line-height: 1.5; margin-bottom: 1rem; }
 .visit__transit, .visit__contact { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.1rem; }
-.visit__k { display: inline-block; min-width: 4.5rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--golf); }
-.visit__card .link-arrow { color: var(--golf); font-weight: 600; }
-.visit__contact a { text-decoration: none; font-weight: 500; color: var(--feature-fg); }
+.visit__k { display: inline-block; min-width: 4.5rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--label); }
+.visit__card .link-arrow { color: var(--accent); font-weight: 600; }
+.visit__contact a { text-decoration: none; font-weight: 500; color: var(--fg); }
 .visit__contact a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .visit__social { display: flex; gap: 1rem; }
-.visit__social a { font-weight: 600; font-size: 0.9rem; text-decoration: none; color: var(--golf); }
+.visit__social a { font-weight: 600; font-size: 0.9rem; text-decoration: none; color: var(--accent); }
 .visit__social a:hover { text-decoration: underline; text-underline-offset: 3px; }
-/* the Nordic-mark accent that switches to cadmium on dark surfaces should
-   read here too — keep the section's coloured Ø legible on cola */
-.visit .o-slash { color: var(--golf); }
 
 /* ---------- footer ---------- */
 .footer {
@@ -709,21 +703,22 @@ fieldset.field { border: none; padding: 0; }
 .review { transition: transform 0.32s var(--ease), border-color 0.32s var(--ease), box-shadow 0.32s var(--ease); }
 .review:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-2) 55%, transparent); box-shadow: var(--shadow-card-dark); }
 
-/* Cherry-cola cards: lift with a gilt-glow edge, and a slow gold sheen
-   that sweeps diagonally across the glass on hover — the premium touch. */
+/* Sakura stained-glass cards: lift with a rose-glow edge, and a slow
+   pearly sheen that sweeps diagonally across the glass on hover — like
+   light travelling across a leaded window. */
 .visit__card { transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease); }
 .visit__card::after {
   content: ""; position: absolute; inset: -40% -60%; z-index: 0; pointer-events: none;
-  background: linear-gradient(115deg, transparent 42%, color-mix(in srgb, var(--golf) 55%, white) 50%, transparent 58%);
-  opacity: 0; transform: translateX(-38%); mix-blend-mode: soft-light;
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.75) 50%, transparent 58%);
+  opacity: 0; transform: translateX(-38%); mix-blend-mode: screen;
   transition: opacity 0.5s var(--ease), transform 0.9s var(--ease);
 }
 .visit__card:hover {
   transform: translateY(-6px);
-  border-color: color-mix(in srgb, var(--golf) 70%, transparent);
-  box-shadow: 0 30px 60px -30px rgba(60, 0, 0, 0.75), inset 0 1px 0 color-mix(in srgb, var(--golf) 45%, transparent);
+  border-color: color-mix(in srgb, #C98BA6 80%, transparent);
+  box-shadow: 0 30px 58px -30px rgba(150, 70, 105, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
-.visit__card:hover::after { opacity: 0.6; transform: translateX(38%); }
+.visit__card:hover::after { opacity: 0.7; transform: translateX(38%); }
 
 /* Text links: the arrow glides, and underlines draw in rather than just
    appear — consistent with the nav's underline. */
