@@ -684,8 +684,11 @@
      HERO VIDEO (deconstructed smørrebrød)
      Load + autoplay the heavy film only on larger screens without a
      reduced-motion preference. Everyone else keeps the lightweight
-     poster still. No loop — it plays the deconstruction once and rests
-     on the exploded frame, as a single considered moment.
+     poster still. No loop within a single viewing — it plays the
+     deconstruction once and rests on the exploded frame. But each time
+     the hero scrolls back into view after having left, it resets and
+     replays from the start, so the reveal isn't a one-time-per-session
+     thing.
      ============================================================ */
   function initHeroVideo() {
     var v = $(".hero__video");
@@ -702,8 +705,23 @@
     if (mp4) { var s2 = document.createElement("source"); s2.src = mp4; s2.type = "video/mp4"; v.appendChild(s2); }
     v.preload = "auto";
     v.load();
-    var play = v.play();
-    if (play && play.catch) play.catch(function () {}); // ignore autoplay rejection
+    function replay() {
+      v.currentTime = 0;
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {}); // ignore autoplay rejection
+    }
+    replay();
+
+    if ("IntersectionObserver" in window) {
+      var hero = v.closest(".hero");
+      var wasVisible = true; // already on screen at load, so the first play() above covers it
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !wasVisible) replay();
+          wasVisible = entry.isIntersecting;
+        });
+      }, { threshold: 0.4 }).observe(hero);
+    }
   }
 
   /* ============================================================

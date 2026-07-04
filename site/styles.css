@@ -458,7 +458,7 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 
 /* ---------- visit ---------- */
 .visit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
-.visit__card { padding: 1.9rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.visit__card { padding: 1.9rem; border-radius: var(--radius); }
 .visit__card h3 { font-size: 1.25rem; margin-bottom: 1rem; }
 .hours div { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.5rem 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
 .hours dt { font-weight: 600; font-size: 0.85rem; }
