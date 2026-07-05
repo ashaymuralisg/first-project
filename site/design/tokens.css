@@ -1,13 +1,16 @@
 :root {
-  --color-primary: #BA3D03;
-  --color-secondary: #E58423;
-  --color-accent: #E58423;
-  --color-neutral: #7A4A2E;
-  --color-background: #F4E7C9;
-  --color-surface: #FAF2DC;
-  --color-success: #6E6327;
-  --color-warning: #E58423;
-  --color-danger: #A3300B;
+  /* "Bone, Ink & Brass" — a restrained, cohesive luxury palette.
+     Warm bone ground, deep espresso ink, a single antique-brass metal,
+     and a muted clay for warmth. Generated via the ui-toolkit skill. */
+  --color-primary: #A9823F;    /* antique brass — the one metal */
+  --color-secondary: #C8A25A;  /* lit gold highlight (decorative) */
+  --color-accent: #9A4A2E;     /* muted clay (warm secondary) */
+  --color-neutral: #6B5D4B;    /* warm stone-grey */
+  --color-background: #F3EDE2;  /* warm bone */
+  --color-surface: #FAF5EC;     /* soft cream card */
+  --color-success: #5E6047;
+  --color-warning: #A9823F;
+  --color-danger: #8B2F1E;
   --font-display: "Playfair Display";
   --font-body: "EB Garamond";
   --radius: 0.25rem;

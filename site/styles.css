@@ -10,12 +10,12 @@
    inverted "feature" surface for nav/hero/reviews/footer, hover
    states, and atmosphere).
 
-   Direction: Chophouse palette (cream, deep red, antique gold,
-   Playfair Display/EB Garamond, vintage double-rule details) with
-   Pacific NW's restraint — lighter grain, a lighter serif weight,
-   quieter flourishes, and a warm mid-toned (not near-black)
-   feature surface, so it reads as a sunlit dining room rather
-   than a dark steakhouse cave.
+   Direction: "Bone, Ink & Brass" — one restrained luxury system. A
+   warm bone ground, a deep espresso ink for feature rooms and text, a
+   single antique-brass metal, and a muted clay for warmth. Playfair
+   Display over EB Garamond. Every surface, accent and mark draws from
+   these four tones so the whole site reads as one considered, premium
+   piece rather than a set of coloured blocks.
 
    Semantic token roles:
      --bg / --bg-2      page + alternate section background
@@ -40,7 +40,7 @@
   --title-tracking: -0.008em;
   --hero-weight: 560;
   --grain-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  --grain-opacity: 0.14;
+  --grain-opacity: 0.05;
   /* a fine linen-weave crosshatch — the "paper" a real menu is printed on,
      baked at a low fixed alpha so it reads as texture, not pattern, at a
      glance. Two tints: dark hairline for the sand grounds, gold hairline
@@ -48,47 +48,52 @@
   --pattern-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg stroke='%233D1202' stroke-width='0.6' opacity='0.07'%3E%3Cpath d='M0 0L48 48M0 48L48 0'/%3E%3C/g%3E%3C/svg%3E");
   --pattern-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg stroke='%23E8C581' stroke-width='0.6' opacity='0.06'%3E%3Cpath d='M0 0L48 48M0 48L48 0'/%3E%3C/g%3E%3C/svg%3E");
 
-  /* ---- Ember & Sand palette (ui-toolkit "overbrod-ember") ----
-     Black bean #3D1202 · Mahogany #BA3D03 · Cadmium #E58423 · Golf #E8C581.
-     Built for gradients + candlelight rather than flat colour blocks. */
+  /* ---- "Bone, Ink & Brass" — one cohesive luxury palette ----
+     Warm bone ground · deep espresso ink · a single antique-brass metal
+     · a muted clay for warmth. Restrained on purpose: every surface,
+     accent and mark draws from these four so the whole site reads as one
+     considered system rather than a set of coloured blocks. */
 
-  /* body — golden-sand light ground */
-  --bg: var(--color-background);        /* #F4E7C9 */
-  --bg-2: #EFDEB8;
-  --panel: var(--color-surface);        /* #FAF2DC */
-  --fg: #3D1202;                        /* black bean ink */
-  --fg-soft: rgba(61, 18, 2, 0.72);
-  --fg-mute: rgba(61, 18, 2, 0.64);     /* AA: 4.7:1 on sand */
-  --line: rgba(61, 18, 2, 0.14);
-  --line-2: rgba(61, 18, 2, 0.3);
+  /* body — warm bone ground */
+  --bg: var(--color-background);        /* #F3EDE2 bone */
+  --bg-2: #ECE4D5;                      /* a half-tone deeper for alt bands */
+  --panel: var(--color-surface);        /* #FAF5EC cream card */
+  --fg: #241A10;                        /* espresso ink */
+  --fg-soft: #4A3D2C;                   /* 8.5:1 on bone */
+  --fg-mute: #6B5D4B;                   /* 5.1:1 on bone (AA) */
+  --line: rgba(36, 26, 16, 0.12);
+  --line-2: rgba(36, 26, 16, 0.24);
 
-  /* Accessible label text. Cadmium/golf are too light for small text, so
-     gold-ish TEXT uses these; the bright hues stay for fills/marks/gradients. */
-  --label: #8F2E02;          /* deep mahogany, 6.7:1 on sand */
-  --label-on-dark: #E58423;  /* cadmium, 5.95:1 on black bean */
+  /* Accessible accent text. The brass itself is too light for small text,
+     so gold/brass TEXT uses these deeper tones; the brighter metal stays
+     for hairlines, marks, fills and gradients. */
+  --label: #6E5321;          /* deep bronze, 5.7:1 on bone */
+  --label-on-dark: #C8A25A;  /* lit gold, 7.6:1 on espresso */
 
-  /* feature (inverted) surface — black-bean dark room */
-  --feature-bg: #3D1202;
-  --feature-fg: #F6EAD0;
-  --feature-soft: rgba(246, 234, 208, 0.76);
-  --feature-line: rgba(229, 132, 35, 0.28);
+  /* feature (inverted) surface — the espresso "dining room" for nav,
+     hero, reviews, footer */
+  --feature-bg: #211812;
+  --feature-fg: #EFE7D8;
+  --feature-soft: rgba(239, 231, 216, 0.74);
+  --feature-line: rgba(169, 130, 63, 0.30);
 
-  /* accent: mahogany (light-ctx) + cadmium (bright/decor) */
-  --accent: var(--color-primary);       /* #BA3D03 mahogany */
-  --accent-strong: #8F2E02;
-  --accent-2: var(--color-secondary);   /* #E58423 cadmium */
-  --golf: #E8C581;
-  --on-accent: #FFF7EA;
+  /* accent: antique brass (the one metal) + lit gold (decor) + clay */
+  --accent: var(--color-primary);       /* #A9823F brass */
+  --accent-strong: #8A6A32;
+  --accent-2: var(--color-secondary);   /* #C8A25A lit gold */
+  --clay: #9A4A2E;                       /* muted warm secondary */
+  --golf: #C8A25A;                       /* legacy alias → lit gold */
+  --on-accent: #FBF6EC;
 
-  /* light sakura-blossom pink for the Find Us liquid-glass cards */
-  --sakura: #FBD3E0;
+  /* legacy alias kept so any remaining reference resolves cohesively */
+  --sakura: #EBDFC9;
 
-  /* gradients & atmosphere */
-  --grad-ember: linear-gradient(135deg, #BA3D03 0%, #C24A08 55%, #D9660F 100%);
-  --grad-ember-strong: linear-gradient(135deg, #8F2E02 0%, #BA3D03 100%);
-  --grad-rule: linear-gradient(90deg, transparent, var(--accent-2), transparent);
-  --glow: rgba(229, 132, 35, 0.2);
-  --glow-2: rgba(186, 61, 3, 0.16);
+  /* gradients & atmosphere — quiet, metallic, warm */
+  --grad-ember: linear-gradient(135deg, #2C2016 0%, #241A10 100%);   /* ink CTA */
+  --grad-ember-strong: linear-gradient(135deg, #A9823F 0%, #C8A25A 100%); /* brass */
+  --grad-rule: linear-gradient(90deg, transparent, var(--accent), transparent);
+  --glow: rgba(200, 162, 90, 0.16);
+  --glow-2: rgba(169, 130, 63, 0.14);
 }
 
 /* ---------- liquid glass (used sparingly: nav, reservation card, staff
@@ -118,14 +123,14 @@
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   font-family: var(--font-body), system-ui, sans-serif;
-  /* warm sand ground with a soft top-light wash so it never reads as a flat block */
+  /* warm bone ground with the faintest top-light wash — enough to feel lit,
+     never a coloured block */
   background-color: var(--bg);
   background-image:
-    radial-gradient(120% 70% at 50% -8%, #FBF3DC 0%, rgba(251, 243, 220, 0) 60%),
-    radial-gradient(90% 60% at 100% 110%, rgba(232, 197, 129, 0.35) 0%, rgba(232, 197, 129, 0) 55%);
+    radial-gradient(115% 65% at 50% -10%, #FBF7EE 0%, rgba(251, 247, 238, 0) 62%);
   background-attachment: fixed;
   color: var(--fg);
-  line-height: 1.6;
+  line-height: 1.62;
   font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
