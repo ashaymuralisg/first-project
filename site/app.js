@@ -854,7 +854,164 @@
         targets.push(card);
       });
     });
+    // Instagram: the profile row, then each tile in a quick cascade.
+    var insta = $(".insta__profile");
+    if (insta && !insta.dataset.revealBound) targets.push(insta);
+    $$(".insta__tile").forEach(function (tile, i) {
+      if (tile.dataset.revealBound) return;
+      tile.style.transitionDelay = Math.min(i * 55, 220) + "ms";
+      targets.push(tile);
+    });
+    var reserveIntro = $(".reserve__intro");
+    if (reserveIntro && !reserveIntro.dataset.revealBound) targets.push(reserveIntro);
     targets.forEach(function (t) { t.dataset.revealBound = "1"; t.classList.add("reveal"); io.observe(t); });
+  }
+
+  /* ============================================================
+     HERO PARALLAX — the background film/poster drifts slower than the
+     page scrolls (classic parallax), via a single rAF-throttled scroll
+     handler updating --parallax-y. Off under reduced motion (CSS also
+     forces it off as a belt-and-braces measure).
+     ============================================================ */
+  function initHeroParallax() {
+    var media = $(".hero__media");
+    if (!media) return;
+    var ticking = false;
+    function apply() {
+      ticking = false;
+      var y = Math.min(window.scrollY * 0.28, 140); // clamp so it never drifts far
+      media.style.setProperty("--parallax-y", y.toFixed(1) + "px");
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+    }, { passive: true });
+    apply();
+  }
+
+  /* ============================================================
+     NAV SCROLL STATE — a scroll-triggered class toggle (distinct from
+     the reveal system): once you've scrolled past the hero, the sticky
+     nav picks up a soft cast shadow.
+     ============================================================ */
+  function initNavScrollState() {
+    var nav = $(".nav");
+    if (!nav) return;
+    var ticking = false;
+    function apply() {
+      ticking = false;
+      nav.classList.toggle("is-scrolled", window.scrollY > 40);
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+    }, { passive: true });
+    apply();
+  }
+
+  /* ============================================================
+     REVIEW CARD TILT — a subtle cursor-driven perspective tilt on
+     each review card (desktop pointer only; skipped on touch and
+     under reduced motion). Sets --tilt-x/--tilt-y, consumed by the
+     card's own transform in CSS.
+     ============================================================ */
+  function initReviewTilt() {
+    if (!(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches)) return;
+    $$(".review").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        var r = card.getBoundingClientRect();
+        var nx = (e.clientX - r.left) / r.width - 0.5;
+        var ny = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty("--tilt-y", (nx * 7).toFixed(2) + "deg");
+        card.style.setProperty("--tilt-x", (-ny * 7).toFixed(2) + "deg");
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.setProperty("--tilt-x", "0deg");
+        card.style.setProperty("--tilt-y", "0deg");
+      });
+    });
+  }
+
+  /* ============================================================
+     REVIEWS CAROUSEL — a real scrollable, snapping track (native
+     touch-swipe/trackpad-drag work for free) with arrow buttons, dot
+     indicators, and arrow-key support layered on top.
+     ============================================================ */
+  function initReviewsCarousel() {
+    var track = $("#reviews-track");
+    if (!track) return;
+    var slides = $$(".review", track);
+    var dots = $$(".reviews__dot");
+    var prevBtn = $('.reviews__arrow[data-dir="-1"]');
+    var nextBtn = $('.reviews__arrow[data-dir="1"]');
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var current = 0;
+    var ticking = false;
+    // With only 3 cards this wide, the middle slide's "ideal" left-aligned
+    // scroll target can exceed the browser's clamped max scrollLeft by a
+    // few px, landing at the same position as the last slide. So button/
+    // dot navigation sets the active state directly (the user's intent is
+    // unambiguous) rather than re-deriving it from wherever the clamped
+    // scroll happens to land; free swipe/trackpad scroll still syncs off
+    // the real scroll position via nearestIndex() once this settles.
+    var suppressScrollSync = false, resumeTimer = null;
+
+    function goTo(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      setActive(i);
+      suppressScrollSync = true;
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function () { suppressScrollSync = false; }, 600);
+      var target = slides[i];
+      track.scrollTo({
+        left: target.offsetLeft - track.offsetLeft,
+        behavior: reduce ? "auto" : "smooth",
+      });
+    }
+    function setActive(i) {
+      current = i;
+      dots.forEach(function (d, di) {
+        var active = di === i;
+        d.classList.toggle("is-active", active);
+        d.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      if (prevBtn) prevBtn.disabled = i === 0;
+      if (nextBtn) nextBtn.disabled = i === slides.length - 1;
+    }
+    function nearestIndex() {
+      // At either end of the track, the browser clamps scrollLeft to the
+      // valid range — with wide cards that can land short of a middle
+      // slide's "ideal" left-aligned offset, so a raw nearest-offset
+      // comparison can misjudge the last slide as the second-to-last.
+      // Clamp explicitly at the boundaries first.
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      if (track.scrollLeft <= 1) return 0;
+      if (track.scrollLeft >= maxScroll - 1) return slides.length - 1;
+      var pos = track.scrollLeft + track.offsetLeft;
+      var best = 0, bestDist = Infinity;
+      slides.forEach(function (s, i) {
+        var d = Math.abs(s.offsetLeft - pos);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    }
+
+    if (prevBtn) prevBtn.addEventListener("click", function () { goTo(current - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { goTo(current + 1); });
+    dots.forEach(function (dot, i) { dot.addEventListener("click", function () { goTo(i); }); });
+    track.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); goTo(current + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(current - 1); }
+    });
+    track.addEventListener("scroll", function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          if (!suppressScrollSync) setActive(nearestIndex());
+        });
+      }
+    }, { passive: true });
+
+    setActive(0);
   }
 
   /* ============================================================
@@ -866,8 +1023,14 @@
     initHeroVideo();
     initInstaVideos();
     initEmberParallax();
+    initNavScrollState();
+    initReviewsCarousel();
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduceMotion) initCursorSpotlight();
+    if (!reduceMotion) {
+      initCursorSpotlight();
+      initHeroParallax();
+      initReviewTilt();
+    }
     // Detect the backend. If present, use it (and load the live menu +
     // existing staff session); otherwise stay in the localStorage demo.
     detectApi().then(function (ok) {

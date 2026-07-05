@@ -195,22 +195,33 @@
         <span class="eyebrow">In their words</span>
         <h2 class="section__title" id="reviews-title">"Such a hidden gem."</h2>
       </div>
-      <div class="reviews__grid">
-        <figure class="review">
-          <div class="review__stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote>Absolutely amazing food. The flavours were so complex and everything was cooked perfectly. I didn't have high expectations coming in, but every bite made me raise my eyebrows and go "mmmhhmm!" Will definitely be coming back to try other items off their menu. This is such a hidden gem.</blockquote>
-          <figcaption>Benji L</figcaption>
-        </figure>
-        <figure class="review">
-          <div class="review__stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote>The fisksoppa (fish soup) is creamy, tasty by itself and refreshing — good potatoes, fish chunks and prawns, with nicely toasted bread. The highlight for us is the stjerneskud (shooting star): we love the mustard sauce and the halibut is really thick and nicely fried, even the asparagus is nicely seasoned. Wasn't expecting Scandinavian food to be this tasty. No service charge and GST — will come back to try the rest.</blockquote>
-          <figcaption>Hans S</figcaption>
-        </figure>
-        <figure class="review">
-          <div class="review__stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote>Seven of us, so we tried multiple things. Not familiar with Scandinavian food, but these guys have upped the impact and sophistication in both taste and presentation. Everything is beautiful, flavours are very complex but balanced, with a herbaceous undertone that's a nice eye opener for my Asian palate. Be prepared for very powerful flavour hits every bite!</blockquote>
-          <figcaption>C CTH</figcaption>
-        </figure>
+      <div class="reviews__carousel">
+        <div class="reviews__track" id="reviews-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Customer reviews — use the arrow keys or swipe to browse">
+          <figure class="review" data-slide="0">
+            <div class="review__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Absolutely amazing food. The flavours were so complex and everything was cooked perfectly. I didn't have high expectations coming in, but every bite made me raise my eyebrows and go "mmmhhmm!" Will definitely be coming back to try other items off their menu. This is such a hidden gem.</blockquote>
+            <figcaption>Benji L</figcaption>
+          </figure>
+          <figure class="review" data-slide="1">
+            <div class="review__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>The fisksoppa (fish soup) is creamy, tasty by itself and refreshing — good potatoes, fish chunks and prawns, with nicely toasted bread. The highlight for us is the stjerneskud (shooting star): we love the mustard sauce and the halibut is really thick and nicely fried, even the asparagus is nicely seasoned. Wasn't expecting Scandinavian food to be this tasty. No service charge and GST — will come back to try the rest.</blockquote>
+            <figcaption>Hans S</figcaption>
+          </figure>
+          <figure class="review" data-slide="2">
+            <div class="review__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote>Seven of us, so we tried multiple things. Not familiar with Scandinavian food, but these guys have upped the impact and sophistication in both taste and presentation. Everything is beautiful, flavours are very complex but balanced, with a herbaceous undertone that's a nice eye opener for my Asian palate. Be prepared for very powerful flavour hits every bite!</blockquote>
+            <figcaption>C CTH</figcaption>
+          </figure>
+        </div>
+        <div class="reviews__controls">
+          <button type="button" class="reviews__arrow" data-dir="-1" aria-label="Previous review">‹</button>
+          <div class="reviews__dots" role="tablist" aria-label="Choose a review">
+            <button type="button" class="reviews__dot is-active" data-slide-to="0" role="tab" aria-selected="true" aria-label="Review 1 of 3"></button>
+            <button type="button" class="reviews__dot" data-slide-to="1" role="tab" aria-selected="false" aria-label="Review 2 of 3"></button>
+            <button type="button" class="reviews__dot" data-slide-to="2" role="tab" aria-selected="false" aria-label="Review 3 of 3"></button>
+          </div>
+          <button type="button" class="reviews__arrow" data-dir="1" aria-label="Next review">›</button>
+        </div>
       </div>
     </section>
 
