@@ -216,7 +216,19 @@ Singapore-qualified lawyer review it and make the owner decisions below.
 - **Menu images** are Ø placeholders until you add real photos — paste an image
   URL per item in the Menu editor. (The hero already uses the real
   deconstructed-smørrebrød film.)
-- **Instagram gallery** (between Story and Menu) is complete, using
+- **Dish slider** (between Story and Instagram) is an immersive, morphing
+  showcase of four signature smørrebrød. Each dish is a full-bleed colour
+  panel with a big ghost name, the plated dish, floating garnish and its real
+  menu copy; navigate with the arrows, dots, drag/swipe, or arrow keys. It
+  renders the first dish with no JS and crossfades between them with it on.
+  Assets live in `assets/slider/` — the four plated dishes (`roast-beef.png`,
+  `salmon.png`, `shrimp.png`, `shooting-star.png`, cut out from the studio
+  photos onto transparency and compressed to ~180 KB each) and six
+  hand-drawn garnish PNGs in `assets/slider/garnish/` (dill, lemon, roe, pea
+  shoot, rye crumb, pink peppercorn). To swap a dish later, replace the file
+  at the same path and update the copy/`alt`/colour vars on that `<article
+  class="dish">` in `index.html`.
+- **Instagram gallery** (between the dish slider and Menu) is complete, using
   OVERBRØD's actual last 6 posts — a static, one-time snapshot that will
   *not* auto-update as new posts go up. Grid order: **video, photo, photo,
   photo, video, photo**. Nothing in the grid links to Instagram except the

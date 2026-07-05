@@ -1017,6 +1017,77 @@
   }
 
   /* ============================================================
+     DISH SLIDER — a full-bleed, morphing smørrebrød showcase. Each dish
+     is a stacked panel; navigation crossfades between them (the colour,
+     ghost name, plated dish and floating garnish all animate). Driven by
+     arrows, dots, arrow keys, and horizontal drag/swipe. Wraps around.
+     ============================================================ */
+  function initDishSlider() {
+    var stage = $("#dishes-stage");
+    if (!stage) return;
+    var slides = $$(".dish", stage);
+    if (!slides.length) return;
+    var dots = $$(".dishes__dot");
+    var prevBtn = $('.dishes__arrow[data-dir="-1"]');
+    var nextBtn = $('.dishes__arrow[data-dir="1"]');
+    var live = $(".dishes__live");
+    var current = 0;
+
+    function go(i) {
+      i = (i % slides.length + slides.length) % slides.length; // wrap
+      if (i === current) return;
+      slides.forEach(function (s, si) {
+        var active = si === i;
+        s.classList.toggle("is-active", active);
+        s.setAttribute("aria-hidden", active ? "false" : "true");
+      });
+      dots.forEach(function (d, di) {
+        var active = di === i;
+        d.classList.toggle("is-active", active);
+        d.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      current = i;
+      if (live) live.textContent = slides[i].getAttribute("aria-label") || "";
+    }
+    function step(d) { go(current + d); }
+
+    if (prevBtn) prevBtn.addEventListener("click", function () { step(-1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { step(1); });
+    dots.forEach(function (dot, i) { dot.addEventListener("click", function () { go(i); }); });
+
+    stage.tabIndex = 0;
+    stage.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+    });
+    // roving arrow-key nav while a dot is focused
+    dots.forEach(function (dot) {
+      dot.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") { e.preventDefault(); step(1); dots[current].focus(); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); dots[current].focus(); }
+      });
+    });
+
+    // horizontal drag / swipe (touch-action: pan-y keeps vertical scroll)
+    var startX = null, dragging = false;
+    stage.addEventListener("pointerdown", function (e) {
+      startX = e.clientX; dragging = true; stage.classList.add("is-grabbing");
+      try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    stage.addEventListener("pointerup", function (e) {
+      if (!dragging) return;
+      dragging = false; stage.classList.remove("is-grabbing");
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 45) step(dx < 0 ? 1 : -1);
+      startX = null;
+    });
+    stage.addEventListener("pointercancel", function () {
+      dragging = false; stage.classList.remove("is-grabbing"); startX = null;
+    });
+    $$(".dish__img, .dish__g", stage).forEach(function (img) { img.setAttribute("draggable", "false"); });
+  }
+
+  /* ============================================================
      INIT
      ============================================================ */
   function init() {
@@ -1027,6 +1098,7 @@
     initEmberParallax();
     initNavScrollState();
     initReviewsCarousel();
+    initDishSlider();
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduceMotion) {
       initCursorSpotlight();

@@ -340,6 +340,132 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 }
 .story__photo img { display: block; width: 100%; height: auto; border-radius: 9px; }
 
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- dish slider: full-bleed morphing smørrebrød showcase ----------
+   Each dish is a stacked, full-bleed panel that crossfades to the next
+   (the "smart-animate" feel): the colour morphs, the plated dish scales
+   up from behind, the big ghost name and floating garnish fade in
+   staggered. Navigate via arrows / dots / drag / arrow keys. */
+.dishes {
+  max-width: none; position: relative; overflow: hidden; isolation: isolate;
+  min-height: clamp(540px, 84vh, 720px);
+}
+.dishes__eyebrow { position: absolute; top: clamp(4.5rem, 8vw, 5.5rem); left: var(--gutter); z-index: 6; margin: 0; }
+.dishes__stage { position: absolute; inset: 0; }
+
+.dish {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--c1) 0%, var(--c2) 100%);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.7s var(--ease), visibility 0s linear 0.7s;
+}
+.dish.is-active { opacity: 1; visibility: visible; transition: opacity 0.7s var(--ease); }
+/* a soft top-light + vignette so each flat colour reads with depth */
+.dish::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.35), transparent 60%),
+    radial-gradient(130% 120% at 50% 120%, color-mix(in srgb, var(--deep) 30%, transparent), transparent 60%);
+}
+
+.dish__ghost {
+  position: absolute; top: 46%; left: 50%; z-index: 1; pointer-events: none;
+  font-family: var(--font-display), serif; font-weight: 700; letter-spacing: -0.03em;
+  font-size: clamp(4.5rem, 22vw, 17rem); line-height: 1; white-space: nowrap;
+  color: color-mix(in srgb, var(--deep) 20%, transparent);
+  translate: -50% -50%; opacity: 0; transform: scale(1.05);
+  transition: opacity 0.7s var(--ease), transform 0.9s var(--ease);
+}
+.dish.is-active .dish__ghost { opacity: 1; transform: scale(1); }
+
+.dish__img {
+  position: relative; z-index: 2;
+  max-height: min(74%, 560px); width: auto; max-width: 84%;
+  filter: drop-shadow(0 42px 42px rgba(60, 30, 12, 0.32));
+  opacity: 0.35; transform: scale(0.9) translateY(14px);
+  transition: opacity 0.6s var(--ease), transform 0.85s var(--ease);
+  -webkit-user-drag: none; user-select: none;
+  place-self: center;
+}
+.dishes__stage { display: grid; }
+/* pad the panel so the centred dish clears the top eyebrow and the
+   bottom controls instead of colliding with them */
+.dish { display: grid; place-items: center; padding: clamp(3rem, 7vw, 4.5rem) var(--gutter) clamp(4rem, 8vw, 5.5rem); }
+.dish__img { max-height: min(68%, 520px); }
+.dish.is-active .dish__img { opacity: 1; transform: scale(1) translateY(0); }
+
+.dish__garnish { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.dish__g {
+  position: absolute; left: var(--x); top: var(--y); width: var(--s); height: auto;
+  translate: -50% -50%; transform: rotate(var(--r));
+  filter: drop-shadow(0 12px 12px rgba(60, 30, 12, 0.24));
+  opacity: 0; transition: opacity 0.5s var(--ease);
+}
+.dish.is-active .dish__g {
+  opacity: 1; transition-delay: var(--d);
+  animation: g-float 6.5s ease-in-out infinite; animation-delay: var(--d);
+}
+@keyframes g-float {
+  0%, 100% { translate: -50% -50%; }
+  50% { translate: -50% -58%; }
+}
+
+.dish__info {
+  position: absolute; z-index: 4; bottom: clamp(4.5rem, 10vw, 6rem);
+  left: max(var(--gutter), calc(50% - var(--maxw) / 2 + var(--gutter)));
+  max-width: min(400px, 82vw);
+  padding: clamp(1.15rem, 2.6vw, 1.65rem) clamp(1.3rem, 3vw, 1.9rem);
+  border-radius: calc(var(--radius) * 1.5);
+  background: color-mix(in srgb, white 60%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid color-mix(in srgb, white 55%, transparent);
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  color: var(--fg);
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s var(--ease) 0.1s, transform 0.6s var(--ease) 0.1s;
+}
+.dish.is-active .dish__info { opacity: 1; transform: translateY(0); }
+.dish__info .eyebrow { color: color-mix(in srgb, var(--deep) 88%, #3D1202); }
+.dish__sig { color: var(--accent); }
+.dish__name { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem); margin: 0.35rem 0 0.5rem; line-height: 1.05; }
+.dish__desc { color: var(--fg-soft); font-size: 0.95rem; line-height: 1.5; }
+.dish__meta { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.9rem; }
+.dish__price { font-family: var(--font-display), serif; font-weight: 600; font-size: 1.35rem; color: var(--fg); }
+.dish__tag {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--label); border: 1px solid color-mix(in srgb, var(--label) 45%, transparent);
+  padding: 0.22em 0.6em; border-radius: 999px;
+}
+
+.dishes__controls {
+  position: absolute; z-index: 6; bottom: clamp(1.4rem, 4vw, 2.4rem); left: 0; right: 0;
+  display: flex; align-items: center; justify-content: center; gap: 1.1rem;
+}
+.dishes__arrow {
+  display: grid; place-items: center; width: 2.7rem; height: 2.7rem; flex-shrink: 0;
+  border-radius: 50%; border: 1px solid color-mix(in srgb, var(--fg) 24%, transparent);
+  background: color-mix(in srgb, white 40%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  color: var(--fg); font-size: 1.4rem; line-height: 1;
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), background-color 0.25s var(--ease);
+}
+.dishes__arrow:hover { transform: translateY(-2px); border-color: var(--fg); background: color-mix(in srgb, white 62%, transparent); }
+.dishes__dots { display: flex; align-items: center; gap: 0.55rem; }
+.dishes__dot {
+  width: 9px; height: 9px; border-radius: 999px; padding: 0; border: none;
+  background: color-mix(in srgb, var(--fg) 30%, transparent);
+  transition: width 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+.dishes__dot.is-active { width: 24px; background: var(--fg); }
+.dishes__dot:hover { background: color-mix(in srgb, var(--fg) 55%, transparent); }
+.dishes__stage.is-grabbing { cursor: grabbing; }
+.dishes__stage { cursor: grab; touch-action: pan-y; }
+.dishes__stage:focus-visible { outline: 2.5px solid var(--fg); outline-offset: -4px; }
+
 /* ---------- instagram (static gallery — only "Follow" links out) ---------- */
 .insta__card {
   border-radius: calc(var(--radius) * 4);
@@ -853,4 +979,8 @@ fieldset.field { border: none; padding: 0; }
   .hero__media { transform: none !important; }
   .review, .review:hover { transform: none !important; }
   .reviews__track { scroll-behavior: auto; }
+  /* dish slider: no garnish float, no ghost/image scale-in — the active
+     dish still appears (opacity), just without motion */
+  .dish__g { animation: none !important; }
+  .dish.is-active .dish__ghost, .dish.is-active .dish__img, .dish.is-active .dish__info { transform: none !important; }
 }

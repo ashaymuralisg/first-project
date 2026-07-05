@@ -118,6 +118,107 @@
       </div>
     </section>
 
+    <!-- ============ DISH SLIDER (immersive smørrebrød showcase) ============
+         An interactive, morphing showcase: each dish is a full-bleed panel
+         with its own colour, a big ghost name, the plated dish, floating
+         garnish, and its real menu copy. Navigate with the arrows, dots,
+         swipe/drag, or arrow keys. All four slides render statically so it
+         still shows the first dish with no JS; app.js wires the interaction
+         and the smart-animate-style crossfade between them. -->
+    <section class="dishes" id="dishes" aria-roledescription="carousel" aria-label="Signature smørrebrød">
+      <p class="dishes__eyebrow"><span class="eyebrow">Off the board</span></p>
+
+      <div class="dishes__stage" id="dishes-stage">
+        <article class="dish is-active" data-dish="0" aria-roledescription="slide" aria-label="1 of 4: Roast Beef"
+                 style="--c1:#EAD2B0; --c2:#DBB081; --deep:#7A4A24;">
+          <span class="dish__ghost" aria-hidden="true">Roast Beef</span>
+          <div class="dish__garnish" aria-hidden="true">
+            <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:16%; --y:24%; --s:74px; --r:-14deg; --d:0s;" />
+            <img class="dish__g" src="assets/slider/garnish/rye.png" alt="" style="--x:82%; --y:30%; --s:66px; --r:12deg; --d:0.6s;" />
+            <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:24%; --y:70%; --s:80px; --r:8deg; --d:1.1s;" />
+            <img class="dish__g" src="assets/slider/garnish/pepper.png" alt="" style="--x:78%; --y:68%; --s:40px; --r:0deg; --d:0.3s;" />
+            <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:88%; --y:52%; --s:52px; --r:150deg; --d:0.9s;" />
+          </div>
+          <img class="dish__img" src="assets/slider/roast-beef.png" width="760" height="666" alt="OVERBRØD Roast Beef smørrebrød" loading="lazy" />
+          <div class="dish__info">
+            <span class="eyebrow">Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
+            <h3 class="dish__name">Roast Beef</h3>
+            <p class="dish__desc">Thin-sliced roast beef with remoulade and crisp fried onions on buttered rye.</p>
+            <div class="dish__meta"><span class="dish__price">$18</span><span class="dish__tag">Nut-free</span></div>
+          </div>
+        </article>
+
+        <article class="dish" data-dish="1" aria-roledescription="slide" aria-label="2 of 4: Salmon, two ways" aria-hidden="true"
+                 style="--c1:#F4D5CD; --c2:#E9B2A8; --deep:#9E4E43;">
+          <span class="dish__ghost" aria-hidden="true">Salmon</span>
+          <div class="dish__garnish" aria-hidden="true">
+            <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:15%; --y:28%; --s:82px; --r:-18deg; --d:0.2s;" />
+            <img class="dish__g" src="assets/slider/garnish/lemon.png" alt="" style="--x:83%; --y:26%; --s:60px; --r:14deg; --d:0.7s;" />
+            <img class="dish__g" src="assets/slider/garnish/roe.png" alt="" style="--x:80%; --y:64%; --s:64px; --r:0deg; --d:1.0s;" />
+            <img class="dish__g" src="assets/slider/garnish/pepper.png" alt="" style="--x:20%; --y:66%; --s:38px; --r:0deg; --d:0.4s;" />
+            <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:88%; --y:46%; --s:56px; --r:120deg; --d:0.9s;" />
+          </div>
+          <img class="dish__img" src="assets/slider/salmon.png" width="760" height="641" alt="OVERBRØD Salmon two-ways smørrebrød" loading="lazy" />
+          <div class="dish__info">
+            <span class="eyebrow"><span class="dish__sig">Signature</span> · Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
+            <h3 class="dish__name">Salmon, Two Ways</h3>
+            <p class="dish__desc">House-cured salmon with mustard-dill sauce; silky, bright and delicate.</p>
+            <div class="dish__meta"><span class="dish__price">$19</span><span class="dish__tag">Nut-free</span></div>
+          </div>
+        </article>
+
+        <article class="dish" data-dish="2" aria-roledescription="slide" aria-label="3 of 4: Shrimp Skagen toast" aria-hidden="true"
+                 style="--c1:#F1E0AC; --c2:#E6C778; --deep:#8A6A1E;">
+          <span class="dish__ghost" aria-hidden="true">Skagen</span>
+          <div class="dish__garnish" aria-hidden="true">
+            <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:17%; --y:26%; --s:80px; --r:16deg; --d:0.3s;" />
+            <img class="dish__g" src="assets/slider/garnish/lemon.png" alt="" style="--x:82%; --y:30%; --s:62px; --r:-12deg; --d:0.8s;" />
+            <img class="dish__g" src="assets/slider/garnish/roe.png" alt="" style="--x:79%; --y:66%; --s:58px; --r:0deg; --d:1.1s;" />
+            <img class="dish__g" src="assets/slider/garnish/rye.png" alt="" style="--x:22%; --y:68%; --s:60px; --r:-8deg; --d:0.5s;" />
+            <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:12%; --y:50%; --s:50px; --r:30deg; --d:0.9s;" />
+          </div>
+          <img class="dish__img" src="assets/slider/shrimp.png" width="760" height="709" alt="OVERBRØD Shrimp Skagen toast" loading="lazy" />
+          <div class="dish__info">
+            <span class="eyebrow">Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
+            <h3 class="dish__name">Shrimp Skagen</h3>
+            <p class="dish__desc">Cold-water shrimp in a dill-and-lemon mayo, piled on toasted bread — our take on the Swedish classic.</p>
+            <div class="dish__meta"><span class="dish__price">$19</span><span class="dish__tag">Nut-free</span></div>
+          </div>
+        </article>
+
+        <article class="dish" data-dish="3" aria-roledescription="slide" aria-label="4 of 4: The Shooting Star" aria-hidden="true"
+                 style="--c1:#D6DDB4; --c2:#BECB90; --deep:#5F7038;">
+          <span class="dish__ghost" aria-hidden="true">Stjerne</span>
+          <div class="dish__garnish" aria-hidden="true">
+            <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:16%; --y:30%; --s:82px; --r:-12deg; --d:0.2s;" />
+            <img class="dish__g" src="assets/slider/garnish/roe.png" alt="" style="--x:82%; --y:28%; --s:60px; --r:0deg; --d:0.7s;" />
+            <img class="dish__g" src="assets/slider/garnish/lemon.png" alt="" style="--x:84%; --y:64%; --s:58px; --r:18deg; --d:1.0s;" />
+            <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:20%; --y:68%; --s:56px; --r:-24deg; --d:0.5s;" />
+            <img class="dish__g" src="assets/slider/garnish/pepper.png" alt="" style="--x:12%; --y:48%; --s:40px; --r:0deg; --d:0.9s;" />
+          </div>
+          <img class="dish__img" src="assets/slider/shooting-star.png" width="760" height="651" alt="OVERBRØD The Shooting Star smørrebrød" loading="lazy" />
+          <div class="dish__info">
+            <span class="eyebrow"><span class="dish__sig">Signature</span> · Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
+            <h3 class="dish__name">The Shooting Star</h3>
+            <p class="dish__desc">Thick fried halibut, poached shrimp, asparagus and mustard sauce — the plate everyone talks about.</p>
+            <div class="dish__meta"><span class="dish__price">$26</span><span class="dish__tag">Nut-free</span></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="dishes__controls">
+        <button type="button" class="dishes__arrow" data-dir="-1" aria-label="Previous dish">‹</button>
+        <div class="dishes__dots" role="tablist" aria-label="Choose a dish">
+          <button type="button" class="dishes__dot is-active" data-to="0" role="tab" aria-selected="true" aria-label="Roast Beef"></button>
+          <button type="button" class="dishes__dot" data-to="1" role="tab" aria-selected="false" aria-label="Salmon, two ways"></button>
+          <button type="button" class="dishes__dot" data-to="2" role="tab" aria-selected="false" aria-label="Shrimp Skagen"></button>
+          <button type="button" class="dishes__dot" data-to="3" role="tab" aria-selected="false" aria-label="The Shooting Star"></button>
+        </div>
+        <button type="button" class="dishes__arrow" data-dir="1" aria-label="Next dish">›</button>
+      </div>
+      <p class="dishes__live visually-hidden" aria-live="polite"></p>
+    </section>
+
     <!-- ============ INSTAGRAM (static gallery — only Follow links out) ============ -->
     <section class="insta section" id="instagram" aria-labelledby="insta-title">
       <div class="section__head">
