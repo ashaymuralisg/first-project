@@ -103,12 +103,56 @@
         <h2 class="section__title" id="story-title">A part of Scandinavia, plated in Singapore.</h2>
       </div>
       <div class="story__body">
-        <p class="story__lede">OVERBR<span class="o-slash">Ø</span>D is a Scandinavian inspired deli focusing on Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d (Danish open-faced sandwiches) and other Scandinavian dishes like Swedish meatballs and Norwegian reindeer stew. Using techniques like curing, smoking, pickling, they aim to bring a part of Scandinavia to Singapore but with an OVERBR<span class="o-slash">Ø</span>D twist.</p>
-        <ul class="story__craft" aria-label="Our techniques">
-          <li><span>Curing</span></li>
-          <li><span>Smoking</span></li>
-          <li><span>Pickling</span></li>
-        </ul>
+        <div class="story__text">
+          <p class="story__lede">OVERBR<span class="o-slash">Ø</span>D is a Scandinavian inspired deli focusing on Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d (Danish open-faced sandwiches) and other Scandinavian dishes like Swedish meatballs and Norwegian reindeer stew. Using techniques like curing, smoking, pickling, they aim to bring a part of Scandinavia to Singapore but with an OVERBR<span class="o-slash">Ø</span>D twist.</p>
+          <ul class="story__craft" aria-label="Our techniques">
+            <li><span>Curing</span></li>
+            <li><span>Smoking</span></li>
+            <li><span>Pickling</span></li>
+          </ul>
+        </div>
+
+        <!-- Roast Beef smørrebrød, isolated from its original labelled
+             diagram. The ingredient callouts are rebuilt as real hotspots
+             below rather than baked into the image, so they can fade in
+             on hover (desktop) or on scroll-into-view (mobile) instead of
+             sitting there as permanent clutter. -->
+        <div class="story__diagram" id="story-diagram">
+          <div class="story__dish-wrap">
+            <img class="story__dish" src="assets/smorrebrod-diagram.png" alt="Illustrated cross-section of OVERBRØD's Roast Beef smørrebrød" width="254" height="271" loading="lazy" />
+
+            <button type="button" class="story__hotspot" data-side="left" style="--hx:33%; --hy:26%;" aria-label="Daikon cress">
+              <span class="story__dot" aria-hidden="true"></span>
+              <span class="story__tag">Daikon cress</span>
+            </button>
+            <button type="button" class="story__hotspot" data-side="left" style="--hx:25%; --hy:38%;" aria-label="Potato &quot;furikake&quot;">
+              <span class="story__dot" aria-hidden="true"></span>
+              <span class="story__tag">Potato "furikake"</span>
+            </button>
+            <button type="button" class="story__hotspot" data-side="right" style="--hx:88%; --hy:42%;" aria-label="Veal jus roasted garlic puree">
+              <span class="story__dot" aria-hidden="true"></span>
+              <span class="story__tag">Veal jus roasted garlic puree</span>
+            </button>
+            <button type="button" class="story__hotspot" data-side="right" style="--hx:79%; --hy:53%;" aria-label="Hay-butter skirt steak">
+              <span class="story__dot" aria-hidden="true"></span>
+              <span class="story__tag">Hay-butter skirt steak</span>
+            </button>
+            <button type="button" class="story__hotspot" data-side="right" style="--hx:66%; --hy:67%;" aria-label="Wholegrain mustard">
+              <span class="story__dot" aria-hidden="true"></span>
+              <span class="story__tag">Wholegrain mustard</span>
+            </button>
+            <button type="button" class="story__hotspot" data-side="left" style="--hx:41%; --hy:80%;" aria-label="French butter rugbrød">
+              <span class="story__dot" aria-hidden="true"></span>
+              <span class="story__tag">French butter rugbrød</span>
+            </button>
+            <button type="button" class="story__hotspot" data-side="right" style="--hx:57%; --hy:87%;" aria-label="Horseradish &amp; kohlrabi slaw">
+              <span class="story__dot" aria-hidden="true"></span>
+              <span class="story__tag">Horseradish &amp; kohlrabi slaw</span>
+            </button>
+          </div>
+
+          <p class="story__diagram-cap">Roast Beef, hay-butter infused skirt steak — hover or scroll to see what's on it.</p>
+        </div>
       </div>
     </section>
 

@@ -908,6 +908,29 @@
   }
 
   /* ============================================================
+     STORY DIAGRAM HOTSPOTS — the smørrebrød's ingredient labels are
+     hidden until you interact with them. On a real hover-capable pointer
+     CSS alone handles it (:hover/:focus-visible). On touch, there's no
+     hover, so each hotspot's tag instead fades in as it scrolls into
+     view and fades back out (and replays) as it scrolls away — a
+     persistent observer, not the one-shot reveal system, since it must
+     re-trigger every time.
+     ============================================================ */
+  function initDiagramHotspots() {
+    var hotspots = $$(".story__hotspot");
+    if (!hotspots.length) return;
+    var hasHover = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (hasHover) return; // CSS :hover/:focus-visible covers this entirely
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle("is-visible", entry.isIntersecting);
+      });
+    }, { threshold: 0.5 });
+    hotspots.forEach(function (h) { io.observe(h); });
+  }
+
+  /* ============================================================
      REVIEW CARD TILT — a subtle cursor-driven perspective tilt on
      each review card (desktop pointer only; skipped on touch and
      under reduced motion). Sets --tilt-x/--tilt-y, consumed by the
@@ -1025,6 +1048,7 @@
     initEmberParallax();
     initNavScrollState();
     initReviewsCarousel();
+    initDiagramHotspots();
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduceMotion) {
       initCursorSpotlight();
