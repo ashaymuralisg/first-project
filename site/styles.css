@@ -414,12 +414,15 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
   50% { translate: -50% -58%; }
 }
 
+/* compact info card, tucked into the lower-left. On phones it stays a
+   little higher so it clears the centred controls; on desktop (controls
+   sit centred, well clear of a narrow left card) it drops further down. */
 .dish__info {
-  position: absolute; z-index: 4; bottom: clamp(4.5rem, 10vw, 6rem);
-  left: max(var(--gutter), calc(50% - var(--maxw) / 2 + var(--gutter)));
-  max-width: min(400px, 82vw);
-  padding: clamp(1.15rem, 2.6vw, 1.65rem) clamp(1.3rem, 3vw, 1.9rem);
-  border-radius: calc(var(--radius) * 1.5);
+  position: absolute; z-index: 4; bottom: clamp(5rem, 9vw, 5.5rem);
+  left: clamp(1rem, 4vw, 2.25rem);
+  max-width: min(288px, 76vw);
+  padding: clamp(0.85rem, 2vw, 1.15rem) clamp(1rem, 2.4vw, 1.35rem);
+  border-radius: calc(var(--radius) * 1.4);
   background: color-mix(in srgb, white 60%, transparent);
   -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
   border: 1px solid color-mix(in srgb, white 55%, transparent);
@@ -428,13 +431,13 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
   opacity: 0; transform: translateY(16px);
   transition: opacity 0.6s var(--ease) 0.1s, transform 0.6s var(--ease) 0.1s;
 }
+@media (min-width: 861px) { .dish__info { bottom: clamp(2.5rem, 5vw, 3.5rem); } }
 .dish.is-active .dish__info { opacity: 1; transform: translateY(0); }
 .dish__info .eyebrow { color: color-mix(in srgb, var(--deep) 88%, #3D1202); }
 .dish__sig { color: var(--accent); }
-.dish__name { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem); margin: 0.35rem 0 0.5rem; line-height: 1.05; }
-.dish__desc { color: var(--fg-soft); font-size: 0.95rem; line-height: 1.5; }
-.dish__meta { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.9rem; }
-.dish__price { font-family: var(--font-display), serif; font-weight: 600; font-size: 1.35rem; color: var(--fg); }
+.dish__name { font-size: clamp(1.3rem, 1.05rem + 1vw, 1.85rem); margin: 0.3rem 0 0.4rem; line-height: 1.06; }
+.dish__desc { color: var(--fg-soft); font-size: 0.85rem; line-height: 1.45; }
+.dish__meta { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.7rem; }
 .dish__tag {
   font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
   color: var(--label); border: 1px solid color-mix(in srgb, var(--label) 45%, transparent);
@@ -710,13 +713,14 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
     color-mix(in srgb, var(--sakura) 20%, transparent) 100%);
   backdrop-filter: blur(26px) saturate(200%);
   -webkit-backdrop-filter: blur(26px) saturate(200%);
-  border-color: color-mix(in srgb, white 55%, var(--sakura) 30%);
-  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 0 36px -22px rgba(255, 255, 255, 0.6);
+  border-color: color-mix(in srgb, white 40%, var(--sakura) 45%);
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 .glass--sakura::before {
-  /* soft glossy bloom pooling in the upper-left, like light on glass */
-  background: radial-gradient(120% 90% at 20% 14%, rgba(255, 255, 255, 0.95) 0%, transparent 55%);
-  opacity: 0.55; mix-blend-mode: screen;
+  /* a quiet glossy bloom in the upper-left — much dimmer than before so
+     the cards read as soft frosted glass rather than high-gloss */
+  background: radial-gradient(120% 90% at 22% 16%, rgba(255, 255, 255, 0.7) 0%, transparent 58%);
+  opacity: 0.22; mix-blend-mode: screen;
 }
 
 .visit__card { padding: 1.9rem; border-radius: calc(var(--radius) * 1.5); overflow: hidden; }
@@ -914,10 +918,10 @@ fieldset.field { border: none; padding: 0; }
 }
 .visit__card:hover {
   transform: translateY(-6px);
-  border-color: color-mix(in srgb, #C98BA6 80%, transparent);
-  box-shadow: 0 30px 58px -30px rgba(150, 70, 105, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  border-color: color-mix(in srgb, #C98BA6 65%, transparent);
+  box-shadow: 0 30px 58px -30px rgba(150, 70, 105, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
-.visit__card:hover::after { opacity: 0.35; transform: translateX(38%); }
+.visit__card:hover::after { opacity: 0.22; transform: translateX(38%); }
 
 /* Text links: the arrow glides, and underlines draw in rather than just
    appear — consistent with the nav's underline. */

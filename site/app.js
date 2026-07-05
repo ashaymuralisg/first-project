@@ -946,22 +946,20 @@
     var nextBtn = $('.reviews__arrow[data-dir="1"]');
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var current = 0;
-    var ticking = false;
-    // With only 3 cards this wide, the middle slide's "ideal" left-aligned
-    // scroll target can exceed the browser's clamped max scrollLeft by a
-    // few px, landing at the same position as the last slide. So button/
-    // dot navigation sets the active state directly (the user's intent is
-    // unambiguous) rather than re-deriving it from wherever the clamped
-    // scroll happens to land; free swipe/trackpad scroll still syncs off
-    // the real scroll position via nearestIndex() once this settles.
-    var suppressScrollSync = false, resumeTimer = null;
+    // Button/dot/keyboard nav sets the active state directly (intent is
+    // unambiguous). A programmatic (smooth) scroll can outlast any fixed
+    // timer and fire a "settle" while still mid-flight, so instead of a
+    // fixed suppression window we mark the next scroll-settle as
+    // programmatic and skip re-deriving the index from it — otherwise the
+    // not-yet-arrived scroll position resets `current` and the next click
+    // just repeats the move (the "click twice to advance once" bug). Only
+    // genuine user drag/trackpad scrolls sync back via nearestIndex().
+    var programmatic = false, settleTimer = null;
 
     function goTo(i) {
       i = Math.max(0, Math.min(slides.length - 1, i));
       setActive(i);
-      suppressScrollSync = true;
-      clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(function () { suppressScrollSync = false; }, 600);
+      programmatic = true;
       var target = slides[i];
       track.scrollTo({
         left: target.offsetLeft - track.offsetLeft,
@@ -1004,13 +1002,14 @@
       if (e.key === "ArrowLeft") { e.preventDefault(); goTo(current - 1); }
     });
     track.addEventListener("scroll", function () {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(function () {
-          ticking = false;
-          if (!suppressScrollSync) setActive(nearestIndex());
-        });
-      }
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(function () {
+        // once scrolling has actually stopped: a programmatic scroll's
+        // settle is ignored (current is already correct); a user scroll
+        // syncs the active index to wherever they landed.
+        if (programmatic) { programmatic = false; return; }
+        setActive(nearestIndex());
+      }, 150);
     }, { passive: true });
 
     setActive(0);
