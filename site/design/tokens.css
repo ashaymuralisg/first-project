@@ -1,16 +1,17 @@
 :root {
-  /* "Bone, Ink & Brass" — a restrained, cohesive luxury palette.
-     Warm bone ground, deep espresso ink, a single antique-brass metal,
-     and a muted clay for warmth. Generated via the ui-toolkit skill. */
-  --color-primary: #A9823F;    /* antique brass — the one metal */
-  --color-secondary: #C8A25A;  /* lit gold highlight (decorative) */
-  --color-accent: #9A4A2E;     /* muted clay (warm secondary) */
-  --color-neutral: #6B5D4B;    /* warm stone-grey */
-  --color-background: #F3EDE2;  /* warm bone */
-  --color-surface: #FAF5EC;     /* soft cream card */
-  --color-success: #5E6047;
-  --color-warning: #A9823F;
-  --color-danger: #8B2F1E;
+  /* "Bone, Ink & Brass — Midnight" — the same restrained luxury system,
+     darkened: a near-black espresso ground, brightened brass/gold so the
+     one metal still pops under low light, and a warmed clay/neutral pair
+     tuned for legibility on dark. Generated via the ui-toolkit skill. */
+  --color-primary: #C6A05C;    /* antique brass, lifted for pop on dark */
+  --color-secondary: #E4C688;  /* lit gold highlight (decorative) */
+  --color-accent: #C1613C;     /* brightened clay (warm secondary) */
+  --color-neutral: #A99A82;    /* warm stone-grey, light for dark grounds */
+  --color-background: #17110A;  /* near-black espresso */
+  --color-surface: #241C13;     /* lifted dark card surface */
+  --color-success: #7C8060;
+  --color-warning: #C6A05C;
+  --color-danger: #C2503A;
   --font-display: "Playfair Display";
   --font-body: "EB Garamond";
   --radius: 0.25rem;
