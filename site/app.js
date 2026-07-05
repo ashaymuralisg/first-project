@@ -1030,7 +1030,12 @@
     var prevBtn = $('.dishes__arrow[data-dir="-1"]');
     var nextBtn = $('.dishes__arrow[data-dir="1"]');
     var live = $(".dishes__live");
+    // derive the starting index from whichever slide is already marked
+    // active in the HTML, rather than assuming 0 — so the initially-shown
+    // dish (set purely by markup) and the JS's own tracking never drift
+    // out of sync with each other.
     var current = 0;
+    slides.forEach(function (s, i) { if (s.classList.contains("is-active")) current = i; });
 
     function go(i) {
       i = (i % slides.length + slides.length) % slides.length; // wrap
@@ -1084,6 +1089,34 @@
       dragging = false; stage.classList.remove("is-grabbing"); startX = null;
     });
     $$(".dish__img, .dish__g", stage).forEach(function (img) { img.setAttribute("draggable", "false"); });
+
+    // Reveal-on-scroll: the static markup ships with the first slide
+    // already `is-active` (so it's visible immediately with no JS/no
+    // IntersectionObserver), but that means its entrance transition has
+    // nothing to animate FROM — it's just present from first paint. So
+    // with JS running, strip that class right away and only play the
+    // choreographed entrance (ghost fade+scale, dish scale-up, garnish
+    // stagger, info slide-up — all keyed off .dish.is-active in CSS)
+    // once the section actually scrolls into view. One-shot, matching
+    // the .reveal convention used elsewhere on the site. Under reduced
+    // motion, skip this entirely and leave the slide shown immediately,
+    // same as how .reveal behaves there.
+    var section = document.getElementById("dishes");
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (section && !reduceMotion && "IntersectionObserver" in window) {
+      var startSlide = slides[current];
+      startSlide.classList.remove("is-active");
+      startSlide.setAttribute("aria-hidden", "true");
+      var revealOnScroll = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          startSlide.classList.add("is-active");
+          startSlide.setAttribute("aria-hidden", "false");
+          revealOnScroll.unobserve(entry.target);
+        });
+      }, { threshold: 0.35 });
+      revealOnScroll.observe(section);
+    }
   }
 
   /* ============================================================
