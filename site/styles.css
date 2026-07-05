@@ -507,21 +507,26 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 }
 .visit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
 
-/* Sakura liquid glass: the same frosted-glass treatment as elsewhere
-   (blur + specular sheen), tinted a light cherry-blossom pink. Kept pale
-   so the dark ink text stays fully legible. */
+/* Sakura liquid glass: true frosted-glass — a light, mostly-translucent
+   pink wash over a strong blur + saturation boost, so the page behind
+   pools and softens through it (like the iOS glass-icon reference: a
+   pale tint, not a solid fill), plus a soft glossy bloom in the upper
+   corner rather than a hard-edged highlight. Kept pale so ink text
+   stays legible. */
 .glass--sakura {
   color: var(--fg);
-  background: linear-gradient(158deg,
-    color-mix(in srgb, var(--sakura) 82%, transparent) 0%,
-    color-mix(in srgb, var(--sakura) 64%, transparent) 100%);
-  border-color: color-mix(in srgb, #C98BA6 45%, transparent);
-  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--sakura) 40%, transparent) 0%,
+    color-mix(in srgb, var(--sakura) 20%, transparent) 100%);
+  backdrop-filter: blur(26px) saturate(200%);
+  -webkit-backdrop-filter: blur(26px) saturate(200%);
+  border-color: color-mix(in srgb, white 55%, var(--sakura) 30%);
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 0 36px -22px rgba(255, 255, 255, 0.6);
 }
 .glass--sakura::before {
-  /* pearly light catching the top of the glass */
-  background: linear-gradient(158deg, rgba(255, 255, 255, 0.9) 0%, transparent 34%);
-  opacity: 0.5;
+  /* soft glossy bloom pooling in the upper-left, like light on glass */
+  background: radial-gradient(120% 90% at 20% 14%, rgba(255, 255, 255, 0.95) 0%, transparent 55%);
+  opacity: 0.55; mix-blend-mode: screen;
 }
 
 .visit__card { padding: 1.9rem; border-radius: calc(var(--radius) * 1.5); overflow: hidden; }
@@ -702,22 +707,22 @@ fieldset.field { border: none; padding: 0; }
 .review { transition: transform 0.32s var(--ease), border-color 0.32s var(--ease), box-shadow 0.32s var(--ease); }
 .review:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent-2) 55%, transparent); box-shadow: var(--shadow-card-dark); }
 
-/* Sakura stained-glass cards: lift with a rose-glow edge, and a slow
-   pearly sheen that sweeps diagonally across the glass on hover — like
-   light travelling across a leaded window. */
+/* Sakura glass cards: lift with a rose-glow edge, and a very quiet
+   sheen that drifts across the glass on hover — toned down so it reads
+   as a glint, not a shimmer. */
 .visit__card { transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease); }
 .visit__card::after {
   content: ""; position: absolute; inset: -40% -60%; z-index: 0; pointer-events: none;
-  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.75) 50%, transparent 58%);
+  background: linear-gradient(115deg, transparent 46%, rgba(255, 255, 255, 0.4) 50%, transparent 54%);
   opacity: 0; transform: translateX(-38%); mix-blend-mode: screen;
-  transition: opacity 0.5s var(--ease), transform 0.9s var(--ease);
+  transition: opacity 0.6s var(--ease), transform 1.4s var(--ease);
 }
 .visit__card:hover {
   transform: translateY(-6px);
   border-color: color-mix(in srgb, #C98BA6 80%, transparent);
   box-shadow: 0 30px 58px -30px rgba(150, 70, 105, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
-.visit__card:hover::after { opacity: 0.7; transform: translateX(38%); }
+.visit__card:hover::after { opacity: 0.35; transform: translateX(38%); }
 
 /* Text links: the arrow glides, and underlines draw in rather than just
    appear — consistent with the nav's underline. */
