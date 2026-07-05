@@ -513,24 +513,31 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
   max-width: min(288px, 76vw);
   padding: clamp(0.85rem, 2vw, 1.15rem) clamp(1rem, 2.4vw, 1.35rem);
   border-radius: calc(var(--radius) * 1.4);
-  background: color-mix(in srgb, var(--feature-bg) 62%, transparent);
-  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+  /* opaque enough that the always-light dish panel underneath (light
+     theme's --c1/--c2 are pale pastels) can't wash this out to a medium
+     tone that fails contrast for the feature-fg text below */
+  background: color-mix(in srgb, var(--feature-bg) 90%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(120%); backdrop-filter: blur(18px) saturate(120%);
   border: 1px solid color-mix(in srgb, var(--accent-2) 35%, transparent);
   box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  color: var(--fg);
+  /* the card itself is always dark glass (tied to --feature-bg) regardless
+     of theme, so its text always uses the feature (light-on-dark) tokens
+     rather than --fg — which flips to dark ink in light mode and would go
+     unreadable on this card */
+  color: var(--feature-fg);
   opacity: 0; transform: translateY(16px);
   transition: opacity 0.6s var(--ease) 0.1s, transform 0.6s var(--ease) 0.1s;
 }
 @media (min-width: 861px) { .dish__info { bottom: clamp(2.5rem, 5vw, 3.5rem); } }
 .dish.is-active .dish__info { opacity: 1; transform: translateY(0); }
 .dish__info .eyebrow { color: var(--label-on-dark); }
-.dish__sig { color: var(--accent); }
+.dish__sig { color: var(--accent-2); }
 .dish__name { font-size: clamp(1.3rem, 1.05rem + 1vw, 1.85rem); margin: 0.3rem 0 0.4rem; line-height: 1.06; }
-.dish__desc { color: var(--fg-soft); font-size: 0.85rem; line-height: 1.45; }
+.dish__desc { color: var(--feature-soft); font-size: 0.85rem; line-height: 1.45; }
 .dish__meta { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.7rem; }
 .dish__tag {
   font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
-  color: var(--label); border: 1px solid color-mix(in srgb, var(--label) 45%, transparent);
+  color: var(--label-on-dark); border: 1px solid color-mix(in srgb, var(--label-on-dark) 45%, transparent);
   padding: 0.22em 0.6em; border-radius: 999px;
 }
 
