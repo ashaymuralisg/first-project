@@ -910,6 +910,30 @@
   }
 
   /* ============================================================
+     THEME TOGGLE — light/dark. The inline bootstrap script in <head>
+     (allowed under CSP by exact sha256 hash) already set [data-theme] on
+     <html> from localStorage before first paint, so this just wires the
+     button to flip it and keep the icon + persisted choice in sync.
+     ============================================================ */
+  var THEME_KEY = "overbrod-theme";
+  function initThemeToggle() {
+    var btn = $("#theme-toggle");
+    if (!btn) return;
+    var root = document.documentElement;
+    function apply(theme) {
+      root.setAttribute("data-theme", theme);
+      btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+      btn.setAttribute("aria-label", theme === "light" ? "Switch to dark mode" : "Switch to light mode");
+    }
+    apply(root.getAttribute("data-theme") === "light" ? "light" : "dark");
+    btn.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+      apply(next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+    });
+  }
+
+  /* ============================================================
      REVIEW CARD TILT — a subtle cursor-driven perspective tilt on
      each review card (desktop pointer only; skipped on touch and
      under reduced motion). Sets --tilt-x/--tilt-y, consumed by the
@@ -1129,6 +1153,7 @@
     initInstaVideos();
     initEmberParallax();
     initNavScrollState();
+    initThemeToggle();
     initReviewsCarousel();
     initDishSlider();
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

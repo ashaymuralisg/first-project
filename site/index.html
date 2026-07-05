@@ -4,13 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Content Security Policy (belt-and-braces alongside the server headers in
-       ./_headers). script-src has no 'unsafe-inline', so injected inline scripts
+       ./_headers). script-src has no 'unsafe-inline'; the one inline script
+       below (the theme bootstrap, to avoid a flash of the wrong theme) is
+       allowed only by its exact sha256 hash, so injected inline scripts still
        can't run. img-src allows https: for owner-added menu photos. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-IHKuDISSeRlljypEvY9WBRzcnXoByiwQkVyYlNAotmg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>OVERBRØD — Handcrafted Smørrebrød · Scandinavian Deli, Singapore</title>
   <meta name="description" content="OVERBRØD is a Scandinavian-inspired deli in Alexandra, Singapore, serving handcrafted Danish smørrebrød, Swedish meatballs and Norwegian classics with an Overbrød twist. Reserve a table." />
-  <meta name="theme-color" content="#3D1202" />
+  <meta name="theme-color" content="#17110A" />
+  <!-- Sets data-theme before any CSS renders, from the visitor's saved
+       preference, so switching to light mode on a return visit doesn't
+       flash the dark default first. Allowed under CSP by exact hash above —
+       if this string ever changes, the hash above must be recomputed. -->
+  <script>(function(){try{var t=localStorage.getItem('overbrod-theme');if(t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
   <meta name="author" content="OVERBRØD" />
   <link rel="icon" type="image/png" href="assets/brand/logo.png" />
   <link rel="apple-touch-icon" href="assets/brand/logo.png" />
@@ -60,6 +67,17 @@
       </nav>
       <button type="button" class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Open menu">
         <span></span><span></span><span></span>
+      </button>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" aria-label="Switch to light mode">
+        <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
+          <path d="M20.4 14.7A8.4 8.4 0 1 1 9.3 3.6a6.7 6.7 0 0 0 9.4 9.4c.6-.1 1.2.2 1.4.8.1.3.2.6.3.9Z" fill="currentColor"/>
+        </svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
+          <circle cx="12" cy="12" r="4.6" fill="currentColor"/>
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 2.5v2.4M12 19.1v2.4M21.5 12h-2.4M4.9 12H2.5M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7M18.4 18.4l-1.7-1.7M7.3 7.3 5.6 5.6"/>
+          </g>
+        </svg>
       </button>
       <a href="#reserve" class="btn btn--primary nav__cta">Reserve a table</a>
     </div>
@@ -130,7 +148,7 @@
 
       <div class="dishes__stage" id="dishes-stage">
         <article class="dish" data-dish="0" aria-roledescription="slide" aria-label="1 of 4: Roast Beef" aria-hidden="true"
-                 style="--c1:#4A2018; --c2:#2A130D; --deep:#8C5238;">
+                 style="--c1:var(--dish-0-c1); --c2:var(--dish-0-c2); --deep:var(--dish-0-deep);">
           <span class="dish__ghost" aria-hidden="true">Roast Beef</span>
           <div class="dish__garnish" aria-hidden="true">
             <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:16%; --y:24%; --s:74px; --r:-14deg; --d:0s;" />
@@ -149,7 +167,7 @@
         </article>
 
         <article class="dish is-active" data-dish="1" aria-roledescription="slide" aria-label="2 of 4: Salmon, two ways"
-                 style="--c1:#4A2C1A; --c2:#2C1A0F; --deep:#9A6A3E;">
+                 style="--c1:var(--dish-1-c1); --c2:var(--dish-1-c2); --deep:var(--dish-1-deep);">
           <span class="dish__ghost" aria-hidden="true">Salmon</span>
           <div class="dish__garnish" aria-hidden="true">
             <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:15%; --y:28%; --s:82px; --r:-18deg; --d:0.2s;" />
@@ -168,7 +186,7 @@
         </article>
 
         <article class="dish" data-dish="2" aria-roledescription="slide" aria-label="3 of 4: Shrimp Skagen toast" aria-hidden="true"
-                 style="--c1:#443218; --c2:#271C0D; --deep:#9A7A34;">
+                 style="--c1:var(--dish-2-c1); --c2:var(--dish-2-c2); --deep:var(--dish-2-deep);">
           <span class="dish__ghost" aria-hidden="true">Skagen</span>
           <div class="dish__garnish" aria-hidden="true">
             <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:17%; --y:26%; --s:80px; --r:16deg; --d:0.3s;" />
@@ -187,7 +205,7 @@
         </article>
 
         <article class="dish" data-dish="3" aria-roledescription="slide" aria-label="4 of 4: The Shooting Star" aria-hidden="true"
-                 style="--c1:#3A1830; --c2:#20101B; --deep:#8C5A78;">
+                 style="--c1:var(--dish-3-c1); --c2:var(--dish-3-c2); --deep:var(--dish-3-deep);">
           <span class="dish__ghost" aria-hidden="true">Stjerne</span>
           <div class="dish__garnish" aria-hidden="true">
             <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:16%; --y:30%; --s:82px; --r:-12deg; --d:0.2s;" />
