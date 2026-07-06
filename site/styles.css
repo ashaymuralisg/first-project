@@ -1086,6 +1086,15 @@ fieldset.field { border: none; padding: 0; }
   .footer__meta { text-align: left; }
   .footer__staff { align-self: flex-start; }
 }
+/* Reservation form on phones: the native date input has a large intrinsic
+   width (~151px for "mm/dd/yyyy" + the calendar icon), so a 3-up
+   date/time/party row squeezes the two selects down to an unreadable
+   ~59px each. Give Date its own full-width row, and let Time + Party
+   share the row below at a comfortable half-width each. */
+@media (max-width: 620px) {
+  .reserve__form .field-row:first-child { grid-template-columns: 1fr 1fr; }
+  .reserve__form .field-row:first-child > .field:first-child { grid-column: 1 / -1; }
+}
 @media (max-width: 620px) {
   .nav__links { display: none; }
   .nav__toggle { display: flex; margin-left: auto; }
@@ -1106,7 +1115,8 @@ fieldset.field { border: none; padding: 0; }
   .nav__cta { padding: 0.5rem 0.7rem; font-size: 0.76rem; }
   .theme-toggle { width: 1.9rem; height: 1.9rem; }
   .theme-toggle__icon { width: 14px; height: 14px; }
-  .reserve__form .field-row:first-child { grid-template-columns: 1fr 1fr; }
+  /* first row (date full-width, time+party) is handled at <=620px above;
+     here just stack name/phone too on the very narrowest phones */
   .field-row { grid-template-columns: 1fr; }
   .menu-item { grid-template-columns: 52px 1fr; }
   .menu-item__price { grid-column: 2; margin-top: 0.15rem; }

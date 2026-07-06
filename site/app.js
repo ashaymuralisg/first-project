@@ -154,9 +154,11 @@
     field("hero.eyebrow", "Eyebrow", "Hero"),
     field("hero.tagline", "Tagline", "Hero", { input: "textarea", multiline: true }),
     field("hero.note", "Note (under the buttons)", "Hero"),
-    field("hero.poster", "Poster image (shown before the video plays)", "Hero", { input: "image", selector: '[data-cms-key="hero.video"]', prop: "poster" }),
-    field("hero.video.mp4", "Video — MP4", "Hero", { input: "video", selector: '[data-cms-key="hero.video"]', attr: "data-mp4" }),
-    field("hero.video.webm", "Video — WebM (optional)", "Hero", { input: "video", selector: '[data-cms-key="hero.video"]', attr: "data-webm" }),
+    // The hero film itself is intentionally NOT editable/removable from the
+    // CMS — it's the brand centrepiece, so its sources stay hardcoded in
+    // index.html (data-mp4/data-webm on .hero__video). The still poster
+    // shown before it plays / on mobile stays editable.
+    field("hero.poster", "Poster image (shown before the video plays / on mobile)", "Hero", { input: "image", selector: '[data-cms-key="hero.video"]', prop: "poster" }),
 
     field("brand.logo", "Logo mark (nav + footer)", "Brand", { input: "image", prop: "src" }),
 
@@ -341,7 +343,10 @@
     });
 
     if (!items.length) {
-      root.innerHTML = '<p class="menu__empty">No dishes match that filter right now — try “All”.</p>';
+      // distinguish "nothing on the menu at all" from "nothing under this filter"
+      root.innerHTML = publicMenu().length
+        ? '<p class="menu__empty">No dishes match that filter right now — try “All”.</p>'
+        : '<p class="menu__empty">Our menu is being updated — please check back soon, or call us for today’s dishes.</p>';
       return;
     }
 
@@ -414,7 +419,11 @@
     var ok = true, firstBad = null;
     fields.forEach(function (n) {
       var el = form.elements[n];
-      var invalid = !el.value || (el.type === "email" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
+      var invalid = !el.value
+        || (el.type === "email" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value))
+        // mirror the server's phone rule (validate.js) so a bad phone is
+        // caught + highlighted instantly, not bounced back as a generic 400
+        || (n === "phone" && !/^[0-9 +()\-]{3,}$/.test(el.value.trim()));
       el.setAttribute("aria-invalid", invalid ? "true" : "false");
       if (invalid && ok) { ok = false; firstBad = el; }
     });
@@ -463,6 +472,27 @@
         toast("Table requested ✓", "Thanks " + booking.name.split(" ")[0] + " — we've received your request for " + prettyDate(booking.date) + " at " + booking.time + ". We'll confirm by phone or email shortly.", "success");
         if (unlocked) { loadBookings().then(renderBookings); }
       }).catch(function (err) {
+        // If the server rejected specific fields (400 with fieldErrors),
+        // highlight and focus the offending field with its exact reason
+        // rather than a generic "something's wrong".
+        var fieldErrors = err && err.data && err.data.details;
+        if (err && err.status === 400 && fieldErrors && typeof fieldErrors === "object") {
+          var firstBadName = null, firstMsg = "";
+          Object.keys(fieldErrors).forEach(function (fname) {
+            var el = form.elements[fname];
+            var msgs = fieldErrors[fname];
+            if (el && msgs && msgs.length) {
+              el.setAttribute("aria-invalid", "true");
+              if (!firstBadName) { firstBadName = fname; firstMsg = msgs[0]; }
+            }
+          });
+          if (firstBadName) {
+            var el2 = form.elements[firstBadName];
+            if (el2 && el2.focus) el2.focus();
+            toast("Please check your details", firstMsg || "The highlighted field isn't in a format we can accept.", "error");
+            return;
+          }
+        }
         toast(err && err.status === 429 ? "Too many requests" : "Couldn't send", (err && err.message) || "Please try again, or call us to book.", "error");
       }).then(function () { if (submitBtn) submitBtn.disabled = false; });
       return;
@@ -692,7 +722,7 @@
           "</div></div>";
       });
     });
-    root.innerHTML = html;
+    root.innerHTML = html || '<p class="portal__empty">No menu items yet. Use “+ Add item” above to create your first one.</p>';
     $$("[data-edit]", root).forEach(function (b) { b.addEventListener("click", function () { openItemModal(b.getAttribute("data-edit")); }); });
     $$("[data-toggle]", root).forEach(function (b) { b.addEventListener("click", function () { toggleAvailable(b.getAttribute("data-toggle")); }); });
     $$("[data-del]", root).forEach(function (b) { b.addEventListener("click", function () { deleteItem(b.getAttribute("data-del")); }); });
@@ -969,10 +999,33 @@
       reader.readAsDataURL(file);
     });
   }
+  // Where (if anywhere) a media URL is currently in use, as human-readable
+  // lines — so deleting a still-referenced file warns the staff exactly what
+  // will break instead of silently leaving dangling <img>/<video> srcs.
+  function mediaReferences(url) {
+    var refs = [];
+    Object.keys(contentOverrides).forEach(function (k) {
+      if (contentOverrides[k] === url) {
+        var f = null;
+        for (var i = 0; i < CONTENT_FIELDS.length; i++) { if (CONTENT_FIELDS[i].key === k) { f = CONTENT_FIELDS[i]; break; } }
+        refs.push("Content · " + (f ? f.group + " → " + f.label : k));
+      }
+    });
+    menu.forEach(function (mi) { if (mi.image === url) refs.push("Menu item · " + mi.name); });
+    return refs;
+  }
   function deleteMediaItem(id) {
     var m = mediaLibrary.find(function (x) { return x.id === id; });
     if (!m) return;
-    if (!confirm('Delete "' + m.filename + '" from the media library? Anything on the site still pointing at it will show broken.')) return;
+    var refs = mediaReferences(m.url);
+    var warn;
+    if (refs.length) {
+      warn = 'Delete "' + m.filename + '"?\n\nIt is currently used in ' + refs.length + " place" + (refs.length > 1 ? "s" : "") + ":\n• " + refs.join("\n• ") +
+        "\n\nDeleting it will leave a broken image/video there until you point those at something else. Delete anyway?";
+    } else {
+      warn = 'Delete "' + m.filename + '" from the media library? This can\'t be undone.';
+    }
+    if (!confirm(warn)) return;
     if (apiMode) {
       apiReq("DELETE", "/staff/media/" + id).then(loadMediaLibrary).then(function () { renderMediaLibrary(); toast("Deleted", m.filename); }).catch(apiErr);
       return;
