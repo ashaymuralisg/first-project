@@ -51,10 +51,12 @@ export const menuItemSchema = z.object({
   diet: z.array(z.enum(DIET)).max(4).optional().default([]),
 });
 
-// Content keys are a closed, dotted-lowercase namespace (see CMS_FIELDS on
-// the client) — constrained here too so the DB can't accumulate arbitrary
-// junk keys from a malformed request.
-const CONTENT_KEY = /^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)*$/;
+// Content keys are a closed, dotted-lowercase namespace (see CONTENT_FIELDS
+// on the client) — constrained here too so the DB can't accumulate arbitrary
+// junk keys from a malformed request. The root segment must start with a
+// letter (hero, dish, reviews…); later segments may be pure digits too
+// (dish.0.name, reviews.2.quote), since per-item fields are indexed.
+const CONTENT_KEY = /^[a-z][a-z0-9]*(\.[a-z0-9]+)*$/;
 
 export const contentSchema = z.object({
   entries: z.record(

@@ -945,6 +945,7 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .portal__notice { font-size: 0.85rem; color: var(--fg-mute); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
 .portal__content-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
 .portal__content-head .portal__notice { flex: 1; margin-bottom: 0; }
+.portal__content-head-actions { display: flex; gap: 0.6rem; flex-shrink: 0; }
 
 /* ---------- content tab (site copy + media fields, grouped by section) ---------- */
 .content-form { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.25rem; }
@@ -1117,6 +1118,8 @@ fieldset.field { border: none; padding: 0; }
   .content-field__row { flex-wrap: wrap; }
   .field__with-upload { flex-wrap: wrap; }
   .portal__content-head { flex-direction: column; }
+  .portal__content-head-actions { width: 100%; }
+  .portal__content-head-actions .btn { flex: 1; }
 }
 
 /* ---------- reduced motion ---------- */

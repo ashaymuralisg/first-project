@@ -164,19 +164,34 @@
     field("story.title", "Title", "Story"),
     field("story.lede", "Body copy", "Story", { input: "textarea", multiline: true }),
     field("story.photo", "Photo", "Story", { input: "image", prop: "src" }),
+    field("story.craft.1", "Technique 1 (Curing)", "Story"),
+    field("story.craft.2", "Technique 2 (Smoking)", "Story"),
+    field("story.craft.3", "Technique 3 (Pickling)", "Story"),
 
     field("dishes.eyebrow", "Eyebrow", "Signature dishes"),
     field("dish.0.name", "Dish 1 — name (Roast Beef)", "Signature dishes"),
+    field("dish.0.eyebrow", "Dish 1 — card label (\"Smørrebrød\"/\"Signature · Smørrebrød\")", "Signature dishes"),
     field("dish.0.desc", "Dish 1 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.0.tag", "Dish 1 — allergen tag (\"Nut-free\")", "Signature dishes"),
+    field("dish.0.ghost", "Dish 1 — large background word", "Signature dishes"),
     field("dish.0.image", "Dish 1 — photo", "Signature dishes", { input: "image", prop: "src" }),
     field("dish.1.name", "Dish 2 — name (Salmon)", "Signature dishes"),
+    field("dish.1.eyebrow", "Dish 2 — card label (\"Smørrebrød\"/\"Signature · Smørrebrød\")", "Signature dishes"),
     field("dish.1.desc", "Dish 2 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.1.tag", "Dish 2 — allergen tag (\"Nut-free\")", "Signature dishes"),
+    field("dish.1.ghost", "Dish 2 — large background word", "Signature dishes"),
     field("dish.1.image", "Dish 2 — photo", "Signature dishes", { input: "image", prop: "src" }),
     field("dish.2.name", "Dish 3 — name (Shrimp Skagen)", "Signature dishes"),
+    field("dish.2.eyebrow", "Dish 3 — card label (\"Smørrebrød\"/\"Signature · Smørrebrød\")", "Signature dishes"),
     field("dish.2.desc", "Dish 3 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.2.tag", "Dish 3 — allergen tag (\"Nut-free\")", "Signature dishes"),
+    field("dish.2.ghost", "Dish 3 — large background word", "Signature dishes"),
     field("dish.2.image", "Dish 3 — photo", "Signature dishes", { input: "image", prop: "src" }),
     field("dish.3.name", "Dish 4 — name (Shooting Star)", "Signature dishes"),
+    field("dish.3.eyebrow", "Dish 4 — card label (\"Smørrebrød\"/\"Signature · Smørrebrød\")", "Signature dishes"),
     field("dish.3.desc", "Dish 4 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.3.tag", "Dish 4 — allergen tag (\"Nut-free\")", "Signature dishes"),
+    field("dish.3.ghost", "Dish 4 — large background word", "Signature dishes"),
     field("dish.3.image", "Dish 4 — photo", "Signature dishes", { input: "image", prop: "src" }),
 
     field("instagram.eyebrow", "Eyebrow", "Instagram"),
@@ -197,13 +212,22 @@
 
     field("reviews.eyebrow", "Eyebrow", "Reviews"),
     field("reviews.title", "Title", "Reviews"),
+    field("reviews.0.quote", "Review 1 — quote", "Reviews", { input: "textarea", multiline: true }),
+    field("reviews.0.author", "Review 1 — author", "Reviews"),
+    field("reviews.1.quote", "Review 2 — quote", "Reviews", { input: "textarea", multiline: true }),
+    field("reviews.1.author", "Review 2 — author", "Reviews"),
+    field("reviews.2.quote", "Review 3 — quote", "Reviews", { input: "textarea", multiline: true }),
+    field("reviews.2.author", "Review 3 — author", "Reviews"),
 
     field("reserve.eyebrow", "Eyebrow", "Reservations"),
     field("reserve.title", "Title", "Reservations"),
     field("reserve.intro", "Intro copy", "Reservations", { input: "textarea", multiline: true }),
-    field("reserve.hours.lunch", "Lunch hours", "Reservations"),
-    field("reserve.hours.dinner", "Dinner hours", "Reservations"),
-    field("reserve.hours.weekend", "Weekend hours", "Reservations"),
+    field("reserve.hours.lunch.label", "Lunch — label", "Reservations"),
+    field("reserve.hours.lunch", "Lunch — hours", "Reservations"),
+    field("reserve.hours.dinner.label", "Dinner — label", "Reservations"),
+    field("reserve.hours.dinner", "Dinner — hours", "Reservations"),
+    field("reserve.hours.weekend.label", "Weekends — label", "Reservations"),
+    field("reserve.hours.weekend", "Weekends — hours", "Reservations"),
 
     field("visit.eyebrow", "Eyebrow", "Find us"),
     field("visit.title", "Title", "Find us"),
@@ -857,6 +881,24 @@
     save(CONTENT_KEY, contentOverrides);
     afterSave();
   }
+  function resetAllContent() {
+    var warned = confirm(
+      "All content changes on this website will be reset back to default " +
+      "(the original text and images when the site was created). There is no reverting this."
+    );
+    if (!warned) return;
+    function afterReset() {
+      toast("Content reset", "Reloading to show the defaults…", "success");
+      setTimeout(function () { location.reload(); }, 800);
+    }
+    if (apiMode) {
+      apiReq("DELETE", "/staff/content").then(afterReset).catch(apiErr);
+      return;
+    }
+    contentOverrides = {};
+    save(CONTENT_KEY, contentOverrides);
+    afterReset();
+  }
 
   /* ============================================================
      MEDIA LIBRARY — upload, browse, delete images/video used across
@@ -1506,6 +1548,7 @@
       e.target.value = "";
     });
     $("#content-save-btn").addEventListener("click", saveAllContent);
+    $("#content-reset-all-btn").addEventListener("click", resetAllContent);
     $("#media-upload-input").addEventListener("change", function (e) {
       var file = e.target.files && e.target.files[0];
       if (!file) return;

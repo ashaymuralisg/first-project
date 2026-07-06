@@ -175,6 +175,15 @@ export function createApp() {
     tx(p.data.entries);
     res.json({ ok: true });
   });
+  // "Reset all" in the Content tab — wipes every override back to the
+  // page's hardcoded defaults. Declared before the :key route below;
+  // Express matches this exact path first regardless of order since /:key
+  // requires a trailing segment, but keeping the bulk route first reads
+  // clearer next to the bulk PUT above.
+  api.delete("/staff/content", requireAuth, (_req, res) => {
+    stmts.deleteAllContent.run();
+    res.json({ ok: true });
+  });
   api.delete("/staff/content/:key", requireAuth, (req, res) => {
     stmts.deleteContent.run(req.params.key);
     res.json({ ok: true });

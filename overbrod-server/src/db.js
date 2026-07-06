@@ -88,6 +88,7 @@ export const stmts = {
     ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
   `),
   deleteContent: db.prepare(`DELETE FROM content WHERE key = ?`),
+  deleteAllContent: db.prepare(`DELETE FROM content`),
 
   listMedia: db.prepare(`SELECT * FROM media ORDER BY created_at DESC`),
   getMedia: db.prepare(`SELECT * FROM media WHERE id = ?`),

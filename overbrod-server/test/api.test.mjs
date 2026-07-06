@@ -152,6 +152,44 @@ test("content: public GET, staff-only write, unknown keys rejected", async () =>
   assert.equal(after["hero.tagline"], undefined);
 });
 
+test("content: per-item keys with numeric segments (dish.0.name, reviews.2.quote) are accepted", async () => {
+  const login = await post("/api/staff/login", { password: PASSWORD });
+  const cookie = login.headers.get("set-cookie").split(";")[0];
+  const auth = { cookie };
+
+  const put = await fetch(base + "/api/staff/content", {
+    method: "PUT", headers: { "content-type": "application/json", ...auth },
+    body: JSON.stringify({ entries: { "dish.0.name": "Test Dish", "reviews.2.quote": "Great food.", "story.craft.1": "Curing" } }),
+  });
+  assert.equal(put.status, 200);
+  const { entries } = await j(await fetch(base + "/api/content"));
+  assert.equal(entries["dish.0.name"], "Test Dish");
+  assert.equal(entries["reviews.2.quote"], "Great food.");
+  assert.equal(entries["story.craft.1"], "Curing");
+
+  await Promise.all(["dish.0.name", "reviews.2.quote", "story.craft.1"].map((k) =>
+    fetch(base + "/api/staff/content/" + k, { method: "DELETE", headers: auth })
+  ));
+});
+
+test("content: reset-all clears every override", async () => {
+  const login = await post("/api/staff/login", { password: PASSWORD });
+  const cookie = login.headers.get("set-cookie").split(";")[0];
+  const auth = { cookie };
+
+  await fetch(base + "/api/staff/content", {
+    method: "PUT", headers: { "content-type": "application/json", ...auth },
+    body: JSON.stringify({ entries: { "hero.tagline": "x", "story.title": "y" } }),
+  });
+  let { entries } = await j(await fetch(base + "/api/content"));
+  assert.ok(Object.keys(entries).length >= 2);
+
+  const resetAll = await fetch(base + "/api/staff/content", { method: "DELETE", headers: auth });
+  assert.equal(resetAll.status, 200);
+  ({ entries } = await j(await fetch(base + "/api/content")));
+  assert.equal(Object.keys(entries).length, 0);
+});
+
 test("media: requires auth, rejects disallowed file types, deletes cleanly", async () => {
   assert.equal((await fetch(base + "/api/staff/media")).status, 401);
 
