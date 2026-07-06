@@ -887,13 +887,22 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .portal__login .portal__close { position: absolute; top: 1rem; right: 1rem; }
 .portal__login h2 { font-size: 1.7rem; margin: 0.5rem 0 1.5rem; }
 .portal__err { color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
-.portal__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem clamp(1.25rem, 3vw, 2rem); border-bottom: 1px solid var(--line); background: var(--panel); }
+/* .portal__dash is a flex child of .portal__panel (which caps height at
+   92vh); without its own flex sizing it just grows to fit all content
+   instead of stopping at that cap, so .portal__tabpanel's overflow-y:auto
+   below never actually gets a bounded height to scroll within — content
+   past 92vh was silently clipped by the panel's overflow:hidden instead.
+   flex + min-height:0 here (and on .portal__tabpanel) fixes that: the bar
+   and tabs take their natural height, and the tabpanel gets the rest,
+   scrolling internally once its content is taller than that. */
+.portal__dash { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.portal__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem clamp(1.25rem, 3vw, 2rem); border-bottom: 1px solid var(--line); background: var(--panel); flex-shrink: 0; }
 .portal__bar h2 { font-size: 1.35rem; margin-top: 0.15rem; }
 .portal__bar-actions { display: flex; gap: 0.5rem; align-items: center; }
-.portal__tabs { display: flex; gap: 0.25rem; padding: 0.75rem clamp(1.25rem, 3vw, 2rem) 0; border-bottom: 1px solid var(--line); }
+.portal__tabs { display: flex; gap: 0.25rem; padding: 0.75rem clamp(1.25rem, 3vw, 2rem) 0; border-bottom: 1px solid var(--line); flex-shrink: 0; }
 .portal__tab { background: none; border: none; padding: 0.65rem 1.1rem; font-weight: 600; font-size: 0.92rem; color: var(--fg-mute); border-bottom: 2.5px solid transparent; margin-bottom: -1px; }
 .portal__tab.is-active { color: var(--fg); border-bottom-color: var(--accent); }
-.portal__tabpanel { padding: clamp(1.25rem, 3vw, 2rem); overflow-y: auto; }
+.portal__tabpanel { padding: clamp(1.25rem, 3vw, 2rem); overflow-y: auto; flex: 1; min-height: 0; }
 .portal__menu-head { margin-bottom: 1.25rem; }
 .portal__filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
 .portal__empty { color: var(--fg-mute); font-style: italic; padding: 2rem 0; text-align: center; }
