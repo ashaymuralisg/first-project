@@ -56,7 +56,7 @@
   <header class="nav glass glass--dark" id="top">
     <div class="nav__inner">
       <a class="nav__brand" href="#top" aria-label="OVERBRØD home">
-        <img class="nav__logo" src="assets/brand/logo-mark.png" width="34" height="34" alt="" />
+        <img class="nav__logo" data-cms-key="brand.logo" src="assets/brand/logo-mark.png" width="34" height="34" alt="" />
         <span class="nav__wordmark">OVERBR<span class="o-slash">Ø</span>D</span>
       </a>
       <nav class="nav__links" aria-label="Primary">
@@ -97,32 +97,33 @@
            everyone else (mobile, reduced motion) sees the poster still. -->
       <div class="hero__media" aria-hidden="true">
         <video class="hero__video" muted playsinline preload="none"
+               data-cms-key="hero.video"
                poster="assets/hero-poster.jpg"
                data-webm="assets/hero-smorrebrod.webm"
                data-mp4="assets/hero-smorrebrod.mp4"></video>
         <div class="hero__scrim"></div>
       </div>
-      <p class="hero__eyebrow">Scandinavian deli · Alexandra, Singapore</p>
+      <p class="hero__eyebrow" data-cms-key="hero.eyebrow">Scandinavian deli · Alexandra, Singapore</p>
       <h1 class="hero__title" id="hero-title">
         <span class="hero__word" data-word>OVERBR<span class="o-slash">Ø</span>D</span>
       </h1>
-      <p class="hero__tagline">Handcrafted Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d. Bringing you the classic Danish dish with an Overbr<span class="o-slash">ø</span>d twist.</p>
+      <p class="hero__tagline" data-cms-key="hero.tagline">Handcrafted Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d. Bringing you the classic Danish dish with an Overbr<span class="o-slash">ø</span>d twist.</p>
       <div class="hero__actions">
         <a href="#reserve" class="btn btn--primary">Reserve a table</a>
         <a href="#menu" class="btn btn--ghost">See the menu</a>
       </div>
-      <p class="hero__note">No service charge · No GST</p>
+      <p class="hero__note" data-cms-key="hero.note">No service charge · No GST</p>
     </section>
 
     <!-- ============ STORY ============ -->
     <section class="story section" id="story" aria-labelledby="story-title">
       <div class="section__head">
-        <span class="eyebrow">Our story</span>
-        <h2 class="section__title" id="story-title">A part of Scandinavia, plated in Singapore.</h2>
+        <span class="eyebrow" data-cms-key="story.eyebrow">Our story</span>
+        <h2 class="section__title" id="story-title" data-cms-key="story.title">A part of Scandinavia, plated in Singapore.</h2>
       </div>
       <div class="story__body">
         <div class="story__text">
-          <p class="story__lede">OVERBR<span class="o-slash">Ø</span>D is a Scandinavian inspired deli focusing on Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d (Danish open-faced sandwiches) and other Scandinavian dishes like Swedish meatballs and Norwegian reindeer stew. Using techniques like curing, smoking, pickling, they aim to bring a part of Scandinavia to Singapore but with an OVERBR<span class="o-slash">Ø</span>D twist.</p>
+          <p class="story__lede" data-cms-key="story.lede">OVERBR<span class="o-slash">Ø</span>D is a Scandinavian inspired deli focusing on Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d (Danish open-faced sandwiches) and other Scandinavian dishes like Swedish meatballs and Norwegian reindeer stew. Using techniques like curing, smoking, pickling, they aim to bring a part of Scandinavia to Singapore but with an OVERBR<span class="o-slash">Ø</span>D twist.</p>
           <ul class="story__craft" aria-label="Our techniques">
             <li><span>Curing</span></li>
             <li><span>Smoking</span></li>
@@ -131,7 +132,7 @@
         </div>
 
         <figure class="story__photo">
-          <img src="assets/story-storefront.jpg" alt="Inside OVERBRØD in the evening — the wood counter, pendant lighting and open kitchen" width="212" height="171" loading="lazy" />
+          <img data-cms-key="story.photo" src="assets/story-storefront.jpg" alt="Inside OVERBRØD in the evening — the wood counter, pendant lighting and open kitchen" width="212" height="171" loading="lazy" />
         </figure>
       </div>
     </section>
@@ -144,7 +145,7 @@
          still shows the first dish with no JS; app.js wires the interaction
          and the smart-animate-style crossfade between them. -->
     <section class="dishes" id="dishes" aria-roledescription="carousel" aria-label="Signature smørrebrød">
-      <p class="dishes__eyebrow"><span class="eyebrow">Off the board</span></p>
+      <p class="dishes__eyebrow"><span class="eyebrow" data-cms-key="dishes.eyebrow">Off the board</span></p>
 
       <div class="dishes__stage" id="dishes-stage">
         <article class="dish" data-dish="0" aria-roledescription="slide" aria-label="1 of 4: Roast Beef" aria-hidden="true"
@@ -157,11 +158,11 @@
             <img class="dish__g" src="assets/slider/garnish/pepper.png" alt="" style="--x:78%; --y:68%; --s:40px; --r:0deg; --d:0.3s;" />
             <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:88%; --y:52%; --s:52px; --r:150deg; --d:0.9s;" />
           </div>
-          <img class="dish__img" src="assets/slider/roast-beef.png" width="760" height="668" alt="OVERBRØD Roast Beef smørrebrød" loading="lazy" />
+          <img class="dish__img" data-cms-key="dish.0.image" src="assets/slider/roast-beef.png" width="760" height="668" alt="OVERBRØD Roast Beef smørrebrød" loading="lazy" />
           <div class="dish__info">
             <span class="eyebrow">Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
-            <h3 class="dish__name">Roast Beef</h3>
-            <p class="dish__desc">Thin-sliced roast beef with remoulade and crisp fried onions on buttered rye.</p>
+            <h3 class="dish__name" data-cms-key="dish.0.name">Roast Beef</h3>
+            <p class="dish__desc" data-cms-key="dish.0.desc">Thin-sliced roast beef with remoulade and crisp fried onions on buttered rye.</p>
             <div class="dish__meta"><span class="dish__tag">Nut-free</span></div>
           </div>
         </article>
@@ -176,11 +177,11 @@
             <img class="dish__g" src="assets/slider/garnish/pepper.png" alt="" style="--x:20%; --y:66%; --s:38px; --r:0deg; --d:0.4s;" />
             <img class="dish__g" src="assets/slider/garnish/dill.png" alt="" style="--x:88%; --y:46%; --s:56px; --r:120deg; --d:0.9s;" />
           </div>
-          <img class="dish__img" src="assets/slider/salmon.png" width="760" height="604" alt="OVERBRØD Salmon two-ways smørrebrød" loading="lazy" />
+          <img class="dish__img" data-cms-key="dish.1.image" src="assets/slider/salmon.png" width="760" height="604" alt="OVERBRØD Salmon two-ways smørrebrød" loading="lazy" />
           <div class="dish__info">
             <span class="eyebrow"><span class="dish__sig">Signature</span> · Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
-            <h3 class="dish__name">Salmon, Two Ways</h3>
-            <p class="dish__desc">House-cured salmon with mustard-dill sauce; silky, bright and delicate.</p>
+            <h3 class="dish__name" data-cms-key="dish.1.name">Salmon, Two Ways</h3>
+            <p class="dish__desc" data-cms-key="dish.1.desc">House-cured salmon with mustard-dill sauce; silky, bright and delicate.</p>
             <div class="dish__meta"><span class="dish__tag">Nut-free</span></div>
           </div>
         </article>
@@ -195,11 +196,11 @@
             <img class="dish__g" src="assets/slider/garnish/rye.png" alt="" style="--x:22%; --y:68%; --s:60px; --r:-8deg; --d:0.5s;" />
             <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:12%; --y:50%; --s:50px; --r:30deg; --d:0.9s;" />
           </div>
-          <img class="dish__img" src="assets/slider/shrimp.png" width="760" height="662" alt="OVERBRØD Shrimp Skagen toast" loading="lazy" />
+          <img class="dish__img" data-cms-key="dish.2.image" src="assets/slider/shrimp.png" width="760" height="662" alt="OVERBRØD Shrimp Skagen toast" loading="lazy" />
           <div class="dish__info">
             <span class="eyebrow">Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
-            <h3 class="dish__name">Shrimp Skagen</h3>
-            <p class="dish__desc">Cold-water shrimp in a dill-and-lemon mayo, piled on toasted bread — our take on the Swedish classic.</p>
+            <h3 class="dish__name" data-cms-key="dish.2.name">Shrimp Skagen</h3>
+            <p class="dish__desc" data-cms-key="dish.2.desc">Cold-water shrimp in a dill-and-lemon mayo, piled on toasted bread — our take on the Swedish classic.</p>
             <div class="dish__meta"><span class="dish__tag">Nut-free</span></div>
           </div>
         </article>
@@ -214,11 +215,11 @@
             <img class="dish__g" src="assets/slider/garnish/pea.png" alt="" style="--x:20%; --y:68%; --s:56px; --r:-24deg; --d:0.5s;" />
             <img class="dish__g" src="assets/slider/garnish/pepper.png" alt="" style="--x:12%; --y:48%; --s:40px; --r:0deg; --d:0.9s;" />
           </div>
-          <img class="dish__img" src="assets/slider/shooting-star.png" width="760" height="651" alt="OVERBRØD The Shooting Star smørrebrød" loading="lazy" />
+          <img class="dish__img" data-cms-key="dish.3.image" src="assets/slider/shooting-star.png" width="760" height="651" alt="OVERBRØD The Shooting Star smørrebrød" loading="lazy" />
           <div class="dish__info">
             <span class="eyebrow"><span class="dish__sig">Signature</span> · Sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d</span>
-            <h3 class="dish__name">The Shooting Star</h3>
-            <p class="dish__desc">Thick fried halibut, poached shrimp, asparagus and mustard sauce — the plate everyone talks about.</p>
+            <h3 class="dish__name" data-cms-key="dish.3.name">The Shooting Star</h3>
+            <p class="dish__desc" data-cms-key="dish.3.desc">Thick fried halibut, poached shrimp, asparagus and mustard sauce — the plate everyone talks about.</p>
             <div class="dish__meta"><span class="dish__tag">Nut-free</span></div>
           </div>
         </article>
@@ -240,15 +241,15 @@
     <!-- ============ INSTAGRAM (static gallery — only Follow links out) ============ -->
     <section class="insta section" id="instagram" aria-labelledby="insta-title">
       <div class="section__head">
-        <span class="eyebrow">On Instagram</span>
-        <h2 class="section__title" id="insta-title">Straight from the pass.</h2>
+        <span class="eyebrow" data-cms-key="instagram.eyebrow">On Instagram</span>
+        <h2 class="section__title" id="insta-title" data-cms-key="instagram.title">Straight from the pass.</h2>
       </div>
 
       <div class="insta__card glass">
         <header class="insta__profile">
           <img class="insta__avatar" src="assets/brand/logo.png" width="60" height="60" alt="OVERBRØD logo" />
           <div class="insta__id">
-            <span class="insta__handle">@overbrod</span>
+            <span class="insta__handle" data-cms-key="instagram.handle">@overbrod</span>
             <span class="insta__name">OVERBR<span class="o-slash">Ø</span>D · Scandinavian deli</span>
           </div>
           <!-- The only link out of this section, per request. -->
@@ -267,30 +268,30 @@
              static (first image only, for any carousel post). Videos play
              in place on click; nothing here links to Instagram. -->
         <div class="insta__grid">
-          <div class="insta__tile insta__tile--video" role="button" tabindex="0" data-webm="" data-mp4="assets/instagram/video-1.mp4" aria-label="Play video — OVERBRØD Instagram post 1">
-            <img class="insta__poster" src="assets/instagram/video-1.jpg" width="900" height="1637" loading="lazy" alt="OVERBRØD plated dish with dill and pomegranate — tap to play the reel." />
+          <div class="insta__tile insta__tile--video" data-cms-key="insta.video1" role="button" tabindex="0" data-webm="" data-mp4="assets/instagram/video-1.mp4" aria-label="Play video — OVERBRØD Instagram post 1">
+            <img class="insta__poster" data-cms-key="insta.video1.poster" src="assets/instagram/video-1.jpg" width="900" height="1637" loading="lazy" alt="OVERBRØD plated dish with dill and pomegranate — tap to play the reel." />
             <span class="insta__play" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
             </span>
           </div>
           <figure class="insta__tile insta__tile--photo">
-            <img src="assets/instagram/1.jpg" width="900" height="1200" loading="lazy" alt="Seared beef smørrebrød with pickled red onion, shaved fennel and dill on toasted rye." />
+            <img data-cms-key="insta.photo1" src="assets/instagram/1.jpg" width="900" height="1200" loading="lazy" alt="Seared beef smørrebrød with pickled red onion, shaved fennel and dill on toasted rye." />
           </figure>
           <figure class="insta__tile insta__tile--photo">
-            <img src="assets/instagram/2.jpg" width="900" height="901" loading="lazy" alt="Sautéed wild mushrooms with remoulade and microgreens on rye." />
+            <img data-cms-key="insta.photo2" src="assets/instagram/2.jpg" width="900" height="901" loading="lazy" alt="Sautéed wild mushrooms with remoulade and microgreens on rye." />
           </figure>
           <figure class="insta__tile insta__tile--photo">
-            <img src="assets/instagram/3.jpg" width="900" height="901" loading="lazy" alt="Three loaded hot dogs on brioche buns with crispy onions, pickles and mustard." />
+            <img data-cms-key="insta.photo3" src="assets/instagram/3.jpg" width="900" height="901" loading="lazy" alt="Three loaded hot dogs on brioche buns with crispy onions, pickles and mustard." />
           </figure>
 
-          <div class="insta__tile insta__tile--video" role="button" tabindex="0" data-webm="" data-mp4="assets/instagram/video-2.mp4" aria-label="Play video — OVERBRØD Instagram post 5">
-            <img class="insta__poster" src="assets/instagram/video-2.jpg" width="900" height="1635" loading="lazy" alt="&quot;Farm to fork&quot; — radishes over an open fire — tap to play the reel." />
+          <div class="insta__tile insta__tile--video" data-cms-key="insta.video2" role="button" tabindex="0" data-webm="" data-mp4="assets/instagram/video-2.mp4" aria-label="Play video — OVERBRØD Instagram post 5">
+            <img class="insta__poster" data-cms-key="insta.video2.poster" src="assets/instagram/video-2.jpg" width="900" height="1635" loading="lazy" alt="&quot;Farm to fork&quot; — radishes over an open fire — tap to play the reel." />
             <span class="insta__play" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
             </span>
           </div>
           <figure class="insta__tile insta__tile--photo">
-            <img src="assets/instagram/4.jpg" width="900" height="903" loading="lazy" alt="Overhead spread of nine smørrebrød: shrimp and roe, cured salmon with roe and pomegranate, and roast beef." />
+            <img data-cms-key="insta.photo4" src="assets/instagram/4.jpg" width="900" height="903" loading="lazy" alt="Overhead spread of nine smørrebrød: shrimp and roe, cured salmon with roe and pomegranate, and roast beef." />
           </figure>
         </div>
       </div>
@@ -299,9 +300,9 @@
     <!-- ============ MENU ============ -->
     <section class="menu section" id="menu" aria-labelledby="menu-title">
       <div class="section__head">
-        <span class="eyebrow">The menu</span>
-        <h2 class="section__title" id="menu-title">Open-faced, and open about it.</h2>
-        <p class="section__sub">Every plate described plainly, priced clearly, and tagged for how you eat. Look for the <span class="inline-sig">Signature</span> mark for where to start.</p>
+        <span class="eyebrow" data-cms-key="menu.eyebrow">The menu</span>
+        <h2 class="section__title" id="menu-title" data-cms-key="menu.title">Open-faced, and open about it.</h2>
+        <p class="section__sub" data-cms-key="menu.intro">Every plate described plainly, priced clearly, and tagged for how you eat. Look for the <span class="inline-sig">Signature</span> mark for where to start.</p>
       </div>
 
       <div class="menu__filters" id="menu-filters" role="group" aria-label="Filter menu by dietary need"></div>
@@ -317,8 +318,8 @@
     <!-- ============ REVIEWS ============ -->
     <section class="reviews section" id="reviews" aria-labelledby="reviews-title">
       <div class="section__head">
-        <span class="eyebrow">In their words</span>
-        <h2 class="section__title" id="reviews-title">"Such a hidden gem."</h2>
+        <span class="eyebrow" data-cms-key="reviews.eyebrow">In their words</span>
+        <h2 class="section__title" id="reviews-title" data-cms-key="reviews.title">"Such a hidden gem."</h2>
       </div>
       <div class="reviews__carousel">
         <div class="reviews__track" id="reviews-track" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Customer reviews — use the arrow keys or swipe to browse">
@@ -365,13 +366,13 @@
       </div>
       <div class="reserve__inner">
         <div class="reserve__intro">
-          <span class="eyebrow">Reservations</span>
-          <h2 class="section__title" id="reserve-title">Book your table.</h2>
-          <p>Choose a date, time and party size, and tell us who's coming. Submitting opens your email app with the details ready to send to us — once you send it, we'll confirm your table by phone or email. Walk-ins are welcome too, but weekends fill up.</p>
+          <span class="eyebrow" data-cms-key="reserve.eyebrow">Reservations</span>
+          <h2 class="section__title" id="reserve-title" data-cms-key="reserve.title">Book your table.</h2>
+          <p data-cms-key="reserve.intro">Choose a date, time and party size, and tell us who's coming. Submitting opens your email app with the details ready to send to us — once you send it, we'll confirm your table by phone or email. Walk-ins are welcome too, but weekends fill up.</p>
           <dl class="reserve__facts">
-            <div><dt>Lunch</dt><dd>Mon–Fri, 11:00–14:30</dd></div>
-            <div><dt>Dinner</dt><dd>Mon–Fri, 17:00–20:30</dd></div>
-            <div><dt>Weekends</dt><dd>Sat–Sun, 10:00–22:00</dd></div>
+            <div><dt>Lunch</dt><dd data-cms-key="reserve.hours.lunch">Mon–Fri, 11:00–14:30</dd></div>
+            <div><dt>Dinner</dt><dd data-cms-key="reserve.hours.dinner">Mon–Fri, 17:00–20:30</dd></div>
+            <div><dt>Weekends</dt><dd data-cms-key="reserve.hours.weekend">Sat–Sun, 10:00–22:00</dd></div>
           </dl>
         </div>
 
@@ -427,25 +428,25 @@
     <!-- ============ LOGISTICS / VISIT ============ -->
     <section class="visit section" id="visit" aria-labelledby="visit-title">
       <div class="section__head">
-        <span class="eyebrow">Find us</span>
-        <h2 class="section__title" id="visit-title">Visit the deli.</h2>
+        <span class="eyebrow" data-cms-key="visit.eyebrow">Find us</span>
+        <h2 class="section__title" id="visit-title" data-cms-key="visit.title">Visit the deli.</h2>
       </div>
       <div class="visit__grid">
         <div class="visit__card glass glass--sakura">
           <h3>Opening hours</h3>
           <dl class="hours">
-            <div><dt>Mon–Fri</dt><dd>11:00–14:30 · 17:00–20:30</dd></div>
-            <div><dt>Sat–Sun</dt><dd>10:00–22:00</dd></div>
+            <div><dt>Mon–Fri</dt><dd data-cms-key="visit.hours.weekday">11:00–14:30 · 17:00–20:30</dd></div>
+            <div><dt>Sat–Sun</dt><dd data-cms-key="visit.hours.weekend">10:00–22:00</dd></div>
           </dl>
           <p class="visit__status" id="open-status" aria-live="polite"></p>
         </div>
 
         <div class="visit__card glass glass--sakura">
           <h3>Getting here</h3>
-          <address class="visit__addr">370 Alexandra Rd, #01-14A<br />Singapore 159953</address>
+          <address class="visit__addr" data-cms-key="visit.address">370 Alexandra Rd, #01-14A<br />Singapore 159953</address>
           <ul class="visit__transit">
-            <li><span class="visit__k">MRT</span> Queenstown MRT (Exit B/C), then bus 195A</li>
-            <li><span class="visit__k">Parking</span> Anchorpoint Basement or IKEA Alexandra</li>
+            <li><span class="visit__k">MRT</span> <span data-cms-key="visit.transit.mrt">Queenstown MRT (Exit B/C), then bus 195A</span></li>
+            <li><span class="visit__k">Parking</span> <span data-cms-key="visit.transit.parking">Anchorpoint Basement or IKEA Alexandra</span></li>
           </ul>
           <a class="link-arrow" href="https://www.google.com/maps/search/?api=1&query=OVERBROD+370+Alexandra+Rd+Singapore+159953" target="_blank" rel="noopener">Open in Google Maps</a>
         </div>
@@ -453,8 +454,8 @@
         <div class="visit__card glass glass--sakura">
           <h3>Say hello</h3>
           <ul class="visit__contact">
-            <li><span class="visit__k">Phone</span> <a href="tel:+6589511198">+65 8951 1198</a></li>
-            <li><span class="visit__k">Email</span> <a href="mailto:overbrodsg@gmail.com">overbrodsg@gmail.com</a></li>
+            <li><span class="visit__k">Phone</span> <a data-cms-key="visit.phone" href="tel:+6589511198">+65 8951 1198</a></li>
+            <li><span class="visit__k">Email</span> <a data-cms-key="visit.email" href="mailto:overbrodsg@gmail.com">overbrodsg@gmail.com</a></li>
           </ul>
           <div class="visit__social">
             <a href="https://www.facebook.com/OverbrodSG/" target="_blank" rel="noopener">Facebook</a>
@@ -470,13 +471,13 @@
     <div class="footer__inner">
       <div class="footer__brand">
         <div class="footer__lockup">
-          <img class="footer__logo" src="assets/brand/logo-mark.png" width="40" height="40" alt="" />
+          <img class="footer__logo" data-cms-key="brand.logo" src="assets/brand/logo-mark.png" width="40" height="40" alt="" />
           <span class="footer__word">OVERBR<span class="o-slash">Ø</span>D</span>
         </div>
-        <p>Handcrafted sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d, a part of Scandinavia in Singapore.</p>
+        <p data-cms-key="footer.tagline">Handcrafted sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d, a part of Scandinavia in Singapore.</p>
       </div>
       <div class="footer__meta">
-        <p>370 Alexandra Rd, #01-14A, Singapore 159953</p>
+        <p data-cms-key="footer.address">370 Alexandra Rd, #01-14A, Singapore 159953</p>
         <p>© <span id="year"></span> OVERBR<span class="o-slash">Ø</span>D. All rights reserved.</p>
         <p class="footer__links"><a href="privacy.html">Privacy Policy</a></p>
         <button type="button" class="footer__staff" id="staff-login-btn">Staff login</button>
@@ -521,10 +522,13 @@
         <div class="portal__tabs" role="tablist" aria-label="Portal sections">
           <button role="tab" class="portal__tab is-active" data-tab="bookings" aria-selected="true">Bookings</button>
           <button role="tab" class="portal__tab" data-tab="menu" aria-selected="false">Menu</button>
+          <button role="tab" class="portal__tab" data-tab="content" aria-selected="false">Content</button>
+          <button role="tab" class="portal__tab" data-tab="media" aria-selected="false">Media</button>
         </div>
 
         <!-- Bookings tab -->
         <section class="portal__tabpanel" data-panel="bookings">
+          <p class="portal__notice">Bookings are automatically deleted 7 days after the reservation date, per Singapore's PDPA data-minimisation requirement — nothing to manage here.</p>
           <div class="portal__filters" id="booking-filters" role="group" aria-label="Filter bookings"></div>
           <div id="bookings-root" class="bookings"></div>
         </section>
@@ -535,6 +539,28 @@
             <button type="button" class="btn btn--primary btn--sm" id="menu-add-btn">+ Add item</button>
           </div>
           <div id="cms-root" class="cms"></div>
+        </section>
+
+        <!-- Content tab: every editable text/media field on the public site,
+             grouped by section. Data-driven from CONTENT_FIELDS in app.js. -->
+        <section class="portal__tabpanel" data-panel="content" hidden>
+          <div class="portal__content-head">
+            <p class="portal__notice">Edit any field and save — changes go live immediately. Leave a field's "Reset" unclicked to keep the current value.</p>
+            <button type="button" class="btn btn--primary btn--sm" id="content-save-btn">Save changes</button>
+          </div>
+          <div id="content-root" class="content-form"></div>
+        </section>
+
+        <!-- Media tab: upload/replace/delete images + video used across the
+             site and menu. -->
+        <section class="portal__tabpanel" data-panel="media" hidden>
+          <div class="portal__menu-head">
+            <label class="btn btn--primary btn--sm media-upload-btn">
+              + Upload media
+              <input type="file" id="media-upload-input" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm" hidden />
+            </label>
+          </div>
+          <div id="media-root" class="media-grid"></div>
         </section>
       </div>
     </div>
@@ -566,7 +592,13 @@
         </div>
         <div class="field field--grow">
           <label for="item-image">Image URL / placeholder</label>
-          <input type="url" id="item-image" placeholder="https://… (leave blank for placeholder)" />
+          <div class="field__with-upload">
+            <input type="text" id="item-image" placeholder="https://… (leave blank for placeholder)" />
+            <label class="btn btn--ghost btn--sm item-image-upload-btn">
+              Upload
+              <input type="file" id="item-image-upload-input" accept="image/jpeg,image/png,image/webp,image/gif" hidden />
+            </label>
+          </div>
         </div>
       </div>
       <div class="field">

@@ -17,10 +17,15 @@
   var STAFF_PASSWORD = "OVERBRODSG";
   var MENU_KEY = "overbrod.menu.v1";
   var BOOKINGS_KEY = "overbrod.bookings.v1";
-  var RETENTION_DAYS = 60; // PDPA retention limitation: drop on-device bookings older than this
-  // Image URLs accepted by the menu editor (defense-in-depth against
-  // javascript:/other schemes being stored and rendered).
-  var SAFE_IMG = /^(https?:\/\/|data:image\/)/i;
+  // PDPA data-minimisation: a booking is kept only until N days *after the
+  // reservation date it was for*, not N days after it was submitted.
+  var RETENTION_DAYS = 7;
+  // Image/media URLs accepted by the menu editor and CMS (defense-in-depth
+  // against javascript:/other schemes being stored and rendered) — mirrors
+  // the server's SAFE_MEDIA_SRC in overbrod-server/src/validate.js.
+  var SAFE_IMG = /^(https?:\/\/|data:image\/|\/uploads\/)/i;
+  var CONTENT_KEY = "overbrod.content.v1";
+  var MEDIA_KEY = "overbrod.media.v1";
 
   /* ============================================================
      API LAYER
@@ -56,6 +61,14 @@
   function loadBookings() {
     if (!apiMode) return Promise.resolve();
     return apiReq("GET", "/staff/bookings").then(function (d) { bookings = d.bookings || []; });
+  }
+  function loadContent() {
+    if (!apiMode) return Promise.resolve();
+    return apiReq("GET", "/content").then(function (d) { contentOverrides = d.entries || {}; });
+  }
+  function loadMediaLibrary() {
+    if (!apiMode) return Promise.resolve();
+    return apiReq("GET", "/staff/media").then(function (d) { mediaLibrary = d.media || []; });
   }
   function apiErr(err) { toast("Something went wrong", (err && err.message) || "Please try again.", "error"); }
 
@@ -108,6 +121,107 @@
   function nordicMark(escaped) { return escaped.replace(/([øÅåÆæØ])/g, '<span class="o-slash">$1</span>'); }
   function money(n) { return "$" + (Math.round(Number(n) * 100) / 100).toFixed(Number(n) % 1 === 0 ? 0 : 2); }
 
+  /* ============================================================
+     CONTENT (CMS) FIELDS
+     Every editable text/image/video on the public site, in one config.
+     Drives three things: what data-cms-key the public markup carries
+     (see index.html), what fields render in the staff Content tab, and
+     how a saved value gets applied back onto the live page.
+     ============================================================ */
+  function field(key, label, group, opts) {
+    opts = opts || {};
+    var selector = opts.selector || ('[data-cms-key="' + key + '"]');
+    return {
+      key: key, label: label, group: group, input: opts.input || "text",
+      apply: function (v) {
+        if (!v) return;
+        $$(selector).forEach(function (el) {
+          if (opts.attr) { el.setAttribute(opts.attr, v); return; }
+          if (opts.prop) { el[opts.prop] = v; return; }
+          if (opts.href) {
+            el.setAttribute("href", opts.href(v));
+            el.innerHTML = nordicMark(esc(v));
+            return;
+          }
+          var html = nordicMark(esc(v));
+          if (opts.multiline) html = html.replace(/\n/g, "<br>");
+          el.innerHTML = html;
+        });
+      },
+    };
+  }
+  var CONTENT_FIELDS = [
+    field("hero.eyebrow", "Eyebrow", "Hero"),
+    field("hero.tagline", "Tagline", "Hero", { input: "textarea", multiline: true }),
+    field("hero.note", "Note (under the buttons)", "Hero"),
+    field("hero.poster", "Poster image (shown before the video plays)", "Hero", { input: "image", selector: '[data-cms-key="hero.video"]', prop: "poster" }),
+    field("hero.video.mp4", "Video — MP4", "Hero", { input: "video", selector: '[data-cms-key="hero.video"]', attr: "data-mp4" }),
+    field("hero.video.webm", "Video — WebM (optional)", "Hero", { input: "video", selector: '[data-cms-key="hero.video"]', attr: "data-webm" }),
+
+    field("brand.logo", "Logo mark (nav + footer)", "Brand", { input: "image", prop: "src" }),
+
+    field("story.eyebrow", "Eyebrow", "Story"),
+    field("story.title", "Title", "Story"),
+    field("story.lede", "Body copy", "Story", { input: "textarea", multiline: true }),
+    field("story.photo", "Photo", "Story", { input: "image", prop: "src" }),
+
+    field("dishes.eyebrow", "Eyebrow", "Signature dishes"),
+    field("dish.0.name", "Dish 1 — name (Roast Beef)", "Signature dishes"),
+    field("dish.0.desc", "Dish 1 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.0.image", "Dish 1 — photo", "Signature dishes", { input: "image", prop: "src" }),
+    field("dish.1.name", "Dish 2 — name (Salmon)", "Signature dishes"),
+    field("dish.1.desc", "Dish 2 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.1.image", "Dish 2 — photo", "Signature dishes", { input: "image", prop: "src" }),
+    field("dish.2.name", "Dish 3 — name (Shrimp Skagen)", "Signature dishes"),
+    field("dish.2.desc", "Dish 3 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.2.image", "Dish 3 — photo", "Signature dishes", { input: "image", prop: "src" }),
+    field("dish.3.name", "Dish 4 — name (Shooting Star)", "Signature dishes"),
+    field("dish.3.desc", "Dish 4 — description", "Signature dishes", { input: "textarea", multiline: true }),
+    field("dish.3.image", "Dish 4 — photo", "Signature dishes", { input: "image", prop: "src" }),
+
+    field("instagram.eyebrow", "Eyebrow", "Instagram"),
+    field("instagram.title", "Title", "Instagram"),
+    field("instagram.handle", "Handle", "Instagram"),
+    field("insta.photo1", "Photo 1", "Instagram", { input: "image", prop: "src" }),
+    field("insta.photo2", "Photo 2", "Instagram", { input: "image", prop: "src" }),
+    field("insta.photo3", "Photo 3", "Instagram", { input: "image", prop: "src" }),
+    field("insta.photo4", "Photo 4", "Instagram", { input: "image", prop: "src" }),
+    field("insta.video1.mp4", "Video 1 — MP4", "Instagram", { input: "video", selector: '[data-cms-key="insta.video1"]', attr: "data-mp4" }),
+    field("insta.video1.poster", "Video 1 — poster image", "Instagram", { input: "image", prop: "src" }),
+    field("insta.video2.mp4", "Video 2 — MP4", "Instagram", { input: "video", selector: '[data-cms-key="insta.video2"]', attr: "data-mp4" }),
+    field("insta.video2.poster", "Video 2 — poster image", "Instagram", { input: "image", prop: "src" }),
+
+    field("menu.eyebrow", "Eyebrow", "Menu section"),
+    field("menu.title", "Title", "Menu section"),
+    field("menu.intro", "Intro copy", "Menu section", { input: "textarea", multiline: true }),
+
+    field("reviews.eyebrow", "Eyebrow", "Reviews"),
+    field("reviews.title", "Title", "Reviews"),
+
+    field("reserve.eyebrow", "Eyebrow", "Reservations"),
+    field("reserve.title", "Title", "Reservations"),
+    field("reserve.intro", "Intro copy", "Reservations", { input: "textarea", multiline: true }),
+    field("reserve.hours.lunch", "Lunch hours", "Reservations"),
+    field("reserve.hours.dinner", "Dinner hours", "Reservations"),
+    field("reserve.hours.weekend", "Weekend hours", "Reservations"),
+
+    field("visit.eyebrow", "Eyebrow", "Find us"),
+    field("visit.title", "Title", "Find us"),
+    field("visit.hours.weekday", "Weekday hours", "Find us"),
+    field("visit.hours.weekend", "Weekend hours", "Find us"),
+    field("visit.address", "Address", "Find us", { input: "textarea", multiline: true }),
+    field("visit.transit.mrt", "MRT directions", "Find us"),
+    field("visit.transit.parking", "Parking", "Find us"),
+    field("visit.phone", "Phone", "Find us", { href: function (v) { return "tel:" + v.replace(/[^0-9+]/g, ""); } }),
+    field("visit.email", "Email", "Find us", { href: function (v) { return "mailto:" + v; } }),
+
+    field("footer.tagline", "Footer tagline", "Footer", { input: "textarea", multiline: true }),
+    field("footer.address", "Footer address", "Footer"),
+  ];
+  function applyContentToPage() {
+    CONTENT_FIELDS.forEach(function (f) { f.apply(contentOverrides[f.key]); });
+  }
+
   function load(key, fallback) {
     try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
     catch (e) { return fallback; }
@@ -125,15 +239,20 @@
   }
   var bookings = load(BOOKINGS_KEY, []);
   if (!Array.isArray(bookings)) bookings = [];
-  // PDPA retention: purge bookings older than RETENTION_DAYS on every load.
+  // PDPA retention: purge bookings whose reservation date (not submission
+  // time) is more than RETENTION_DAYS in the past — matches the real
+  // backend's purge() in overbrod-server/src/app.js.
   (function purgeOldBookings() {
-    var cutoff = Date.now() - RETENTION_DAYS * 86400000;
+    var cutoffDate = new Date(Date.now() - RETENTION_DAYS * 86400000).toISOString().slice(0, 10);
     var kept = bookings.filter(function (b) {
-      var t = b && b.createdAt ? Date.parse(b.createdAt) : NaN;
-      return isNaN(t) ? true : t >= cutoff;
+      return !(b && typeof b.date === "string" && b.date < cutoffDate);
     });
     if (kept.length !== bookings.length) { bookings = kept; save(BOOKINGS_KEY, bookings); }
   })();
+  var contentOverrides = load(CONTENT_KEY, {});
+  if (!contentOverrides || typeof contentOverrides !== "object") contentOverrides = {};
+  var mediaLibrary = load(MEDIA_KEY, []);
+  if (!Array.isArray(mediaLibrary)) mediaLibrary = [];
   var unlocked = false;
   var activeDietFilter = "All";
   var activeBookingFilter = "All";
@@ -421,10 +540,12 @@
   function showDash() {
     $("#portal-login").hidden = true;
     $("#portal-dash").hidden = false;
-    Promise.all([loadBookings(), loadMenu()]).then(function () {
+    Promise.all([loadBookings(), loadMenu(), loadContent(), loadMediaLibrary()]).then(function () {
       renderBookingFilters();
       renderBookings();
       renderCMS();
+      renderContentForm();
+      renderMediaLibrary();
     }).catch(apiErr);
   }
   function handleLogin(e) {
@@ -662,6 +783,165 @@
   }
 
   /* ============================================================
+     CONTENT TAB — every field in CONTENT_FIELDS, grouped by section.
+     Leaving a field blank and saving resets it to the page's default
+     (removes the override) rather than storing an empty string.
+     ============================================================ */
+  function renderContentForm() {
+    var root = $("#content-root");
+    var groups = [];
+    CONTENT_FIELDS.forEach(function (f) {
+      var g = groups[groups.length - 1];
+      if (!g || g.name !== f.group) { g = { name: f.group, fields: [] }; groups.push(g); }
+      g.fields.push(f);
+    });
+    root.innerHTML = groups.map(function (g) {
+      var rows = g.fields.map(function (f) {
+        var val = contentOverrides[f.key] || "";
+        var inputId = "cf-" + f.key.replace(/\./g, "-");
+        var inputHtml = f.input === "textarea"
+          ? '<textarea id="' + inputId + '" data-content-key="' + f.key + '" rows="3" placeholder="(using page default)">' + esc(val) + "</textarea>"
+          : '<input type="text" id="' + inputId + '" data-content-key="' + f.key + '" value="' + esc(val) + '" placeholder="(using page default)" />';
+        var mediaControls = "";
+        if (f.input === "image" || f.input === "video") {
+          mediaControls =
+            '<label class="btn btn--ghost btn--sm content-upload-btn">Upload' +
+            '<input type="file" data-upload-for="' + f.key + '" accept="' + (f.input === "video" ? "video/mp4,video/webm" : "image/jpeg,image/png,image/webp,image/gif") + '" hidden /></label>';
+          if (f.input === "image" && val) mediaControls += '<img class="content-thumb" src="' + esc(val) + '" alt="" />';
+        }
+        return '<div class="content-field">' +
+          '<label for="' + inputId + '">' + esc(f.label) + "</label>" +
+          '<div class="content-field__row">' + inputHtml + mediaControls + "</div>" +
+          "</div>";
+      }).join("");
+      return '<fieldset class="content-group"><legend>' + esc(g.name) + "</legend>" + rows + "</fieldset>";
+    }).join("");
+
+    $$("[data-upload-for]", root).forEach(function (input) {
+      input.addEventListener("change", function () {
+        var file = input.files && input.files[0];
+        if (!file) return;
+        var key = input.getAttribute("data-upload-for");
+        uploadMediaFile(file).then(function (media) {
+          var target = $('[data-content-key="' + key + '"]', root);
+          if (target) target.value = media.url;
+          toast("Uploaded", file.name, "success");
+        }).catch(apiErr);
+      });
+    });
+  }
+  function saveAllContent() {
+    var root = $("#content-root");
+    var toSave = {}, toReset = [];
+    $$("[data-content-key]", root).forEach(function (el) {
+      var key = el.getAttribute("data-content-key");
+      var val = el.value.trim();
+      if (val) toSave[key] = val;
+      else if (contentOverrides[key]) toReset.push(key);
+    });
+    if (!Object.keys(toSave).length && !toReset.length) { toast("Nothing to save", "No fields were changed."); return; }
+
+    function afterSave() {
+      toast("Content saved", "Reloading to show the update…", "success");
+      setTimeout(function () { location.reload(); }, 800);
+    }
+    if (apiMode) {
+      var ops = [];
+      if (Object.keys(toSave).length) ops.push(apiReq("PUT", "/staff/content", { entries: toSave }));
+      toReset.forEach(function (key) { ops.push(apiReq("DELETE", "/staff/content/" + encodeURIComponent(key)).catch(function () {})); });
+      Promise.all(ops).then(afterSave).catch(apiErr);
+      return;
+    }
+    Object.assign(contentOverrides, toSave);
+    toReset.forEach(function (key) { delete contentOverrides[key]; });
+    save(CONTENT_KEY, contentOverrides);
+    afterSave();
+  }
+
+  /* ============================================================
+     MEDIA LIBRARY — upload, browse, delete images/video used across
+     the site's Content fields and menu item photos.
+     ============================================================ */
+  function formatBytes(n) {
+    if (n < 1024) return n + " B";
+    if (n < 1024 * 1024) return (n / 1024).toFixed(1) + " KB";
+    return (n / (1024 * 1024)).toFixed(1) + " MB";
+  }
+  function renderMediaLibrary() {
+    var root = $("#media-root");
+    if (!mediaLibrary.length) { root.innerHTML = '<p class="portal__empty">No uploads yet.</p>'; return; }
+    root.innerHTML = mediaLibrary.map(function (m) {
+      var isImg = /^image\//.test(m.mime);
+      var preview = isImg
+        ? '<img class="media-card__thumb" src="' + esc(m.url) + '" alt="" />'
+        : '<video class="media-card__thumb" src="' + esc(m.url) + '" muted></video>';
+      return '<div class="media-card">' + preview +
+        '<div class="media-card__name" title="' + esc(m.filename) + '">' + esc(m.filename) + "</div>" +
+        '<div class="media-card__meta">' + esc(formatBytes(m.size)) + "</div>" +
+        '<div class="media-card__actions">' +
+        '<button type="button" class="icon-btn" data-copy="' + esc(m.url) + '">Copy URL</button>' +
+        '<button type="button" class="icon-btn icon-btn--danger" data-media-del="' + m.id + '">Delete</button>' +
+        "</div></div>";
+    }).join("");
+    $$("[data-copy]", root).forEach(function (b) {
+      b.addEventListener("click", function () {
+        var url = b.getAttribute("data-copy");
+        var abs = /^https?:|^data:/i.test(url) ? url : location.origin + url;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(abs).then(function () { toast("Copied", url, "success"); }).catch(function () { toast("Copy this URL", url); });
+        } else { toast("Copy this URL", url); }
+      });
+    });
+    $$("[data-media-del]", root).forEach(function (b) {
+      b.addEventListener("click", function () { deleteMediaItem(b.getAttribute("data-media-del")); });
+    });
+  }
+  var UPLOAD_EXTS = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".mp4", ".webm"];
+  function uploadMediaFile(file) {
+    if (apiMode) {
+      var fd = new FormData();
+      fd.append("file", file);
+      return fetch(API + "/staff/media", { method: "POST", credentials: "same-origin", body: fd })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (data) {
+            if (!r.ok) throw new Error(data.error || "Upload failed");
+            return data;
+          });
+        })
+        .then(function (media) { return loadMediaLibrary().then(function () { renderMediaLibrary(); return media; }); });
+    }
+    return new Promise(function (resolve, reject) {
+      var ext = (file.name.match(/\.[a-z0-9]+$/i) || [""])[0].toLowerCase();
+      if (UPLOAD_EXTS.indexOf(ext) === -1 || !/^(image|video)\//.test(file.type)) {
+        reject(new Error("Unsupported file type")); return;
+      }
+      var reader = new FileReader();
+      reader.onload = function () {
+        var media = { id: uid(), filename: file.name.slice(0, 200), url: reader.result, mime: file.type, size: file.size, created_at: new Date().toISOString() };
+        mediaLibrary.unshift(media);
+        save(MEDIA_KEY, mediaLibrary);
+        renderMediaLibrary();
+        resolve(media);
+      };
+      reader.onerror = function () { reject(new Error("Couldn't read that file")); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function deleteMediaItem(id) {
+    var m = mediaLibrary.find(function (x) { return x.id === id; });
+    if (!m) return;
+    if (!confirm('Delete "' + m.filename + '" from the media library? Anything on the site still pointing at it will show broken.')) return;
+    if (apiMode) {
+      apiReq("DELETE", "/staff/media/" + id).then(loadMediaLibrary).then(function () { renderMediaLibrary(); toast("Deleted", m.filename); }).catch(apiErr);
+      return;
+    }
+    mediaLibrary = mediaLibrary.filter(function (x) { return x.id !== id; });
+    save(MEDIA_KEY, mediaLibrary);
+    renderMediaLibrary();
+    toast("Deleted", m.filename);
+  }
+
+  /* ============================================================
      TABS
      ============================================================ */
   function initTabs() {
@@ -697,7 +977,11 @@
     var large = window.matchMedia && window.matchMedia("(min-width: 768px)").matches;
     if (reduce || !large) return; // poster only
     // Inject sources on demand: WebM first (Chrome/Firefox/Edge), MP4/H.264
-    // fallback (Safari). The browser plays the first it supports.
+    // fallback (Safari). The browser plays the first it supports. Safe to
+    // call more than once (e.g. once at load, again once a CMS content
+    // override for the video has fetched) — clears any sources from a
+    // previous call first rather than duplicating them.
+    $$("source", v).forEach(function (s) { s.remove(); });
     var webm = v.getAttribute("data-webm");
     var mp4 = v.getAttribute("data-mp4");
     if (!webm && !mp4) return;
@@ -925,7 +1209,16 @@
       btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
       btn.setAttribute("aria-label", theme === "light" ? "Switch to dark mode" : "Switch to light mode");
     }
-    apply(root.getAttribute("data-theme") === "light" ? "light" : "dark");
+    // Normally the inline bootstrap script in <head> already set this from
+    // localStorage before paint. Fall back to reading it directly here too
+    // (defense in depth) in case that inline script is ever blocked — e.g.
+    // a stricter CSP layer (proxy, CDN) in front of the site that doesn't
+    // carry the same sha256 allowance as index.html's own CSP.
+    var current = root.getAttribute("data-theme");
+    if (current !== "light" && current !== "dark") {
+      try { current = localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark"; } catch (e) { current = "dark"; }
+    }
+    apply(current);
     btn.addEventListener("click", function () {
       var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
       apply(next);
@@ -1149,6 +1442,10 @@
   function init() {
     $("#year").textContent = new Date().getFullYear();
 
+    // Demo mode already has contentOverrides from localStorage, so apply
+    // it before anything reads the DOM it touches (esp. the hero video's
+    // data-mp4/data-webm, which initHeroVideo only reads once at call time).
+    applyContentToPage();
     initHeroVideo();
     initInstaVideos();
     initEmberParallax();
@@ -1168,7 +1465,12 @@
       apiMode = ok;
       if (!apiMode) return;
       return apiReq("GET", "/auth").then(function (d) { unlocked = !!(d && d.authenticated); }).catch(function () {})
-        .then(loadMenu).then(function () { renderMenuFilters(); renderMenu(); if (!reduceMotion) initScrollReveal(); });
+        .then(loadMenu).then(loadContent).then(function () {
+          renderMenuFilters(); renderMenu();
+          applyContentToPage();
+          initHeroVideo(); // re-run: safe/idempotent, picks up a content override that arrived after the first (instant, un-overridden) call
+          if (!reduceMotion) initScrollReveal();
+        });
     }).catch(function () {});
 
     renderMenuFilters();
@@ -1193,6 +1495,23 @@
     $("#item-cancel").addEventListener("click", closeItemModal);
     $("#item-cancel-2").addEventListener("click", closeItemModal);
     $("#item-scrim").addEventListener("click", closeItemModal);
+
+    $("#item-image-upload-input").addEventListener("change", function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      uploadMediaFile(file).then(function (media) {
+        $("#item-image").value = media.url;
+        toast("Uploaded", file.name, "success");
+      }).catch(apiErr);
+      e.target.value = "";
+    });
+    $("#content-save-btn").addEventListener("click", saveAllContent);
+    $("#media-upload-input").addEventListener("change", function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      uploadMediaFile(file).then(function (media) { toast("Uploaded", media.filename, "success"); }).catch(apiErr);
+      e.target.value = "";
+    });
 
     // Mobile hamburger nav
     var navToggle = $("#nav-toggle");

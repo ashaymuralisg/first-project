@@ -932,6 +932,41 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .dot--off { background: var(--fg-mute); }
 .badge-off { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-mute); border: 1px solid var(--line-2); padding: 0.1em 0.45em; border-radius: 999px; }
 
+/* ---------- portal notices (bookings retention, content tab help) ---------- */
+.portal__notice { font-size: 0.85rem; color: var(--fg-mute); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+.portal__content-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.portal__content-head .portal__notice { flex: 1; margin-bottom: 0; }
+
+/* ---------- content tab (site copy + media fields, grouped by section) ---------- */
+.content-form { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.25rem; }
+.content-group { border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem 1.25rem; }
+.content-group legend { font-family: var(--font-display), serif; font-size: 1.05rem; font-weight: 500; padding: 0 0.4rem; }
+.content-field { margin-top: 0.85rem; }
+.content-field label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--fg-mute); }
+.content-field__row { display: flex; gap: 0.5rem; align-items: flex-start; }
+.content-field__row input[type="text"], .content-field__row textarea {
+  flex: 1; font: inherit; font-size: 0.9rem; padding: 0.55rem 0.7rem; border: 1.5px solid var(--line-2);
+  border-radius: var(--radius); background: var(--bg); color: var(--fg);
+}
+.content-field__row textarea { resize: vertical; }
+.content-upload-btn { flex-shrink: 0; white-space: nowrap; cursor: pointer; }
+.content-thumb { width: 42px; height: 42px; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); flex-shrink: 0; }
+
+/* ---------- media library ---------- */
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+.media-card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); display: flex; flex-direction: column; }
+.media-card__thumb { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: var(--bg-2); display: block; }
+.media-card__name { font-size: 0.78rem; font-weight: 600; padding: 0.5rem 0.6rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.media-card__meta { font-size: 0.72rem; color: var(--fg-mute); padding: 0.1rem 0.6rem 0.5rem; }
+.media-card__actions { display: flex; gap: 0.3rem; padding: 0 0.5rem 0.5rem; margin-top: auto; }
+.media-card__actions .icon-btn { flex: 1; font-size: 0.72rem; padding: 0.35rem 0.4rem; }
+.media-upload-btn { cursor: pointer; }
+
+/* ---------- menu item image field w/ inline upload ---------- */
+.field__with-upload { display: flex; gap: 0.5rem; }
+.field__with-upload input { flex: 1; }
+.item-image-upload-btn { flex-shrink: 0; white-space: nowrap; cursor: pointer; }
+
 /* ---------- modal (item editor) ---------- */
 .modal { position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; padding: clamp(0.5rem, 3vw, 2rem); }
 .modal__scrim { position: absolute; inset: 0; background: rgba(10,8,6,0.6); backdrop-filter: blur(3px); }
@@ -1070,6 +1105,9 @@ fieldset.field { border: none; padding: 0; }
   .booking__side { align-items: flex-start; }
   .cms-item { grid-template-columns: 1fr auto; }
   .cms-item__actions { grid-column: 1 / -1; }
+  .content-field__row { flex-wrap: wrap; }
+  .field__with-upload { flex-wrap: wrap; }
+  .portal__content-head { flex-direction: column; }
 }
 
 /* ---------- reduced motion ---------- */

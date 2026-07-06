@@ -35,6 +35,19 @@ db.exec(`
     diet        TEXT NOT NULL DEFAULT '[]',
     sort        INTEGER NOT NULL DEFAULT 0
   );
+  CREATE TABLE IF NOT EXISTS content (
+    key        TEXT PRIMARY KEY,
+    value      TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS media (
+    id         TEXT PRIMARY KEY,
+    filename   TEXT NOT NULL,
+    url        TEXT NOT NULL,
+    mime       TEXT NOT NULL,
+    size       INTEGER NOT NULL,
+    created_at TEXT NOT NULL
+  );
 `);
 
 /* ---------- prepared statements (all parameterized) ---------- */
@@ -48,7 +61,12 @@ export const stmts = {
   getBooking: db.prepare(`SELECT * FROM bookings WHERE id = ?`),
   setBookingStatus: db.prepare(`UPDATE bookings SET status = ? WHERE id = ?`),
   deleteBooking: db.prepare(`DELETE FROM bookings WHERE id = ?`),
-  purgeOld: db.prepare(`DELETE FROM bookings WHERE created_at < ?`),
+  // PDPA data-minimisation: purge by the reservation date itself (not
+  // when it was booked) — a booking is only retained until N days after
+  // the visit it was for. `date` is a validated 'YYYY-MM-DD' string, so
+  // lexicographic comparison against another 'YYYY-MM-DD' cutoff is a
+  // correct chronological comparison.
+  purgeOld: db.prepare(`DELETE FROM bookings WHERE date < ?`),
 
   listMenu: db.prepare(`SELECT * FROM menu ORDER BY sort, rowid`),
   getMenuItem: db.prepare(`SELECT * FROM menu WHERE id = ?`),
@@ -63,6 +81,21 @@ export const stmts = {
   `),
   deleteMenu: db.prepare(`DELETE FROM menu WHERE id = ?`),
   countMenu: db.prepare(`SELECT COUNT(*) AS n FROM menu`),
+
+  listContent: db.prepare(`SELECT key, value FROM content`),
+  upsertContent: db.prepare(`
+    INSERT INTO content (key, value, updated_at) VALUES (@key, @value, @updated_at)
+    ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
+  `),
+  deleteContent: db.prepare(`DELETE FROM content WHERE key = ?`),
+
+  listMedia: db.prepare(`SELECT * FROM media ORDER BY created_at DESC`),
+  getMedia: db.prepare(`SELECT * FROM media WHERE id = ?`),
+  insertMedia: db.prepare(`
+    INSERT INTO media (id, filename, url, mime, size, created_at)
+    VALUES (@id, @filename, @url, @mime, @size, @created_at)
+  `),
+  deleteMedia: db.prepare(`DELETE FROM media WHERE id = ?`),
 };
 
 /** Row → API shape for menu (parse JSON diet, cast booleans). */

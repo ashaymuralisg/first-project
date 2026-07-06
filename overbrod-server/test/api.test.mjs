@@ -11,6 +11,7 @@ process.env.SESSION_SECRET = "test-secret-please-ignore";
 process.env.DB_PATH = "./data/test-overbrod.db";
 
 const { createApp } = await import("../src/app.js");
+const { stmts } = await import("../src/db.js");
 
 let server, base;
 before(async () => {
@@ -122,4 +123,90 @@ test("booking rate limit kicks in (429)", async () => {
     if (r.status === 429) { got429 = true; break; }
   }
   assert.ok(got429, "expected a 429 after exceeding the booking rate limit");
+});
+
+test("content: public GET, staff-only write, unknown keys rejected", async () => {
+  assert.equal((await fetch(base + "/api/content")).status, 200);
+
+  // writes require auth
+  assert.equal((await fetch(base + "/api/staff/content", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ entries: { "hero.tagline": "x" } }) })).status, 401);
+
+  const login = await post("/api/staff/login", { password: PASSWORD });
+  const cookie = login.headers.get("set-cookie").split(";")[0];
+  const auth = { cookie };
+
+  // bad key rejected
+  const bad = await fetch(base + "/api/staff/content", { method: "PUT", headers: { "content-type": "application/json", ...auth }, body: JSON.stringify({ entries: { "<script>": "x" } }) });
+  assert.equal(bad.status, 400);
+
+  // valid write round-trips through the public GET
+  const put = await fetch(base + "/api/staff/content", { method: "PUT", headers: { "content-type": "application/json", ...auth }, body: JSON.stringify({ entries: { "hero.tagline": "New tagline" } }) });
+  assert.equal(put.status, 200);
+  const { entries } = await j(await fetch(base + "/api/content"));
+  assert.equal(entries["hero.tagline"], "New tagline");
+
+  // delete reverts (key disappears)
+  const del = await fetch(base + "/api/staff/content/hero.tagline", { method: "DELETE", headers: auth });
+  assert.equal(del.status, 200);
+  const { entries: after } = await j(await fetch(base + "/api/content"));
+  assert.equal(after["hero.tagline"], undefined);
+});
+
+test("media: requires auth, rejects disallowed file types, deletes cleanly", async () => {
+  assert.equal((await fetch(base + "/api/staff/media")).status, 401);
+
+  const login = await post("/api/staff/login", { password: PASSWORD });
+  const cookie = login.headers.get("set-cookie").split(";")[0];
+  const auth = { cookie };
+
+  // disallowed extension/mimetype (e.g. an .html/script masquerading as upload)
+  const evilForm = new FormData();
+  evilForm.append("file", new Blob(["<script>alert(1)</script>"], { type: "text/html" }), "evil.html");
+  const evilRes = await fetch(base + "/api/staff/media", { method: "POST", headers: auth, body: evilForm });
+  assert.equal(evilRes.status, 400);
+
+  // valid small png upload
+  const pngBytes = Buffer.from("89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000a49444154789c6360000002000100ffff03000006000557bfabd40000000049454e44ae426082", "hex");
+  const form = new FormData();
+  form.append("file", new Blob([pngBytes], { type: "image/png" }), "test.png");
+  const up = await fetch(base + "/api/staff/media", { method: "POST", headers: auth, body: form });
+  assert.equal(up.status, 201);
+  const media = await j(up);
+  assert.ok(media.id && media.url.startsWith("/uploads/"));
+
+  // the uploaded file is actually servable
+  const served = await fetch(base + media.url);
+  assert.equal(served.status, 200);
+
+  // appears in the staff library list
+  const list = await j(await fetch(base + "/api/staff/media", { headers: auth }));
+  assert.ok(list.media.some((m) => m.id === media.id));
+
+  // delete removes the row (and the file, best-effort)
+  const del = await fetch(base + "/api/staff/media/" + media.id, { method: "DELETE", headers: auth });
+  assert.equal(del.status, 200);
+  const listAfter = await j(await fetch(base + "/api/staff/media", { headers: auth }));
+  assert.ok(!listAfter.media.some((m) => m.id === media.id));
+});
+
+test("retention: purge is keyed off the reservation date, not created_at", async () => {
+  const now = new Date().toISOString();
+  stmts.insertBooking.run({ id: "old-1", name: "Old", email: "old@example.com", phone: "+65 9000 0000", party: "2", date: "2000-01-01", time: "19:00", notes: "", created_at: now });
+  stmts.insertBooking.run({ id: "recent-1", name: "Recent", email: "recent@example.com", phone: "+65 9000 0001", party: "2", date: "2099-01-01", time: "19:00", notes: "", created_at: now });
+  assert.ok(stmts.getBooking.get("old-1"));
+  assert.ok(stmts.getBooking.get("recent-1"));
+
+  stmts.purgeOld.run("2020-01-01"); // between the two reservation dates
+  assert.equal(stmts.getBooking.get("old-1"), undefined, "past-dated reservation should be purged");
+  assert.ok(stmts.getBooking.get("recent-1"), "future-dated reservation should survive");
+});
+
+test("menu image field accepts an /uploads/ path", async () => {
+  const login = await post("/api/staff/login", { password: PASSWORD });
+  const cookie = login.headers.get("set-cookie").split(";")[0];
+  const auth = { cookie };
+  const add = await post("/api/staff/menu", { name: "Uploaded Photo Item", price: 9, category: "Sides", image: "/uploads/whatever.jpg" }, auth);
+  assert.equal(add.status, 201);
+  const { id } = await j(add);
+  await fetch(base + "/api/staff/menu/" + id, { method: "DELETE", headers: auth });
 });
