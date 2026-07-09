@@ -33,6 +33,9 @@
    ============================================================ */
 
 :root {
+  /* native form controls (date picker, selects, scrollbars) render in the
+     matching scheme instead of defaulting to light chrome on a dark page */
+  color-scheme: dark;
   /* structural */
   --maxw: 1180px;
   --gutter: clamp(1.25rem, 5vw, 4.5rem);
@@ -121,6 +124,7 @@
    warm-bone daylight system, so the whole site re-themes from these two
    blocks alone. */
 :root[data-theme="light"] {
+  color-scheme: light;
   --bg: #F3EDE2;
   --bg-2: #ECE4D5;
   --panel: #FAF5EC;
@@ -226,6 +230,20 @@ body::after {
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 button { font: inherit; color: inherit; cursor: pointer; }
+
+/* text selection in the house brass — a small tell that nothing here is
+   browser-default */
+::selection { background: color-mix(in srgb, var(--accent) 85%, transparent); color: var(--on-accent); }
+
+/* slim, palette-matched scrollbar (WebKit + Firefox) */
+html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--accent) 55%, var(--bg)) var(--bg); }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 45%, var(--bg));
+  border-radius: 999px; border: 3px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--accent) 65%, var(--bg)); }
 h1, h2, h3 { font-family: var(--font-display), Georgia, serif; font-weight: 500; line-height: 1.05; letter-spacing: var(--title-tracking); }
 
 /* ---------- helpers ---------- */
@@ -387,8 +405,31 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 
 .hero__tagline { max-width: 34ch; margin: clamp(1.5rem, 3vw, 2rem) auto 0; font-family: var(--font-display), serif; font-weight: 360; font-style: italic; font-size: clamp(1.1rem, 1rem + 0.9vw, 1.6rem); line-height: 1.4; color: color-mix(in srgb, var(--feature-fg) 88%, transparent); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.85rem; justify-content: center; margin-top: clamp(1.75rem, 4vw, 2.5rem); }
-.hero__actions .btn--ghost { color: var(--feature-fg); border-color: var(--feature-line); }
-.hero__actions .btn--ghost:hover { border-color: var(--feature-fg); }
+/* over the hero film the ghost button gets a whisper of dark glass, so it
+   holds its shape against whatever bright plate is behind it */
+.hero__actions .btn--ghost {
+  color: var(--feature-fg); border-color: var(--feature-line);
+  background: color-mix(in srgb, var(--feature-bg) 32%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.hero__actions .btn--ghost:hover { border-color: var(--feature-fg); background: color-mix(in srgb, var(--feature-bg) 48%, transparent); }
+
+/* scroll cue: one thin brass line that quietly pours downward — an
+   invitation, not an arrow. Sits above the film (z-index like .hero > *). */
+.hero__scroll {
+  position: absolute; bottom: clamp(1.25rem, 3vh, 2.25rem); left: 50%;
+  translate: -50%; z-index: 2; height: 56px; width: 1px; overflow: hidden;
+}
+.hero__scroll span {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--accent-2) 40%, var(--accent-2));
+  animation: scroll-pour 2.6s var(--ease) infinite;
+}
+@keyframes scroll-pour {
+  0% { transform: translateY(-100%); }
+  55% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
 .hero__note { margin-top: 1.75rem; font-size: 0.76rem; letter-spacing: 0.2em; text-transform: uppercase; color: color-mix(in srgb, var(--feature-fg) 52%, transparent); }
 
 /* ---------- section scaffolding ---------- */
@@ -444,13 +485,25 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
    rounded corners, soft lift shadow) so the two photographic moments on
    the page read as one consistent system. */
 .story__photo {
-  max-width: 320px; margin: 0 auto;
+  /* enough presence to balance the text column on wide screens — at
+     320px it read as a postage stamp adrift in the grid cell. Capped at
+     400px: the source photograph is small, and past this it goes soft.
+     The gilt frame lives on the img (below) so the caption sits outside it. */
+  max-width: min(400px, 100%); width: 100%; margin: 0 auto;
+  align-self: center;
+}
+.story__photo figcaption {
+  font-style: italic; font-size: 0.85rem; line-height: 1.5;
+  color: var(--fg-mute); text-align: center;
+  padding: 0.75rem 0.85rem 0;
+}
+.story__photo img {
+  display: block; width: 100%; height: auto;
   padding: 7px; border-radius: 14px;
   background: linear-gradient(135deg, var(--golf), var(--accent-2));
   border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   box-shadow: var(--shadow-card);
 }
-.story__photo img { display: block; width: 100%; height: auto; border-radius: 9px; }
 
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -879,11 +932,33 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
   from { background-position: 0 0, 0px 0px; }
   to   { background-position: 0 0, 26px 18px; }
 }
-.footer__inner { max-width: var(--maxw); margin: 0 auto; padding: clamp(3rem, 6vw, 4.5rem) var(--gutter); display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; }
+/* crest: the Ø between two hairlines — the same mark that opens the site,
+   closing it. Gives the footer a deliberate final gesture instead of two
+   columns floating in the dark. */
+.footer__crest {
+  max-width: var(--maxw); margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 3.5rem) var(--gutter) 0;
+  display: flex; align-items: center; gap: 1.25rem;
+}
+.footer__crest-rule { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 45%, transparent)); }
+.footer__crest-rule:last-child { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 45%, transparent), transparent); }
+.footer__crest-o {
+  font-family: var(--font-display), serif; font-style: italic; font-weight: 500;
+  font-size: 1.5rem; color: var(--accent-2); line-height: 1;
+}
+.footer__inner { max-width: var(--maxw); margin: 0 auto; padding: clamp(2.5rem, 5vw, 4rem) var(--gutter) clamp(3rem, 6vw, 4.5rem); display: flex; flex-wrap: wrap; gap: 2.5rem 3rem; justify-content: space-between; }
 .footer__lockup { display: flex; align-items: center; gap: 0.7rem; }
 .footer__logo { display: block; height: 40px; width: 40px; object-fit: contain; }
 .footer__word { font-family: var(--font-display), serif; font-size: 1.7rem; font-weight: 600; letter-spacing: 0.02em; }
 .footer__brand p { color: color-mix(in srgb, var(--feature-fg) 64%, transparent); margin-top: 0.5rem; max-width: 28ch; }
+.footer__nav { display: flex; flex-direction: column; gap: 0.55rem; align-self: flex-start; }
+.footer__nav a {
+  color: color-mix(in srgb, var(--feature-fg) 66%, transparent); text-decoration: none;
+  font-size: 0.9rem; letter-spacing: 0.04em; width: fit-content; position: relative; padding-bottom: 1px;
+}
+.footer__nav a::after { content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 0; background: var(--accent-2); transition: width 0.28s var(--ease); }
+.footer__nav a:hover { color: var(--feature-fg); }
+.footer__nav a:hover::after { width: 100%; }
 .footer__meta { text-align: right; display: flex; flex-direction: column; gap: 0.35rem; }
 .footer__meta p { color: color-mix(in srgb, var(--feature-fg) 60%, transparent); font-size: 0.85rem; }
 .footer__links { margin-top: 0.35rem; }
@@ -1108,6 +1183,7 @@ fieldset.field { border: none; padding: 0; }
   .story__body { grid-template-columns: 1fr; }
   .reserve__inner { grid-template-columns: 1fr; }
   .footer__inner { flex-direction: column; }
+  .footer__nav { flex-direction: row; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
   .footer__meta { text-align: left; }
   .footer__staff { align-self: flex-start; }
 }
@@ -1172,4 +1248,6 @@ fieldset.field { border: none; padding: 0; }
      dish still appears (opacity), just without motion */
   .dish__g { animation: none !important; }
   .dish.is-active .dish__ghost, .dish.is-active .dish__img, .dish.is-active .dish__info { transform: none !important; }
+  /* scroll cue: a still brass line instead of the pour */
+  .hero__scroll span { animation: none !important; transform: none !important; }
 }

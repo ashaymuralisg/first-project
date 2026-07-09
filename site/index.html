@@ -113,6 +113,7 @@
         <a href="#menu" class="btn btn--ghost">See the menu</a>
       </div>
       <p class="hero__note" data-cms-key="hero.note">No service charge · No GST</p>
+      <div class="hero__scroll" aria-hidden="true"><span></span></div>
     </section>
 
     <!-- ============ STORY ============ -->
@@ -133,6 +134,7 @@
 
         <figure class="story__photo">
           <img data-cms-key="story.photo" src="assets/story-storefront.jpg" alt="Inside OVERBRØD in the evening — the wood counter, pendant lighting and open kitchen" width="212" height="171" loading="lazy" />
+          <figcaption>The deli at 370 Alexandra Road, just before evening service.</figcaption>
         </figure>
       </div>
     </section>
@@ -468,6 +470,13 @@
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
+    <!-- crest: a quiet closing mark — hairlines flanking the Ø, the same
+         graphic signature that opens the site in the logo -->
+    <div class="footer__crest" aria-hidden="true">
+      <span class="footer__crest-rule"></span>
+      <span class="footer__crest-o">Ø</span>
+      <span class="footer__crest-rule"></span>
+    </div>
     <div class="footer__inner">
       <div class="footer__brand">
         <div class="footer__lockup">
@@ -476,6 +485,14 @@
         </div>
         <p data-cms-key="footer.tagline">Handcrafted sm<span class="o-slash">ø</span>rrebr<span class="o-slash">ø</span>d, a part of Scandinavia in Singapore.</p>
       </div>
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="#story">Story</a>
+        <a href="#dishes">Dishes</a>
+        <a href="#menu">Menu</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#reserve">Reserve</a>
+        <a href="#visit">Visit</a>
+      </nav>
       <div class="footer__meta">
         <p data-cms-key="footer.address">370 Alexandra Rd, #01-14A, Singapore 159953</p>
         <p>© <span id="year"></span> OVERBR<span class="o-slash">Ø</span>D. All rights reserved.</p>
