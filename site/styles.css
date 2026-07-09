@@ -192,12 +192,17 @@
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   font-family: var(--font-body), system-ui, sans-serif;
-  /* near-black espresso ground with the faintest warm top-light wash —
-     enough to feel candlelit, never a coloured block */
+  /* solid ground colour only — the decorative top-light wash lives on
+     body::after below, not here. background-attachment: fixed on a
+     scrolling body (with overflow-x: hidden alongside it, as below) is a
+     known cross-platform bug: on some Windows/Chromium GPU-compositing
+     setups the "fixed" background gets sized to the initial viewport
+     instead of the full scrollable page, so it renders as a box that
+     stops partway down instead of covering the whole page. A solid
+     background-color has no such bug (it always fills the full element),
+     and a position: fixed pseudo-element (see ::after) is the safe way to
+     get a viewport-anchored decorative layer. */
   background-color: var(--bg);
-  background-image:
-    radial-gradient(115% 65% at 50% -10%, var(--body-wash) 0%, transparent 62%);
-  background-attachment: fixed;
   color: var(--fg);
   line-height: 1.62;
   font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
@@ -210,6 +215,13 @@ body::before {
   content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
   background-image: var(--grain-img); background-size: 160px 160px;
   opacity: var(--grain-opacity, 0); mix-blend-mode: soft-light;
+}
+/* the faint warm top-light wash, as a fixed full-viewport layer sitting
+   behind all real content (z-index: -1) — never a coloured block, just
+   enough to feel candlelit near the top of the page */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(115% 65% at 50% -10%, var(--body-wash) 0%, transparent 62%);
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
