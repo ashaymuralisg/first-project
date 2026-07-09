@@ -403,13 +403,23 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
    section's own background layer, so it always sits under the content
    with no z-index bookkeeping needed. Off entirely under
    prefers-reduced-motion (see media query below). ---------- */
+/* max-width: none overrides .section's centered-and-capped box (1180px)
+   so these sections' own background/pattern goes edge-to-edge on wide
+   screens instead of rendering as a boxed panel in the middle of the
+   page — .section's max-width moves onto the direct children below
+   instead, same pattern already used by .reviews/.dishes/.reserve. */
 .story, .menu {
+  max-width: none;
   background-image:
     radial-gradient(480px circle at var(--mx, 30%) var(--my, 20%), color-mix(in srgb, var(--accent-2) 12%, transparent) 0%, transparent 70%),
     radial-gradient(75% 55% at 90% 0%, color-mix(in srgb, var(--golf) 30%, transparent) 0%, transparent 65%),
     var(--pattern-light);
   background-repeat: no-repeat, no-repeat, repeat;
   background-size: auto, auto, 48px 48px;
+}
+.story > .section__head, .story > .story__body,
+.menu > .section__head, .menu > .menu__filters, .menu > .menu__groups {
+  max-width: var(--maxw); margin-left: auto; margin-right: auto;
 }
 
 /* ---------- scroll reveal: one-time fade + rise, added by app.js and
@@ -800,13 +810,16 @@ body.is-loaded .hero__note { opacity: 1; transform: none; transition-delay: 0.85
 .reserve__pdpa { text-align: center; font-size: 0.78rem; color: var(--fg-mute); margin-top: 0.85rem; }
 
 /* ---------- visit (Find us) — sand ground, sakura stained-glass cards ---------- */
+/* max-width: none — see the identical note on .story, .menu above */
 .visit {
+  max-width: none;
   background-image:
     radial-gradient(65% 60% at 95% 0%, color-mix(in srgb, var(--accent-2) 12%, transparent) 0%, transparent 62%),
     var(--pattern-light);
   background-repeat: no-repeat, repeat;
   background-size: auto, 48px 48px;
 }
+.visit > .section__head, .visit > .visit__grid { max-width: var(--maxw); margin-left: auto; margin-right: auto; }
 .visit__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
 
 /* Amber liquid glass: true frosted-glass — a dark, mostly-translucent
